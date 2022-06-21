@@ -1,0 +1,439 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"            
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+            xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+            xmlns:map="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps" 
+            xmlns:local="clr-namespace:TestAPP" 
+            xmlns:sfPopup="clr-namespace:Syncfusion.XForms.PopupLayout;assembly=Syncfusion.SfPopupLayout.XForms" 
+            xmlns:carousel="clr-namespace:Syncfusion.SfCarousel.XForms;assembly=Syncfusion.SfCarousel.XForms" 
+            xmlns:cards="clr-namespace:Syncfusion.XForms.Cards;assembly=Syncfusion.Cards.XForms" 
+            xmlns:border="clr-namespace:Syncfusion.XForms.Border;assembly=Syncfusion.Core.XForms" 
+            xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" 
+            xmlns:syncfusion="http://schemas.syncfusion.com/xamarin" 
+            xmlns:sfListView="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+            x:Class="TestAPP.MainPage" Appearing="TabbedPage_Appearing">
+
+    <!--"TabbedPage_Appearing" est la method appelé quand l'application s'ouvre. Cela permet de remplir le carousel view de la premiere page. La collection de photo est chosie aleatoirement-->
+
+
+
+    <!-- L'application est séparé en trois parties, "Home", "Family" ,"Maps"  avec une page "ContentPage" dédié à chaque fois, rajouter un page content = ajouter un onglet -->
+
+    <!--Appearing est une fonction executé à chaque fois que la premiere page apparait-->
+    <ContentPage Title="Home"   IconImageSource="HomeIcon.PNG" Appearing="ContentPage_Appearing_1" >
+        <!--On organise tout les visuels dans un StackLayout afin de pouvoir mettre plusieurs button, carousels view, etc...-->
+        <StackLayout>
+
+            <!--On organise tout ça dans une grid afin de mieux gerer l'espace dédié à chaque composant-->
+            <Grid BackgroundColor="#1a1a1c">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="20" />
+                </Grid.RowDefinitions>
+
+                <!--Implémentation du menu defilant qui s'ouvre quand tu double click sur l'image du carousel view-->
+                <!--Dans un premier temps, on implémente seulement la fenetre popup "SfPopupLayout" qui s'ouvre afin d'organiser le contenu plus tard-->
+                <sfPopup:SfPopupLayout x:Name="popupLayout" Closed="popupLayout_Closed" >
+                    <!--pour plus d'info à propos du popupLayout https://help.syncfusion.com/xamarin/popup/getting-started -->
+                    <sfPopup:SfPopupLayout.PopupView >
+                        <!--Mise en page de la fenetre PopUp-->
+                        <sfPopup:PopupView  HeaderTitle="Choisir une destination"  HeightRequest="500"  AppearanceMode="TwoButton" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                            <sfPopup:PopupView.ContentTemplate>
+                                <!--On met en place le Template (Contenu de la fenetre)-->
+                                <DataTemplate>
+                                    <!--Le contenu de la PopUp sera donc une list view, plus d'info https://help.syncfusion.com/xamarin/listview/getting-started -->
+                                    <sfListView:SfListView  x:Name="listView"  ItemSpacing="5" WidthRequest="380" ItemSize="100" SelectionChanged="listView_SelectionChanged" ColumnDefinitions="2"  ItemsSource="{Binding Items}">
+                                        <sfListView:SfListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <ViewCell>
+                                                    <ViewCell.View>
+                                                        <!--Mise en page de la list View avec le text et l'image associé-->
+                                                        <Grid x:Name="grid" RowSpacing="1">
+
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="*" />
+                                                            </Grid.RowDefinitions>
+
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="50" />
+                                                                <ColumnDefinition Width="auto" />
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <!--la Description des Photos a afficher-->
+                                                            <Label Grid.Column="1"
+                                        HorizontalTextAlignment="Start"
+                                        LineBreakMode="WordWrap"     
+                                                                   
+                                        Text="{Binding Pays, StringFormat='Description: {0}'}"
+                                        FontSize="Small" />
+                                                            <!--Une image de folder pour comprendre qu'on va ouvrir plusieurs photos-->
+                                                            <!--To Modify: Je suis completement con car j'aurai pu mettre la meme image pour tout le monde enfaite-->
+                                                            <Image Grid.Column="0" 
+                                       Source="{Binding ContactType}" 
+                                       VerticalOptions="StartAndExpand"
+                                       HorizontalOptions="Start"
+                                       HeightRequest="50"/>
+
+                                                        </Grid>
+                                                    </ViewCell.View>
+                                                </ViewCell>
+                                            </DataTemplate>
+                                        </sfListView:SfListView.ItemTemplate>
+                                    </sfListView:SfListView>
+                                </DataTemplate>
+                            </sfPopup:PopupView.ContentTemplate>
+                        </sfPopup:PopupView>
+                    </sfPopup:SfPopupLayout.PopupView>
+
+                    <!--To Modify: Boutton pas important car invisible donc potentiellement à supprimer. Il devait me servir à la base pour les tests afin d'ouvrir la PopUp-->
+                    <sfPopup:SfPopupLayout.Content>
+                        <StackLayout>
+                            <Button Text="Click to show popup" Clicked="isOpenButton_Clicked" IsVisible="false"/>
+                        </StackLayout>
+                    </sfPopup:SfPopupLayout.Content>
+
+                </sfPopup:SfPopupLayout>
+
+
+                <!-- CarouselView qui sert de galerie d'image au centre du premier onglet -->
+                <!-- Importat de set ItemsSource pour le Binding d'image 8 lignes plus bas-->
+                <CarouselView x:Name="Carousel" Margin="10" IndicatorView="IndicatorView" Grid.Row="0" ItemsSource="{Binding CarouselView}">
+                    <!--To explain: d'ou vient ce CarouselView, car il change a chaque demarrage d'app mais je retrouve plus ou-->
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                                <!--To modify: le cadre autour des photos doit etre enlevé/modifier car ne rend pas bien sur le telephone de camille-->
+                                <Frame HasShadow="True"
+                                   Margin="3"
+                                   Padding="3"
+                                       >
+
+                                    <!--To do: retravailler le zoom ou la taille de certaines image. Travailler aussi sur l'orientation des images de travers-->
+                                    <Image x:Name="CarouselPicture" Source="{Binding Name}"                                      
+                                       Aspect="AspectFill"   
+                                       Margin="0,0,0,0"
+                                       VerticalOptions="CenterAndExpand"
+                                        HeightRequest="500" WidthRequest="200"  >
+
+                                        <!--Implémentation du Double tap pour ouvrir la fenêtre PopUp afin de modifier le contenu du carousel-->
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                        Tapped="OnTapGestureRecognizerTapped" 
+                                        NumberOfTapsRequired="2" />
+                                            <!--OnTapGestureRecognizerTapped est une methode-->
+
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </Frame>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
+
+                <!--IndicatorView sont les petits points sous le carousel view qui indique la position de l'image quand l'utilisateur défile les images.-->
+                <!--To modify: A modifier ou remplacer car bug completement depuis qu'il y a des dossiers a 200 images. Remplacer par un compteur ex: 57/225 -->
+                <IndicatorView x:Name="IndicatorView"
+                       IndicatorColor="LightGray"
+                       SelectedIndicatorColor="Black"
+                       HorizontalOptions="Center" VerticalOptions="Start"  Grid.Row="1" >
+                </IndicatorView>
+
+                <!--Affichage de la description du voyage choisi (eleatoirement ou via la fenetre PopUp)-->
+                <Label x:Name="LabelDescription" Text="" Grid.Row="2" Margin="19,-20,15,0" TextColor="White">
+                    <!--le text est vide, mais se rempli au demarrage et à chaque modification du voyage-->
+
+                </Label>
+
+                <!--Boutton qui est censé ouvrir la camera Frontal-->
+                <!--To modify: *RENAME Clicked="Button_Clicked_1"* et Trouver un moyen de forcer l'ouverture de la camera frontal surtout sur le Télephone de camille-->
+                <buttons:SfButton Text="Qui est la plus belle ?"  FontAttributes="Bold" Clicked="Button_Clicked_1" Grid.Row="3" HorizontalTextAlignment="Center"  CornerRadius="10,10,10,10" Margin="19,0,15,0" BackgroundColor="Gray"  />
+
+                <!--Les trois prochains boutons forment enfaite qu'un seul est unique button, celui en dessous du boutton "Qui est la plus belle ?" le boutton est juste scindé en trois parties clickable -->
+                <!--Partie centrale du button qui permet d'envoyer le message prédéfini au destinataire prédéfini. Cela active le petit gif en forme de coeur et le gros gif qui prend la moitié du telephone-->
+                <!--To modify: *RENAME Clicked="Button_Clicked"*-->
+                <buttons:SfButton x:Name="SfButton" Text="Je t'aime" FontAttributes="Bold" HorizontalTextAlignment="Center"   Grid.Row="5" Margin="30,0,30,0" BackgroundColor="Gray" Clicked="Button_Clicked" />
+
+                <!--Partie de gauche qui permet de choisir le message à envoyer. Cela ouvre un menu deffilant ou la selection de differents message est possible-->
+                <buttons:SfButton x:Name="SfButton2" Grid.Row="5" Margin="20,0,315,0" BackgroundColor="Gray" ShowIcon="True" CornerRadius="10,0,0,10" Clicked="SfButton2_Clicked">
+                    <buttons:SfButton.Image>
+                        <!--Icon dans le boutton-->
+                        <Image Source="parametres.png" HeightRequest="30" WidthRequest="30" />
+                    </buttons:SfButton.Image>
+                </buttons:SfButton>
+
+                <!--Partie de droite qui permet de choisir le destinataire du Message. Cela ouvre un menu deffilant ou la selection du destinataire est possible-->
+                <buttons:SfButton x:Name="SfButton3" Grid.Row="5" Margin="330,0,15,0" BackgroundColor="Gray" ShowIcon="True"  HorizontalOptions="Center" CornerRadius="0,10,10,0" Clicked="SfButton3_Clicked">
+                    <buttons:SfButton.Image>
+                        <!--Gif dans le boutton IsAnimationPlaying="False" au début-->
+                        <!--To modify: Faire en sorte que l'animation du Gif s'arrete qu bon moment et pas quand le coeur est petit -->
+                        <Image x:Name="heartbgtest"  Source="heartbgtest.gif" IsAnimationPlaying="False" HeightRequest="500" WidthRequest="500" HorizontalOptions="FillAndExpand" MinimumHeightRequest="50"/>
+                    </buttons:SfButton.Image>
+                </buttons:SfButton>
+
+                <!--PopUp qui s'ouvre lorsque l'on clic sur l'engrenage et permet la selection d'un message-->
+                <syncfusion:SfPicker x:Name="picker" HeaderText="Message"  IsOpen="False" IsEnabled="False" IsVisible="false" ColumnHeaderText="Choisi un message" Grid.RowSpan="5" PickerMode="Dialog" ShowColumnHeader="True" ShowFooter="True"  OkButtonClicked="picker_OkButtonClicked">
+                </syncfusion:SfPicker>
+
+                <!--PopUp qui s'ouvre lorsque l'on clic sur le coeur et permet la selection d'un destinataire-->
+                <syncfusion:SfPicker x:Name="picker2" HeaderText="Message"  IsOpen="False" IsEnabled="False" IsVisible="false" ColumnHeaderText="Choisi un Destinaire" Grid.RowSpan="5" PickerMode="Dialog" ShowColumnHeader="True" ShowFooter="True"  OkButtonClicked="picker2_OkButtonClicked">
+                </syncfusion:SfPicker>
+
+                <!--Image qui permet d'accueillir le gif animé lorsque l'utilisateur envoie un Message. Animation is false and gif IsVisible = false. 
+                Position en fin du Stack layout importante car le gif doit passer au dessus du carousel view et des autres boutons.-->
+                <Image x:Name="GifTest" Source="abstract1.gif" IsVisible="false" IsAnimationPlaying="False" Grid.Row="0" Grid.RowSpan="7" />
+            </Grid>
+        </StackLayout>
+    </ContentPage>
+
+    <!--Debut du second onglet, "Family", qui appel la methode "ContentPage_Appearing_1" lorsqu'on clic dessus-->
+    <ContentPage Title="Family" IconImageSource="FamilyIcon.PNG" Appearing="ContentPage_Appearing_1" >
+        <!--On organise tout les visuels dans un StackLayout afin de pouvoir mettre plusieurs button, carousels view, etc...-->
+        <StackLayout>
+            <!--On organise tout ça dans une grid afin de mieux gerer l'espace dédié à chaque composant-->
+            <Grid BackgroundColor="#1a1a1c" RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+                <!-- Implementation de la CollectionView, je vais te cacher que je pas mal copié colle le code, c'etait la premiere fonctionalité implanté dans l'app https://docs.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/collectionview/ -->
+                <CollectionView  Margin="25" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" SelectionMode="Single" ItemsSource="{Binding MyFamily}" >
+
+                    <!-- Titre en Haut du  StackLayout-->
+                    <CollectionView.Header>
+                        <Label Text="La petite famille" TextColor="White" FontSize="18"  VerticalTextAlignment="Center" FontAttributes="Bold" Padding="100,0,0,0"/>
+                    </CollectionView.Header>
+
+                    <!--Orientation de la CollectionView-->
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="20"/>
+                    </CollectionView.ItemsLayout>
+
+                    <!--Contenu du StackLayout-->
+                    <CollectionView.ItemTemplate >
+                        <DataTemplate>
+                            <pv:PancakeView   BackgroundColor="Black" VerticalOptions="StartAndExpand" 
+                                    HorizontalOptions="FillAndExpand"   >
+                                <Grid VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!--Trait vertical sur la Gauche avec les differentes couleurs-->
+                                    <BoxView BackgroundColor="{Binding Color}" WidthRequest="3" HorizontalOptions="Start"
+                                     VerticalOptions="FillAndExpand" />
+
+                                    <!--Les informations contenu dans cette CollectionView sont dans la mainPage.xaml.cs disponible à l'endroit "private ObservableCollection
+                                    <Family>GetFamilyInfo()" vers la ligne 200 si pas trop de modif-->
+                                    <!-- To modify: enlever la partie Isexpanded et faire en sorte d'avoir seulement 1 seul expender a la fois (Fermer les autres)  -->
+                                    <xct:Expander x:Name="expanderFamily"  Grid.Column="1" Tapped="Expander_Tapped" CollapseAnimationLength="500" IsExpanded="{Binding IsExpanded}" >
+
+                                        <!--Cette partie est la partie Toujours visible avec l'icon est le mom du membre de la famille-->
+                                        <xct:Expander.Header >
+                                            <!--On organise chaque Expander.Header à l'aide d'une grid-->
+                                            <Grid HorizontalOptions="FillAndExpand">
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="3.5*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <!--Icon Lapin, femme, homme, etc...-->
+                                                <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                                    <Image Source="{Binding Icon}" HeightRequest="45" WidthRequest="45" BackgroundColor="Black"/>
+
+                                                </StackLayout>
+
+                                                <!--Ne me demande pas pk il y a une seconde BoxView stp-->
+                                                <BoxView Grid.Column="1" BackgroundColor="#F2F4F8" WidthRequest="1" HorizontalOptions="Start" 
+                                                 VerticalOptions="FillAndExpand"/>
+
+                                                <!--Les noms de la petite famille-->
+                                                <StackLayout Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" Margin="12">
+                                                    <Label Text="{Binding Name}" TextColor="White" FontSize="25"  FontAttributes="Bold" HorizontalOptions="Center"/>
+                                                </StackLayout>
+
+                                            </Grid>
+                                        </xct:Expander.Header>
+
+                                        <!--On organise chaque Expander à l'aide d'une grid-->
+                                        <Grid HorizontalOptions="FillAndExpand">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="3.5*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <BoxView Grid.Column="1" BackgroundColor="#F2F4F8" WidthRequest="1" HorizontalOptions="Start" 
+                                             VerticalOptions="Fill"/>
+
+                                            <!--On ajoute chaque composant dans un StackLayout-->
+                                            <StackLayout Grid.Column="2" Spacing="10">
+
+                                                <!--Ou plusieurs StackLayout xD-->
+                                                <!--Le contenu est le meme que celui de la CollectionView plus haut qui est instancié dans la mainPage.xaml.cs disponible à l'endroit "private ObservableCollection
+                                                <Family>GetFamilyInfo()" vers la ligne 200 si pas trop de modif-->
+                                                <StackLayout x:Name="imageview" BindableLayout.ItemsSource="{Binding Speakers}" HorizontalOptions ="Center"  VerticalOptions ="Start" >
+                                                    <BindableLayout.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <!--cadre rond pour mettre les photos de la petite famille-->
+                                                            <Frame Margin="10"
+                                                                   BorderColor="Black"
+                                                                   CornerRadius="50"
+                                                                   HeightRequest="60"
+                                                                   WidthRequest="60"
+                                                                   IsClippedToBounds="True"
+                                                                   HorizontalOptions="Center"                                                                      >
+
+                                                                <!--photos de la petite famille, To modify: Potentiellement recadrer les photos-->
+                                                                <Image Source="{Binding Picture}" Aspect="AspectFill"  Margin="-20"
+                                                                     HeightRequest="100"
+                                                                     WidthRequest="100"
+                                                                     >
+                                                                </Image>
+
+                                                            </Frame>
+                                                        </DataTemplate>
+                                                    </BindableLayout.ItemTemplate>
+                                                </StackLayout>
+
+                                                <!--Description de la partie Text sous chaque photo-->
+                                                <StackLayout x:Name="detailsview" BindableLayout.ItemsSource="{Binding familyMember}" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,0,20">
+                                                    <BindableLayout.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <!--Mise en page du label en plusieurs ligne pour faciliter la lecture et mettre en forme-->
+                                                            <Label TextColor="White" FontSize="12" HorizontalOptions="Center" >
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <FormattedString.Spans >
+                                                                            <Span Text="Description: " FontAttributes="Bold"/>
+                                                                            <Span Text="{Binding Description}" />
+                                                                            <!--Description-->
+                                                                            <Span Text="&#x0a;Date de naissance: " FontAttributes="Bold"/>
+                                                                            <Span Text="{Binding BirthDate}" />
+                                                                            <!--Date de naissance-->
+                                                                            <Span Text="&#x0a;Point Positif: " FontAttributes="Bold"/>
+                                                                            <Span Text="{Binding PositifPoint}" />
+                                                                            <!--Point positif-->
+                                                                            <Span Text="&#x0a;Point Négatif: " FontAttributes="Bold"/>
+                                                                            <Span Text="{Binding NegatifPoint}" />
+                                                                            <!--point negatif-->
+
+                                                                        </FormattedString.Spans>
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+                                                        </DataTemplate>
+                                                    </BindableLayout.ItemTemplate>
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </Grid>
+                                    </xct:Expander>
+                                </Grid>
+                            </pv:PancakeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+
+        </StackLayout>
+    </ContentPage>
+
+    <!--Debut du troisieme onglet, "Maps", qui appel la methode "ContentPage_Appearing" lorsqu'on clic dessus-->
+    <ContentPage Title="Maps"  IconImageSource="MapsIcon.PNG" Appearing="ContentPage_Appearing" >
+
+        <!--On organise tout ça dans une grid afin de mieux gerer l'espace dédié à chaque composant-->
+        <!--Meme si Maps prend tout l'ecran car Maps.Grid.Row = 0 et Maps.Grid.Rowspan = 3 ce qui fait que maps est sur toutes les lignes dispo, le CarouselView prend aussi la derniere ligne, par dessus maps-->
+        <Grid BackgroundColor="#F3F5F9">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="550" />
+                <RowDefinition Height="10" />
+            </Grid.RowDefinitions>
+
+            <!--Utilisation de l'API de maps-->
+            <map:Map x:Name="MyMap" MapType="Street"  HasZoomEnabled="True" MapClicked="MyMap_MapClicked" Grid.Row="0" Grid.RowSpan="3" >
+                <!--Initialisation de l'item template-->
+                <map:Map.ItemTemplate  >
+                    <DataTemplate>
+                        <!--Creation de tout les Pins lors du start de l'application avec la position du Pin, le nom de la ville et sa description-->
+                        <!--Implementaion des deux methodes "Pin_MarkerClicked" et "Pin_InfoWindowClicked" lorsque l'utilisateur clic sur les differents Pin afin d'ouvrir les photos-->
+                        <!--To Modify: -->
+                        <map:Pin 
+                              Position="{Binding Position}"
+                              Address="{Binding Address}" 
+                              Label="{Binding PlaceName}"  
+                              MarkerClicked="Pin_MarkerClicked"
+                              InfoWindowClicked="Pin_InfoWindowClicked"
+                        />
+                        <!--To modify: add an @ on address or test Address.-->
+                        <!--https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.maps.pintype?view=xamarin-forms-->
+                    </DataTemplate>
+                </map:Map.ItemTemplate>
+            </map:Map>
+
+            <!--CarouselView qui s'ouvre a chaque fois qu'un PIN de voyage est selectionné-->
+            <CarouselView x:Name="CardImage" Margin="10" IndicatorView="IndicatorView"  HeightRequest="150" IsVisible="false" Grid.Row="1"  ItemsSource="{Binding CarouselView}"   >
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                            <!--To modify: le cadre autour des photos doit etre enlevé/modifier car ne rend pas bien sur le telephone de camille-->
+                            <Frame HasShadow="True"
+                                   Margin="3"
+                                   Padding="3"
+                                       >
+                                <!--To do: retravailler le zoom ou la taille de certaines image. Travailler aussi sur l'orientation des images de travers-->
+                                <Image x:Name="CarouselPicture" Source="{Binding Name}"                                      
+                                       Aspect="AspectFill"   
+                                       Margin="0,0,0,0"
+                                       VerticalOptions="CenterAndExpand"
+                                       HeightRequest="500" WidthRequest="200"  >
+                                </Image>
+                            </Frame>
+                        </StackLayout>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+
+            <!--J'ai toujours espoir d'implementer les cards qui sont toujours plus joli que le vieu CarouselView de ses morts-->
+
+            <!--<cards:SfCardView HeightRequest="280" MinimumHeightRequest="280" WidthRequest="350" VerticalOptions="Center" HorizontalOptions="End" Opacity="100">
+                <Label  Text="Cyan" BackgroundColor="Cyan"/>
+            </cards:SfCardView>-->
+
+
+            <!--<cards:SfCardLayout BindableLayout.ItemsSource="{Binding Model.Colors}" x:Name="CardImage"  SwipeDirection="Left" VerticalOptions="Center"  HeightRequest="300" WidthRequest="300">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <cards:SfCardView BackgroundColor="{Binding}">
+                            <Image Source="{Binding}" HorizontalOptions="CenterAndExpand"/>
+                        </cards:SfCardView>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </cards:SfCardLayout>-->
+
+
+            <!--<cards:SfCardLayout x:Name="CardImage" BindableLayout.ItemsSource="{Binding Model.Colors}"  SwipeDirection="Left" VerticalOptions="End"  HeightRequest="300" WidthRequest="300" IsVisible="false">
+               
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate >                        
+                        <cards:SfCardView >
+                            <Image x:Name="CardImage" Source="{Binding }" HorizontalOptions="CenterAndExpand"/>
+                        </cards:SfCardView>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+                
+            </cards:SfCardLayout>-->
+
+        </Grid>
+
+    </ContentPage>
+
+
+</TabbedPage>
