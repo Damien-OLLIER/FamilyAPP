@@ -1,9 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--Hyper important pour l'instalation de l'application sur un nouveau Telephone; Il se peut qu'il y une erreur lors du transfert de l'app entre l'ordi et le tel pour la premiere fois
+Pour remedier a cela, il faut changer la propriete |package="com.companyname.x.1testapp"| et tester differents nom: ex: com.companyname.x1testapp ou com.companyname.x.x1testapp ou encore com.companyname.1testapp etc...
+il est tres facilement possible de perdre 20min a faire ça car chaque essai prend 2min-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.x.1testapp" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="30" />
 	<application android:label="TestAPP.Android" android:theme="@style/MainTheme" android:icon="@mipmap/Test">
 		<meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDAj6p2rZXeY5DB_YCH9120lSOz5eGtzy8" />
 	</application>
+
+	<!-- Ici aussi sont notés les meme permissions  -->
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.RECEIVE_SMS" />
 	<uses-permission android:name="android.permission.READ_SMS" />

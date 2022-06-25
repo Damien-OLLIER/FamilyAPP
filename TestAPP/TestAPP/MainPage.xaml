@@ -21,7 +21,7 @@
     <!-- L'application est séparé en trois parties, "Home", "Family" ,"Maps"  avec une page "ContentPage" dédié à chaque fois, rajouter un page content = ajouter un onglet -->
 
     <!--Appearing est une fonction executé à chaque fois que la premiere page apparait-->
-    <ContentPage Title="Home"   IconImageSource="HomeIcon.PNG" Appearing="ContentPage_Appearing_1" >
+    <ContentPage Title="Mescouilles sur ton front"   IconImageSource="HomeIcon.PNG" Appearing="ContentPage_Appearing_1" >
         <!--On organise tout les visuels dans un StackLayout afin de pouvoir mettre plusieurs button, carousels view, etc...-->
         <StackLayout>
 

@@ -27,11 +27,12 @@ using Android.App;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 // Add some common permissions, these can be removed if not needed
+// Ici sont marquées les permissions neccesaires pour l'application
 [assembly: UsesPermission(Android.Manifest.Permission.Internet)]
 [assembly: UsesPermission(Android.Manifest.Permission.WriteExternalStorage)]
 [assembly: UsesPermission(Manifest.Permission.SendSms)]
 [assembly: UsesPermission(Manifest.Permission.WriteSms)]
 [assembly: UsesPermission(Manifest.Permission.Camera)]
-[assembly: UsesFeature("android.hardware.camera", Required = true)]
-[assembly: UsesFeature("android.hardware.camera.autofocus", Required = true)]
+[assembly: UsesFeature("android.hardware.camera", Required = true)] // seulement pour ton tel
+[assembly: UsesFeature("android.hardware.camera.autofocus", Required = true)] // seulement pour ton tel
 
