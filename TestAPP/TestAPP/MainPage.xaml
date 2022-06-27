@@ -17,11 +17,10 @@
     <!--"TabbedPage_Appearing" est la method appelé quand l'application s'ouvre. Cela permet de remplir le carousel view de la premiere page. La collection de photo est chosie aleatoirement-->
 
 
-
     <!-- L'application est séparé en trois parties, "Home", "Family" ,"Maps"  avec une page "ContentPage" dédié à chaque fois, rajouter un page content = ajouter un onglet -->
 
     <!--Appearing est une fonction executé à chaque fois que la premiere page apparait-->
-    <ContentPage Title="Mescouilles sur ton front"   IconImageSource="HomeIcon.PNG" Appearing="ContentPage_Appearing_1" >
+    <ContentPage Title="Home" IconImageSource="HomeIcon.PNG" Appearing="ContentPage_Appearing_1" >
         <!--On organise tout les visuels dans un StackLayout afin de pouvoir mettre plusieurs button, carousels view, etc...-->
         <StackLayout>
 

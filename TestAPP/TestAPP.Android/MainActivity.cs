@@ -33,7 +33,6 @@ namespace TestAPP.Droid
 
             // ah si je me souviens d'avoir ajouté ça, c'etait pour regler le soucis de couleur entre nos telephone (spoiler; ça na pas marché)
             Xamarin.Forms.Application.Current.UserAppTheme = OSAppTheme.Dark;
-
         }
 
         //J'imagique que ça a un rapport avec toutes les permissions necessaire pour l'APP

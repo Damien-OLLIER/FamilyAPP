@@ -27,7 +27,6 @@ namespace TestAPP
 {
     public partial class MainPage : Xamarin.Forms.TabbedPage
     {
-        CarouselViewModel viewModel;
         // ObservableCollection<Family> est une collection d'objet de la classe Family utilsé dans l'onglet family afin d'afficher l'expander (family  Tree)
         public ObservableCollection<Family> MyFamily { get => GetFamilyInfo(); }
 
@@ -467,8 +466,6 @@ namespace TestAPP
         // La méthode est appelée a chaque fois que l'onglet map est selectionné. Ceci dans le but de la cadré sur l'europe et d'afficher les Pins
         private void ContentPage_Appearing(object sender, EventArgs e)
         {
-            this.BindingContext = viewModel = new CarouselViewModel();// a quoi sert cette ligne ? pas sûr de son utilité. Je crois que c'est pour afficher les Pins
-
             //Bouge la camera pour se placer en europe
             //To Modify: inutile car je la fou au etats unis avant, CF To DO:
             Position position = new Position(46.818188, 8.227512);//au milieu de l'europe
@@ -589,7 +586,7 @@ namespace TestAPP
 
             // Suivant le Lieu, on affiche les images en relations avec le Pin cliqué
             //To modify: si tu veux ameliorer la suite de if/Else if je suis preneur
-            if (Lieu == "Italie")
+            if (Lieu == "Venise")
             {
                 //On instancie la liste "ObservableCollection" contenant des objets de la classe "Image"
                 var ItalyPicture = new ObservableCollection<Image>();
@@ -626,7 +623,7 @@ namespace TestAPP
 
                 LabelDescription.Text = "Description : " + Description;
             }
-            else if (Lieu == "Loire")
+            else if (Lieu == "Loire à vélo")
             {
                 var Loire = new ObservableCollection<Image>();
 
@@ -656,7 +653,7 @@ namespace TestAPP
 
                 LabelDescription.Text = "Description : " + Description;
             }
-            else if (Lieu == "Rhin")
+            else if (Lieu == "Chutes du Rhin")
             {
                 var Rhin = new ObservableCollection<Image>();
 
@@ -701,7 +698,7 @@ namespace TestAPP
 
                 LabelDescription.Text = "Description : " + Description;
             }
-            else if (Lieu == "SkiDeFond")
+            else if (Lieu == "Chichilianne")
             {
                 var SkiDeFond = new ObservableCollection<Image>();
 
@@ -716,7 +713,7 @@ namespace TestAPP
 
                 LabelDescription.Text = "Description : " + Description;
             }
-            else if (Lieu == "PaysBas")
+            else if (Lieu == "Pays-Bas")
             {
                 var PaysBas = new ObservableCollection<Image>();
 
@@ -731,7 +728,7 @@ namespace TestAPP
 
                 LabelDescription.Text = "Description : " + Description;
             }
-            else if (Lieu == "MorzineNouvelAn")
+            else if (Lieu == "Nouvel an à Morzine")
             {
                 var MorzineNouvelAn = new ObservableCollection<Image>();
 
@@ -746,7 +743,7 @@ namespace TestAPP
 
                 LabelDescription.Text = "Description : " + Description;
             }
-            else if (Lieu == "MorzineJuin")
+            else if (Lieu == "Morzine")
             {
                 var MorzineJuin = new ObservableCollection<Image>();
 
@@ -761,7 +758,7 @@ namespace TestAPP
 
                 LabelDescription.Text = "Description : " + Description;
             }
-            else if (Lieu == "Confinement")
+            else if (Lieu == "Appartement des loulous")
             {
                 var Confinement = new ObservableCollection<Image>();
 
@@ -776,7 +773,7 @@ namespace TestAPP
 
                 LabelDescription.Text = "Description : " + Description;
             }
-            else if (Lieu == "2022")
+            else if (Lieu == "Année 2022")
             {
                 var Photo2022 = new ObservableCollection<Image>();
 
@@ -791,7 +788,7 @@ namespace TestAPP
 
                 LabelDescription.Text = "Description : " + Description;
             }
-            else if (Lieu == "2021")
+            else if (Lieu == "Année 2021")
             {
                 var Photo2021 = new ObservableCollection<Image>();
 
@@ -806,7 +803,7 @@ namespace TestAPP
 
                 LabelDescription.Text = "Description : " + Description;
             }
-            else if (Lieu == "2020")
+            else if (Lieu == "Année 2022")
             {
                 var Photo2020 = new ObservableCollection<Image>();
 
@@ -841,7 +838,7 @@ namespace TestAPP
             var Destination = mapsViewModel.Items[RandNumber - 1].countryList;
 
             //cf "listView_SelectionChanged"
-            if (Destination == "Italie")
+            if (Destination == "Venise")
             {
                 var ItalyPicture = new ObservableCollection<Image>();
 
@@ -856,7 +853,7 @@ namespace TestAPP
 
                 LabelDescription.Text = "Description : " + Description;
             }
-            else if (Destination == "Autriche")
+            else if (Destination == "Innsbruck")
             {
                 var AutrichePicture = new ObservableCollection<Image>();
 
@@ -871,7 +868,7 @@ namespace TestAPP
 
                 LabelDescription.Text = "Description : " + Description;
             }
-            else if (Destination == "Loire")
+            else if (Destination == "Loire à vélo")
             {
                 var Loire = new ObservableCollection<Image>();
 
@@ -901,7 +898,7 @@ namespace TestAPP
 
                 LabelDescription.Text = "Description : " + Description;
             }
-            else if (Destination == "Rhin")
+            else if (Destination == "Chutes du Rhin")
             {
                 var Rhin = new ObservableCollection<Image>();
 
@@ -946,7 +943,7 @@ namespace TestAPP
 
                 LabelDescription.Text = "Description : " + Description;
             }
-            else if (Destination == "SkiDeFond")
+            else if (Destination == "Chichilianne")
             {
                 var SkiDeFond = new ObservableCollection<Image>();
 
@@ -961,7 +958,7 @@ namespace TestAPP
 
                 LabelDescription.Text = "Description : " + Description;
             }
-            else if (Destination == "PaysBas")
+            else if (Destination == "Pays-Bas")
             {
                 var PaysBas = new ObservableCollection<Image>();
 
@@ -976,7 +973,7 @@ namespace TestAPP
 
                 LabelDescription.Text = "Description : " + Description;
             }
-            else if (Destination == "MorzineNouvelAn")
+            else if (Destination == "Nouvel an à Morzine")
             {
                 var MorzineNouvelAn = new ObservableCollection<Image>();
 
@@ -991,7 +988,7 @@ namespace TestAPP
 
                 LabelDescription.Text = "Description : " + Description;
             }
-            else if (Destination == "MorzineJuin")
+            else if (Destination == "Morzine")
             {
                 var MorzineJuin = new ObservableCollection<Image>();
 
@@ -1006,7 +1003,7 @@ namespace TestAPP
 
                 LabelDescription.Text = "Description : " + Description;
             }
-            else if (Destination == "Confinement")
+            else if (Destination == "Appartement des loulous")
             {
                 var Confinement = new ObservableCollection<Image>();
 
@@ -1021,7 +1018,7 @@ namespace TestAPP
 
                 LabelDescription.Text = "Description : " + Description;
             }
-            else if (Destination == "2022")
+            else if (Destination == "Année 2022")
             {
                 var Photo2022 = new ObservableCollection<Image>();
 
@@ -1036,7 +1033,7 @@ namespace TestAPP
 
                 LabelDescription.Text = "Description : " + Description;
             }
-            else if (Destination == "2021")
+            else if (Destination == "Année 2021")
             {
                 var Photo2021 = new ObservableCollection<Image>();
 
@@ -1051,7 +1048,7 @@ namespace TestAPP
 
                 LabelDescription.Text = "Description : " + Description;
             }
-            else if (Destination == "2020")
+            else if (Destination == "Année 2020")
             {
                 var Photo2020 = new ObservableCollection<Image>();
 
@@ -1087,28 +1084,7 @@ namespace TestAPP
             }
         }
 
-        // To do: a supprimer ? potentiellement pas utilisé
-        public class CarouselViewModel
-        {
-            public CarouselViewModel()
-            {
-                ImageCollection = new ObservableCollection<CarouselModel>();
-                ImageCollection.Add(new CarouselModel("https://cdn.syncfusion.com/content/images/Images/Camtasia_Succinctly.png?v=22022017060923"));
-                ImageCollection.Add(new CarouselModel("https://cdn.syncfusion.com/content/images/Images/SQL_Queries_Succinctly.png?v=04022017014551"));
-                ImageCollection.Add(new CarouselModel("https://upload.wikimedia.org/wikipedia/commons/0/0c/Cow_female_black_white.jpg"));
-                ImageCollection.Add(new CarouselModel("https://cdn.syncfusion.com/content/images/Images/Keystonejs_Succinctly.png?v=22022017060923"));
-                ImageCollection.Add(new CarouselModel("https://cdn.syncfusion.com/content/images/Images/sql_server_for_c_sharp_developers_succinctly_cover_img.png?v=22022017060923"));
-                ImageCollection.Add(new CarouselModel("https://cdn.syncfusion.com/content/images/Images/sql_server_for_c_sharp_developers_succinctly_cover_img.png?v=22022017060923"));
-            }
-
-            private ObservableCollection<CarouselModel> imageCollection;
-            public ObservableCollection<CarouselModel> ImageCollection
-            {
-                get { return imageCollection; }
-                set { imageCollection = value; }
-            }
-        }
-
+     
         //Class Family qui permet de peupler le second onglet family
         public class Family
         {

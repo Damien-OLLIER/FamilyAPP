@@ -8,16 +8,11 @@ using Xamarin.Forms;
 
 namespace TestAPP
 {
-    public class Maps //: INotifyPropertyChanged
+    public class Maps 
     {
         private string CountryList;
         private string Description;
         private string pays;
-
-        /*
-        private ImageSource image;
-        private ImageSource contactType;
-        */
 
         public Maps(string name, string number)
         {
@@ -25,33 +20,14 @@ namespace TestAPP
             Description = number;
         }
 
-
         public string countryList
         {
             get { return CountryList; }
-           
-            /*set
-            {
-                if (contactName != value)
-                {
-                    contactName = value;
-                    this.RaisedOnPropertyChanged("ContactName");
-                }
-            }*/
         }
 
         public string description
         {
             get { return Description; }
-            /*
-            set
-            {
-                if (contactNumber != value)
-                {
-                    contactNumber = value;
-                    this.RaisedOnPropertyChanged("ContactNumber");
-                }
-            }*/
         }
 
         public string Pays
@@ -62,20 +38,9 @@ namespace TestAPP
                 if (pays != value)
                 {
                     pays = value;
-                    //this.RaisedOnPropertyChanged("ContactNumber");
                 }
             }
         }       
 
-        /*
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void RaisedOnPropertyChanged(string _PropertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(_PropertyName));
-            }
-        }*/
     }
 }
