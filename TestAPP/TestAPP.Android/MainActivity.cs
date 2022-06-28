@@ -13,6 +13,7 @@ namespace TestAPP.Droid
     [Activity(Label = "Family", Icon = "@mipmap/Test", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
 
     // Je crois n'avoir rien touché ici, tous s'est ajouté automatiquement
+    // je t'aime zigouigoui
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
