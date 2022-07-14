@@ -29,12 +29,12 @@
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="50" />
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="20" />
                     <RowDefinition Height="50" />
                     <RowDefinition Height="5" />
                     <RowDefinition Height="50" />
-                    <RowDefinition Height="20" />
+                    <RowDefinition Height="15" />
                 </Grid.RowDefinitions>
 
                 <!--Implémentation du menu defilant qui s'ouvre quand tu double click sur l'image du carousel view-->
@@ -43,12 +43,12 @@
                     <!--pour plus d'info à propos du popupLayout https://help.syncfusion.com/xamarin/popup/getting-started -->
                     <sfPopup:SfPopupLayout.PopupView >
                         <!--Mise en page de la fenetre PopUp-->
-                        <sfPopup:PopupView  HeaderTitle="Choisir une destination"  HeightRequest="500"  AppearanceMode="TwoButton" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                        <sfPopup:PopupView  HeaderTitle="Choisir une destination"  HeightRequest="500"  AppearanceMode="TwoButton" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" >
                             <sfPopup:PopupView.ContentTemplate>
                                 <!--On met en place le Template (Contenu de la fenetre)-->
                                 <DataTemplate>
                                     <!--Le contenu de la PopUp sera donc une list view, plus d'info https://help.syncfusion.com/xamarin/listview/getting-started -->
-                                    <sfListView:SfListView  x:Name="listView"  ItemSpacing="5" WidthRequest="380" ItemSize="100" SelectionChanged="listView_SelectionChanged" ColumnDefinitions="2"  ItemsSource="{Binding Items}">
+                                    <sfListView:SfListView  x:Name="listView"  ItemSpacing="5" WidthRequest="380" ItemSize="100" SelectionChanged="listView_SelectionChanged" ColumnDefinitions="2"  ItemsSource="{Binding Items}" >
                                         <sfListView:SfListView.ItemTemplate>
                                             <DataTemplate>
                                                 <ViewCell>
@@ -71,6 +71,7 @@
                                         LineBreakMode="WordWrap"     
                                                                    
                                         Text="{Binding Pays, StringFormat='Description: {0}'}"
+                                         TextColor="CadetBlue"
                                         FontSize="Small" />
                                                             <!--Une image de folder pour comprendre qu'on va ouvrir plusieurs photos-->
                                                             <!--To Modify: Je suis completement con car j'aurai pu mettre la meme image pour tout le monde enfaite-->
@@ -103,11 +104,12 @@
 
                 <!-- CarouselView qui sert de galerie d'image au centre du premier onglet -->
                 <!-- Importat de set ItemsSource pour le Binding d'image 8 lignes plus bas-->
-                <CarouselView x:Name="Carousel" Margin="10" IndicatorView="IndicatorView" Grid.Row="0" ItemsSource="{Binding CarouselView}">
+                <!--IndicatorView="IndicatorView"-->
+                <CarouselView x:Name="Carousel" Margin="8"  Grid.Row="0" ItemsSource="{Binding CarouselView}"  >
                     <!--To explain: d'ou vient ce CarouselView, car il change a chaque demarrage d'app mais je retrouve plus ou-->
                     <CarouselView.ItemTemplate>
                         <DataTemplate>
-                            <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                            <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" >
                                 <!--To modify: le cadre autour des photos doit etre enlevé/modifier car ne rend pas bien sur le telephone de camille-->
                                 <Frame HasShadow="True"
                                    Margin="3"
@@ -115,13 +117,17 @@
                                        >
 
                                     <!--To do: retravailler le zoom ou la taille de certaines image. Travailler aussi sur l'orientation des images de travers-->
-                                    <Image x:Name="CarouselPicture" Source="{Binding Name}"                                      
+                                    <Image x:Name="CarouselPicture" Source="{Binding Name}"     
+                                      
                                        Aspect="AspectFill"   
                                        Margin="0,0,0,0"
-                                       VerticalOptions="CenterAndExpand"
-                                        HeightRequest="500" WidthRequest="200"  >
+                                       VerticalOptions="FillAndExpand" 
+                                        HorizontalOptions="FillAndExpand"
+                                       HeightRequest="500" WidthRequest="200"  
+                                        />
+                                    <!--CAMILLE avant c'était Center and Extand avec rien pour horizontal -->
 
-                                        <!--Implémentation du Double tap pour ouvrir la fenêtre PopUp afin de modifier le contenu du carousel-->
+                                    <!--Implémentation du Double tap pour ouvrir la fenêtre PopUp afin de modifier le contenu du carousel-->
                                         <Image.GestureRecognizers>
                                             <TapGestureRecognizer
                                         Tapped="OnTapGestureRecognizerTapped" 
@@ -129,7 +135,7 @@
                                             <!--OnTapGestureRecognizerTapped est une methode-->
 
                                         </Image.GestureRecognizers>
-                                    </Image>
+
                                 </Frame>
                             </StackLayout>
                         </DataTemplate>
@@ -138,14 +144,14 @@
 
                 <!--IndicatorView sont les petits points sous le carousel view qui indique la position de l'image quand l'utilisateur défile les images.-->
                 <!--To modify: A modifier ou remplacer car bug completement depuis qu'il y a des dossiers a 200 images. Remplacer par un compteur ex: 57/225 -->
-                <IndicatorView x:Name="IndicatorView"
+                <!--<IndicatorView x:Name="IndicatorView"
                        IndicatorColor="LightGray"
                        SelectedIndicatorColor="Black"
                        HorizontalOptions="Center" VerticalOptions="Start"  Grid.Row="1" >
-                </IndicatorView>
+                </IndicatorView>-->
 
                 <!--Affichage de la description du voyage choisi (eleatoirement ou via la fenetre PopUp)-->
-                <Label x:Name="LabelDescription" Text="" Grid.Row="2" Margin="19,-20,15,0" TextColor="White">
+                <Label x:Name="LabelDescription" Text="" Grid.Row="2" Margin="19,-40,15,0" TextColor="White">
                     <!--le text est vide, mais se rempli au demarrage et à chaque modification du voyage-->
 
                 </Label>
@@ -245,7 +251,6 @@
                                                 <!--Icon Lapin, femme, homme, etc...-->
                                                 <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
                                                     <Image Source="{Binding Icon}" HeightRequest="45" WidthRequest="45" BackgroundColor="Black"/>
-
                                                 </StackLayout>
 
                                                 <!--Ne me demande pas pk il y a une seconde BoxView stp-->
@@ -378,7 +383,8 @@
             </map:Map>
 
             <!--CarouselView qui s'ouvre a chaque fois qu'un PIN de voyage est selectionné-->
-            <CarouselView x:Name="CardImage" Margin="10" IndicatorView="IndicatorView"  HeightRequest="150" IsVisible="false" Grid.Row="1"  ItemsSource="{Binding CarouselView}"   >
+            <!--IndicatorView="IndicatorView"   CAMILLE, a ajouter dans la ligne du dessous-->
+            <CarouselView x:Name="CardImage" Margin="10"   HeightRequest="150" IsVisible="false" Grid.Row="1"  ItemsSource="{Binding CarouselView}"  >
                 <CarouselView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">

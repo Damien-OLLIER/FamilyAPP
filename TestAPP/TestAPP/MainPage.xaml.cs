@@ -25,6 +25,7 @@ using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 
 namespace TestAPP
 {
+    
     public partial class MainPage : Xamarin.Forms.TabbedPage
     {
         // ObservableCollection<Family> est une collection d'objet de la classe Family utilsé dans l'onglet family afin d'afficher l'expander (family  Tree)
@@ -600,6 +601,7 @@ namespace TestAPP
 
                 //On donne cette liste "ObservableCollection" contenant des objets de la classe "Image" comme item source au carousel view.
                 Carousel.ItemsSource = ItalyPicture;
+                
                 //Le carousel va donc utiliser cette source pour "Populer"/remplir (To populate) son template qui est enfaite une Image donc la source est "Name"
 
                 //Close the PopUp Layout
@@ -1182,6 +1184,7 @@ namespace TestAPP
                 Colors.Add("Oui je veux aussi trois boubou");
                 Colors.Add("Tu veux combien d'animaux ?");
                 Colors.Add("T'es sur que tu veux pas de baleine");
+                Colors.Add("Ton application est trop bien t'es le meilleure je t'aime de tout mon coeur !");
             }
 
         }
