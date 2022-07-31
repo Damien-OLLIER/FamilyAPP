@@ -25,7 +25,7 @@
         <StackLayout>
 
             <!--On organise tout ça dans une grid afin de mieux gerer l'espace dédié à chaque composant-->
-            <Grid BackgroundColor="#1a1a1c">
+            <Grid BackgroundColor="#1a1a1c" x:Name="HomeGrid">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -76,10 +76,10 @@
                                                             <!--Une image de folder pour comprendre qu'on va ouvrir plusieurs photos-->
                                                             <!--To Modify: Je suis completement con car j'aurai pu mettre la meme image pour tout le monde enfaite-->
                                                             <Image Grid.Column="0" 
-                                       Source="{Binding ContactType}" 
+                                       Source="Folder.png" 
                                        VerticalOptions="StartAndExpand"
                                        HorizontalOptions="Start"
-                                       HeightRequest="50"/>
+                                       HeightRequest="40"/>
 
                                                         </Grid>
                                                     </ViewCell.View>
@@ -105,27 +105,28 @@
                 <!-- CarouselView qui sert de galerie d'image au centre du premier onglet -->
                 <!-- Importat de set ItemsSource pour le Binding d'image 8 lignes plus bas-->
                 <!--IndicatorView="IndicatorView"-->
-                <CarouselView x:Name="Carousel" Margin="8"  Grid.Row="0" ItemsSource="{Binding CarouselView}"  >
+                <CarouselView x:Name="Carousel" Margin="8"  Grid.Row="0" ItemsSource="{Binding CarouselView}" IndicatorView="IndicatorView">
                     <!--To explain: d'ou vient ce CarouselView, car il change a chaque demarrage d'app mais je retrouve plus ou-->
                     <CarouselView.ItemTemplate>
                         <DataTemplate>
                             <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" >
-                                <!--To modify: le cadre autour des photos doit etre enlevé/modifier car ne rend pas bien sur le telephone de camille-->
+                                <!--To modify: le cadre autour des photos doit etre modifier car ne rend pas bien sur le telephone de camille-->
                                 <Frame HasShadow="True"
                                    Margin="3"
                                    Padding="3"
+                                       BackgroundColor="#1a1a1c"
                                        >
 
                                     <!--To do: retravailler le zoom ou la taille de certaines image. Travailler aussi sur l'orientation des images de travers-->
-                                    <Image x:Name="CarouselPicture" Source="{Binding Name}"     
+                                    <Image x:Name="CarouselPicture"  Source="{Binding Name}"     
                                       
-                                       Aspect="AspectFill"   
+                                       Aspect="AspectFit"   
                                        Margin="0,0,0,0"
                                        VerticalOptions="FillAndExpand" 
                                         HorizontalOptions="FillAndExpand"
-                                       HeightRequest="500" WidthRequest="200"  
-                                        />
-                                    <!--CAMILLE avant c'était Center and Extand avec rien pour horizontal -->
+                                        WidthRequest="200" HeightRequest="400"
+                                        >
+                                    
 
                                     <!--Implémentation du Double tap pour ouvrir la fenêtre PopUp afin de modifier le contenu du carousel-->
                                         <Image.GestureRecognizers>
@@ -135,7 +136,7 @@
                                             <!--OnTapGestureRecognizerTapped est une methode-->
 
                                         </Image.GestureRecognizers>
-
+                                    </Image>
                                 </Frame>
                             </StackLayout>
                         </DataTemplate>
@@ -144,11 +145,11 @@
 
                 <!--IndicatorView sont les petits points sous le carousel view qui indique la position de l'image quand l'utilisateur défile les images.-->
                 <!--To modify: A modifier ou remplacer car bug completement depuis qu'il y a des dossiers a 200 images. Remplacer par un compteur ex: 57/225 -->
-                <!--<IndicatorView x:Name="IndicatorView"
+                <IndicatorView x:Name="IndicatorView"
                        IndicatorColor="LightGray"
-                       SelectedIndicatorColor="Black"
-                       HorizontalOptions="Center" VerticalOptions="Start"  Grid.Row="1" >
-                </IndicatorView>-->
+                       SelectedIndicatorColor="DarkSlateGray"
+                       HorizontalOptions="Center" VerticalOptions="Start"  Grid.Row="1" Margin="19,-45,15,0">
+                </IndicatorView>
 
                 <!--Affichage de la description du voyage choisi (eleatoirement ou via la fenetre PopUp)-->
                 <Label x:Name="LabelDescription" Text="" Grid.Row="2" Margin="19,-40,15,0" TextColor="White">
@@ -282,7 +283,7 @@
                                                 <!--Ou plusieurs StackLayout xD-->
                                                 <!--Le contenu est le meme que celui de la CollectionView plus haut qui est instancié dans la mainPage.xaml.cs disponible à l'endroit "private ObservableCollection
                                                 <Family>GetFamilyInfo()" vers la ligne 200 si pas trop de modif-->
-                                                <StackLayout x:Name="imageview" BindableLayout.ItemsSource="{Binding Speakers}" HorizontalOptions ="Center"  VerticalOptions ="Start" >
+                                                <StackLayout x:Name="imageview" BindableLayout.ItemsSource="{Binding familyMember}" HorizontalOptions ="Center"  VerticalOptions ="Start" >
                                                     <BindableLayout.ItemTemplate>
                                                         <DataTemplate>
                                                             <!--cadre rond pour mettre les photos de la petite famille-->
@@ -295,7 +296,7 @@
                                                                    HorizontalOptions="Center"                                                                      >
 
                                                                 <!--photos de la petite famille, To modify: Potentiellement recadrer les photos-->
-                                                                <Image Source="{Binding Picture}" Aspect="AspectFill"  Margin="-20"
+                                                                <Image Source="{Binding Picture}" Aspect="AspectFit"  Margin="-20"
                                                                      HeightRequest="100"
                                                                      WidthRequest="100"
                                                                      >
@@ -372,9 +373,11 @@
                         <map:Pin 
                               Position="{Binding Position}"
                               Address="{Binding Address}" 
-                              Label="{Binding PlaceName}"  
+                              Label="{Binding PlaceName}"                              
                               MarkerClicked="Pin_MarkerClicked"
                               InfoWindowClicked="Pin_InfoWindowClicked"
+                              Type="SearchResult"                         
+                            
                         />
                         <!--To modify: add an @ on address or test Address.-->
                         <!--https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.maps.pintype?view=xamarin-forms-->
@@ -383,8 +386,7 @@
             </map:Map>
 
             <!--CarouselView qui s'ouvre a chaque fois qu'un PIN de voyage est selectionné-->
-            <!--IndicatorView="IndicatorView"   CAMILLE, a ajouter dans la ligne du dessous-->
-            <CarouselView x:Name="CardImage" Margin="10"   HeightRequest="150" IsVisible="false" Grid.Row="1"  ItemsSource="{Binding CarouselView}"  >
+            <CarouselView x:Name="CardImage" Margin="10"   HeightRequest="150" IsVisible="false" Grid.Row="1"  ItemsSource="{Binding CarouselView}" IndicatorView="IndicatorViewMap" >
                 <CarouselView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
@@ -395,7 +397,7 @@
                                        >
                                 <!--To do: retravailler le zoom ou la taille de certaines image. Travailler aussi sur l'orientation des images de travers-->
                                 <Image x:Name="CarouselPicture" Source="{Binding Name}"                                      
-                                       Aspect="AspectFill"   
+                                       Aspect="AspectFit"   
                                        Margin="0,0,0,0"
                                        VerticalOptions="CenterAndExpand"
                                        HeightRequest="500" WidthRequest="200"  >
@@ -405,6 +407,12 @@
                     </DataTemplate>
                 </CarouselView.ItemTemplate>
             </CarouselView>
+            
+            <IndicatorView x:Name="IndicatorViewMap"
+                       IndicatorColor="LightGray"
+                       SelectedIndicatorColor="DarkSlateGray"
+                       HorizontalOptions="Center" VerticalOptions="Start" Grid.Row="2" Margin="19,-45,15,0"  >
+            </IndicatorView>
 
             <!--J'ai toujours espoir d'implementer les cards qui sont toujours plus joli que le vieu CarouselView de ses morts-->
 

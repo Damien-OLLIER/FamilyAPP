@@ -45,7 +45,8 @@ namespace TestAPP
             //clef/license pour les fonctionalites de syncfusion (Methodes et bouttons,etc ...)
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NTkzMjMwQDMxMzkyZTM0MmUzMGxLakdmUERlTjd4OHdYVnJ2WVlDSkhnSHZUWmFRa2swYmNEa0RnUFhIUGs9");
             InitializeComponent();
-
+            
+            //var test = HomeGrid.RowDefinitions;
 
             message = "je t'aime !"; // Message de base affiché et envoyé au Num
             numero = "+33632183163"; // Numero selectionne de base
@@ -288,7 +289,7 @@ namespace TestAPP
         {
             // on s'assure que le carousel View dans l'onglet Map est bien fermé
             CardImage.IsVisible = true;
-
+            IndicatorViewMap.IsVisible = true;
             // On recupere les infos de l'info Window cliqué par l'utilisateur
             var pin = sender as Pin;
             var PinAddress = pin.Address; // on recupere le commentaire
@@ -462,6 +463,9 @@ namespace TestAPP
         {
             // Cache le carousel View afin de pouvoir selectionner un autre voyage
             CardImage.IsVisible = false;
+
+            // les petits boutons savoir le numero de l'image
+            IndicatorViewMap.IsVisible = false;
         }
 
         // La méthode est appelée a chaque fois que l'onglet map est selectionné. Ceci dans le but de la cadré sur l'europe et d'afficher les Pins
