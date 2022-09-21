@@ -105,7 +105,7 @@
                 <!-- CarouselView qui sert de galerie d'image au centre du premier onglet -->
                 <!-- Importat de set ItemsSource pour le Binding d'image 8 lignes plus bas-->
                 <!--IndicatorView="IndicatorView"-->
-                <CarouselView x:Name="Carousel" Margin="8"  Grid.Row="0" ItemsSource="{Binding CarouselView}" IndicatorView="IndicatorView">
+                <CarouselView x:Name="Carousel" Margin="8"  Grid.Row="0" ItemsSource="{Binding CarouselView}" IndicatorView="IndicatorView" PositionChanged="Carousel_PositionChanged"  >
                     <!--To explain: d'ou vient ce CarouselView, car il change a chaque demarrage d'app mais je retrouve plus ou-->
                     <CarouselView.ItemTemplate>
                         <DataTemplate>
@@ -148,10 +148,14 @@
                 <IndicatorView x:Name="IndicatorView"
                        IndicatorColor="LightGray"
                        SelectedIndicatorColor="DarkSlateGray"
-                       HorizontalOptions="Center" VerticalOptions="Start"  Grid.Row="1" Margin="19,-45,15,0">
+                       HorizontalOptions="Center" VerticalOptions="Start"  Grid.Row="1" Margin="19,-45,15,0" >
                 </IndicatorView>
 
-                <!--Affichage de la description du voyage choisi (eleatoirement ou via la fenetre PopUp)-->
+                <Label x:Name="LabelIndicatorView" Text="Hello" Grid.Row="1" Margin="19,-40,15,0" TextColor="White">
+
+                </Label>
+                
+                <!--Affichage de la description du voyage choisi (aléatoirement ou via la fenetre PopUp)-->
                 <Label x:Name="LabelDescription" Text="" Grid.Row="2" Margin="19,-40,15,0" TextColor="White">
                     <!--le text est vide, mais se rempli au demarrage et à chaque modification du voyage-->
 

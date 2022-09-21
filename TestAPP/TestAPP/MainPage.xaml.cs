@@ -1210,6 +1210,15 @@ namespace TestAPP
                 Number.Add("+33695790868");
             }
         }
+
+        private void Carousel_CurrentItemChanged(object sender, CurrentItemChangedEventArgs e)
+        {
+        }
+
+        private void Carousel_PositionChanged(object sender, PositionChangedEventArgs e)
+        {
+            LabelIndicatorView.Text = e.CurrentPosition.ToString();
+        }
     }
 }
 
