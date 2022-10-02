@@ -105,7 +105,7 @@
                 <!-- CarouselView qui sert de galerie d'image au centre du premier onglet -->
                 <!-- Importat de set ItemsSource pour le Binding d'image 8 lignes plus bas-->
                 <!--IndicatorView="IndicatorView"-->
-                <CarouselView x:Name="Carousel" Margin="8"  Grid.Row="0" ItemsSource="{Binding CarouselView}" IndicatorView="IndicatorView" PositionChanged="Carousel_PositionChanged"  >
+                <CarouselView x:Name="Carousel" Margin="8"  Grid.Row="0" ItemsSource="{Binding CarouselView}" PositionChanged="Carousel_PositionChanged"  >
                     <!--To explain: d'ou vient ce CarouselView, car il change a chaque demarrage d'app mais je retrouve plus ou-->
                     <CarouselView.ItemTemplate>
                         <DataTemplate>
@@ -151,7 +151,7 @@
                        HorizontalOptions="Center" VerticalOptions="Start"  Grid.Row="1" Margin="19,-45,15,0" >
                 </IndicatorView>
 
-                <Label x:Name="LabelIndicatorView" Text="Hello" Grid.Row="1" Margin="19,-40,15,0" TextColor="White">
+                <Label x:Name="LabelIndicatorView" Text="" Grid.Row="1" Margin="19,-40,15,0" TextColor="White" HorizontalOptions="Center">
 
                 </Label>
                 

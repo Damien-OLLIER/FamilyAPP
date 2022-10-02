@@ -35,6 +35,7 @@ namespace TestAPP
         public string message { get; private set; }
         //Accesseur et mutateur pour Le numero de telephone envoyé de base avec le texto
         public string numero { get; private set; }
+        public int NumberOfItems { get; private set; }
 
         //List contenant des objets de la classe Place afin de creer les Pin Maps
         List<Place> placesList = new List<Place>();
@@ -613,6 +614,8 @@ namespace TestAPP
 
                 //Mise à jour de la description de voyage en dessous du carousel view du premier onglet
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 88;
             }
             else if (Lieu == "Autriche")
             {
@@ -628,6 +631,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 47;
             }
             else if (Lieu == "Loire à vélo")
             {
@@ -642,7 +647,9 @@ namespace TestAPP
 
                 popupLayout.IsOpen = false;
 
-                LabelDescription.Text = "Description : " + Description;
+                LabelDescription.Text = "Description : " + Description; 
+
+                NumberOfItems = 10;
             }
             else if (Lieu == "Zurich")
             {
@@ -658,6 +665,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 58;
             }
             else if (Lieu == "Chutes du Rhin")
             {
@@ -673,6 +682,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 58;
             }
             else if (Lieu == "Lucerne")
             {
@@ -688,6 +699,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 151;
             }
             else if (Lieu == "Thoune")
             {
@@ -703,6 +716,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 126;
             }
             else if (Lieu == "Chichilianne")
             {
@@ -718,6 +733,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 20;
             }
             else if (Lieu == "Pays-Bas")
             {
@@ -733,6 +750,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 125;
             }
             else if (Lieu == "Nouvel an à Morzine")
             {
@@ -748,6 +767,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 29;
             }
             else if (Lieu == "Morzine")
             {
@@ -763,6 +784,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 18;
             }
             else if (Lieu == "Appartement des loulous")
             {
@@ -778,6 +801,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 78;
             }
             else if (Lieu == "Année 2022")
             {
@@ -793,6 +818,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 51;
             }
             else if (Lieu == "Année 2021")
             {
@@ -808,6 +835,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 223;
             }
             else if (Lieu == "Année 2022")
             {
@@ -823,7 +852,12 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 79;
             }
+
+            LabelIndicatorView.Text = 1 + "/" + (NumberOfItems - 1).ToString();
+
         }
 
         // La méthode est appelée lorsque l'app apparait à l'écran
@@ -858,6 +892,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 88;
             }
             else if (Destination == "Innsbruck")
             {
@@ -873,6 +909,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 47;
             }
             else if (Destination == "Loire à vélo")
             {
@@ -888,6 +926,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 10;
             }
             else if (Destination == "Zurich")
             {
@@ -903,6 +943,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 58;
             }
             else if (Destination == "Chutes du Rhin")
             {
@@ -918,6 +960,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 58;
             }
             else if (Destination == "Lucerne")
             {
@@ -933,6 +977,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 151;
             }
             else if (Destination == "Thoune")
             {
@@ -948,6 +994,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 126;
             }
             else if (Destination == "Chichilianne")
             {
@@ -963,6 +1011,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 20;
             }
             else if (Destination == "Pays-Bas")
             {
@@ -978,6 +1028,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 125;
             }
             else if (Destination == "Nouvel an à Morzine")
             {
@@ -993,6 +1045,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 29;
             }
             else if (Destination == "Morzine")
             {
@@ -1008,6 +1062,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 18;
             }
             else if (Destination == "Appartement des loulous")
             {
@@ -1023,6 +1079,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 78;
             }
             else if (Destination == "Année 2022")
             {
@@ -1038,6 +1096,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 51;
             }
             else if (Destination == "Année 2021")
             {
@@ -1053,6 +1113,8 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 223;
             }
             else if (Destination == "Année 2020")
             {
@@ -1068,10 +1130,12 @@ namespace TestAPP
                 popupLayout.IsOpen = false;
 
                 LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 79;
             }
 
 
-            // LabelDescription.Text = "Description : " + Description;
+            LabelIndicatorView.Text = 1 + "/" + (NumberOfItems - 1).ToString();
 
         }
 
@@ -1217,7 +1281,13 @@ namespace TestAPP
 
         private void Carousel_PositionChanged(object sender, PositionChangedEventArgs e)
         {
-            LabelIndicatorView.Text = e.CurrentPosition.ToString();
+            /*var test = sender as PositionChangedEventArgs;
+            var test1 = sender as CarouselView;
+            var testt = test1.ItemsSource;
+            var bbb = testt.GetEnumerator();
+            var Caarousel = Carousel.ItemsSource; */
+
+           LabelIndicatorView.Text = (e.CurrentPosition + 1).ToString() + "/" + (NumberOfItems - 1).ToString();
         }
     }
 }
