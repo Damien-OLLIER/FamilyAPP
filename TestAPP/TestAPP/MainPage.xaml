@@ -389,8 +389,10 @@
                 </map:Map.ItemTemplate>
             </map:Map>
 
+            <Label x:Name="CardImageCounter" Text="Hello" Grid.Row="1" FontSize="Large" FontAttributes="Bold" IsVisible="false"  BackgroundColor="Transparent" TextColor="Black" HorizontalOptions="Center" VerticalOptions="End"/>
+ 
             <!--CarouselView qui s'ouvre a chaque fois qu'un PIN de voyage est selectionné-->
-            <CarouselView x:Name="CardImage" Margin="10"   HeightRequest="150" IsVisible="false" Grid.Row="1"  ItemsSource="{Binding CarouselView}" IndicatorView="IndicatorViewMap" >
+            <CarouselView x:Name="CardImage" Margin="10"   HeightRequest="150" IsVisible="false" Grid.Row="1"  ItemsSource="{Binding CarouselView}" PositionChanged="CardImage_PositionChanged" >
                 <CarouselView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
@@ -411,12 +413,7 @@
                     </DataTemplate>
                 </CarouselView.ItemTemplate>
             </CarouselView>
-            
-            <IndicatorView x:Name="IndicatorViewMap"
-                       IndicatorColor="LightGray"
-                       SelectedIndicatorColor="DarkSlateGray"
-                       HorizontalOptions="Center" VerticalOptions="Start" Grid.Row="2" Margin="19,-45,15,0"  >
-            </IndicatorView>
+
 
             <!--J'ai toujours espoir d'implementer les cards qui sont toujours plus joli que le vieu CarouselView de ses morts-->
 

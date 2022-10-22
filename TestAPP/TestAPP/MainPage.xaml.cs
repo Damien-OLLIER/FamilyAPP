@@ -36,6 +36,7 @@ namespace TestAPP
         //Accesseur et mutateur pour Le numero de telephone envoyé de base avec le texto
         public string numero { get; private set; }
         public int NumberOfItems { get; private set; }
+        public int NumberOfItemsMaps { get; private set; }
 
         //List contenant des objets de la classe Place afin de creer les Pin Maps
         List<Place> placesList = new List<Place>();
@@ -280,6 +281,7 @@ namespace TestAPP
             if (CardImage.IsVisible)
             {
                 CardImage.IsVisible = false;
+                CardImageCounter.IsVisible = false;
             }
 
             // le Pin ouvre la description donc il y n'y a rien a faire d'autre
@@ -290,7 +292,9 @@ namespace TestAPP
         {
             // on s'assure que le carousel View dans l'onglet Map est bien fermé
             CardImage.IsVisible = true;
-            IndicatorViewMap.IsVisible = true;
+            CardImageCounter.IsVisible = true;
+
+            //IndicatorViewMap.IsVisible = true;
             // On recupere les infos de l'info Window cliqué par l'utilisateur
             var pin = sender as Pin;
             var PinAddress = pin.Address; // on recupere le commentaire
@@ -311,6 +315,8 @@ namespace TestAPP
 
                 //On donne cette liste "ObservableCollection" contenant des objets de la classe "Image" comme item source au carousel view.
                 CardImage.ItemsSource = Innsbruck;
+
+                NumberOfItemsMaps = 47;
                 //Le carousel va donc utiliser cette source pour "Populer"/remplir (To populate) son template qui est enfaite une Image donc la source est "Name"
             }
             else if (PinAddress.Contains("Venise"))
@@ -323,6 +329,8 @@ namespace TestAPP
                 }
 
                 CardImage.ItemsSource = ItalieCard;
+
+                NumberOfItemsMaps = 88;
             }
             else if (PinAddress.Contains("de la loire à vélo"))
             {
@@ -334,6 +342,8 @@ namespace TestAPP
                 }
 
                 CardImage.ItemsSource = Loire;
+
+                NumberOfItemsMaps = 10;
             }
             else if (PinAddress.Contains("à Zurich en octobre 2021"))
             {
@@ -345,6 +355,8 @@ namespace TestAPP
                 }
 
                 CardImage.ItemsSource = Zurich;
+
+                NumberOfItemsMaps = 58;
             }
             else if (PinAddress.Contains("Visite des chutes du Rhin"))
             {
@@ -356,6 +368,8 @@ namespace TestAPP
                 }
 
                 CardImage.ItemsSource = Rhin;
+
+                NumberOfItemsMaps = 58;
             }
             else if (PinAddress.Contains("Voyage à Lucerne"))
             {
@@ -365,7 +379,10 @@ namespace TestAPP
                 {
                     Lucerne.Add(new Image { Name = "Lucerne" + i + ".JPG" });
                 }
+
                 CardImage.ItemsSource = Lucerne;
+
+                NumberOfItemsMaps = 151;
             }
             else if (PinAddress.Contains("Visite de Thoune"))
             {
@@ -375,7 +392,10 @@ namespace TestAPP
                 {
                     Thoune.Add(new Image { Name = "Thoune" + i + ".JPG" });
                 }
+
                 CardImage.ItemsSource = Thoune;
+
+                NumberOfItemsMaps = 126;
             }
             else if (PinAddress.Contains("Ski de fond à Chichilianne"))
             {
@@ -385,7 +405,10 @@ namespace TestAPP
                 {
                     SkiDeFond.Add(new Image { Name = "SkiDeFond" + i + ".JPG" });
                 }
+
                 CardImage.ItemsSource = SkiDeFond;
+
+                NumberOfItemsMaps = 20;
             }
             else if (PinAddress.Contains("Voyage à Amsterdam"))
             {
@@ -395,7 +418,10 @@ namespace TestAPP
                 {
                     PaysBas.Add(new Image { Name = "PaysBas" + i + ".JPG" });
                 }
+
                 CardImage.ItemsSource = PaysBas;
+
+                NumberOfItemsMaps = 125;
             }
             else if (PinAddress.Contains("Nouvel an à Morzine"))
             {
@@ -405,7 +431,10 @@ namespace TestAPP
                 {
                     MorzineNouvelAn.Add(new Image { Name = "MorzineNouvelAn" + i + ".JPG" });
                 }
+
                 CardImage.ItemsSource = MorzineNouvelAn;
+
+                NumberOfItemsMaps = 29;
             }
             else if (PinAddress.Contains("Morzine avec les amis"))
             {
@@ -415,7 +444,10 @@ namespace TestAPP
                 {
                     MorzineJuin.Add(new Image { Name = "MorzineJuin" + i + ".JPG" });
                 }
+
                 CardImage.ItemsSource = MorzineJuin;
+
+                NumberOfItemsMaps = 18;
             }
             else if (PinAddress.Contains("Lieu de villégiature"))
             {
@@ -425,7 +457,10 @@ namespace TestAPP
                 {
                     Confinement.Add(new Image { Name = "Confinement" + i + ".JPG" });
                 }
+
                 CardImage.ItemsSource = Confinement;
+
+                NumberOfItemsMaps = 78;
             }
             else if (PinAddress.Contains("Photos relatant notre année 2022 ensemble"))
             {
@@ -435,7 +470,10 @@ namespace TestAPP
                 {
                     Photo2022.Add(new Image { Name = "Photo2022" + i + ".JPG" });
                 }
+
                 CardImage.ItemsSource = Photo2022;
+
+                NumberOfItemsMaps = 51;
             }
             else if (PinAddress.Contains("Photos relatant notre année 2021 ensemble"))
             {
@@ -445,7 +483,10 @@ namespace TestAPP
                 {
                     Photo2021.Add(new Image { Name = "Photo2021" + i + ".JPG" });
                 }
+
                 CardImage.ItemsSource = Photo2021;
+
+                NumberOfItemsMaps = 223;
             }
             else if (PinAddress.Contains("Photos relatant notre année 2020 ensemble"))
             {
@@ -455,8 +496,13 @@ namespace TestAPP
                 {
                     Photo2020.Add(new Image { Name = "Photo2020" + i + ".JPG" });
                 }
+
                 CardImage.ItemsSource = Photo2020;
+
+                NumberOfItemsMaps = 79;
             }
+
+            CardImageCounter.Text = 1 + "/" + (NumberOfItemsMaps - 1).ToString();
         }
 
         // La méthode est appelée quand l'utilisateur appui sur la map (autre qu'un Pin)
@@ -464,9 +510,11 @@ namespace TestAPP
         {
             // Cache le carousel View afin de pouvoir selectionner un autre voyage
             CardImage.IsVisible = false;
+            CardImageCounter.IsVisible = false;
 
             // les petits boutons savoir le numero de l'image
-            IndicatorViewMap.IsVisible = false;
+            //CardImageCounter.IsVisible = false;
+            //IndicatorViewMap.IsVisible = false;
         }
 
         // La méthode est appelée a chaque fois que l'onglet map est selectionné. Ceci dans le but de la cadré sur l'europe et d'afficher les Pins
@@ -1253,8 +1301,10 @@ namespace TestAPP
                 Colors.Add("Tu veux combien d'animaux ?");
                 Colors.Add("T'es sur que tu veux pas de baleine");
                 Colors.Add("Ton application est trop bien t'es le meilleure je t'aime de tout mon coeur !");
+                Colors.Add("J'ai trouvé la première surprise, hate de la partager avec toi !");
+                Colors.Add("Je suis prête et j'adore la deuxième surprise !");
+                Colors.Add("J'arrive !");
             }
-
         }
 
         public class Telephone
@@ -1288,6 +1338,11 @@ namespace TestAPP
             var Caarousel = Carousel.ItemsSource; */
 
            LabelIndicatorView.Text = (e.CurrentPosition + 1).ToString() + "/" + (NumberOfItems - 1).ToString();
+        }
+
+        private void CardImage_PositionChanged(object sender, PositionChangedEventArgs e)
+        {
+            CardImageCounter.Text = (e.CurrentPosition + 1).ToString() + "/" + (NumberOfItemsMaps - 1).ToString();
         }
     }
 }
