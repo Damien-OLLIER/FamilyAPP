@@ -380,7 +380,7 @@
                               Label="{Binding PlaceName}"                              
                               MarkerClicked="Pin_MarkerClicked"
                               InfoWindowClicked="Pin_InfoWindowClicked"
-                              Type="SearchResult"                         
+                              Type="SearchResult"                        
                             
                         />
                         <!--To modify: add an @ on address or test Address.-->
