@@ -25,7 +25,7 @@ using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 
 namespace TestAPP
 {
-    
+
     public partial class MainPage : Xamarin.Forms.TabbedPage
     {
         // ObservableCollection<Family> est une collection d'objet de la classe Family utilsé dans l'onglet family afin d'afficher l'expander (family  Tree)
@@ -47,7 +47,7 @@ namespace TestAPP
             //clef/license pour les fonctionalites de syncfusion (Methodes et bouttons,etc ...)
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NTkzMjMwQDMxMzkyZTM0MmUzMGxLakdmUERlTjd4OHdYVnJ2WVlDSkhnSHZUWmFRa2swYmNEa0RnUFhIUGs9");
             InitializeComponent();
-            
+
             //var test = HomeGrid.RowDefinitions;
 
             message = "je t'aime !"; // Message de base affiché et envoyé au Num
@@ -654,7 +654,7 @@ namespace TestAPP
 
                 //On donne cette liste "ObservableCollection" contenant des objets de la classe "Image" comme item source au carousel view.
                 Carousel.ItemsSource = ItalyPicture;
-                
+
                 //Le carousel va donc utiliser cette source pour "Populer"/remplir (To populate) son template qui est enfaite une Image donc la source est "Name"
 
                 //Close the PopUp Layout
@@ -695,7 +695,7 @@ namespace TestAPP
 
                 popupLayout.IsOpen = false;
 
-                LabelDescription.Text = "Description : " + Description; 
+                LabelDescription.Text = "Description : " + Description;
 
                 NumberOfItems = 10;
             }
@@ -1202,7 +1202,7 @@ namespace TestAPP
             }
         }
 
-     
+
         //Class Family qui permet de peupler le second onglet family
         public class Family
         {
@@ -1337,12 +1337,46 @@ namespace TestAPP
             var bbb = testt.GetEnumerator();
             var Caarousel = Carousel.ItemsSource; */
 
-           LabelIndicatorView.Text = (e.CurrentPosition + 1).ToString() + "/" + (NumberOfItems - 1).ToString();
+            LabelIndicatorView.Text = (e.CurrentPosition + 1).ToString() + "/" + (NumberOfItems - 1).ToString();
         }
 
         private void CardImage_PositionChanged(object sender, PositionChangedEventArgs e)
         {
             CardImageCounter.Text = (e.CurrentPosition + 1).ToString() + "/" + (NumberOfItemsMaps - 1).ToString();
+        }
+
+        private void ContentPage_Appearing_2(object sender, EventArgs e)
+        {
+            //var PictireListe = new List<string>
+            //{
+            //    "https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/Autriche1.JPG",
+            //    "https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/Autriche2.JPG",
+            //    "https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/Autriche3.JPG",
+
+            //};
+
+            //TheCarousel.ItemsSource = PictireListe;
+
+            var TestList = new List<string>
+            { };
+
+            for (int i = 1; i < 48; i++)
+            {
+                TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/Autriche/Autriche" + i + ".JPG");
+                Debug.WriteLine(TestList[i - 1]);
+            }
+
+            TheCarousel.ItemsSource = TestList;
+        }
+
+        private void TheCarousel_CurrentItemChanged(object sender, CurrentItemChangedEventArgs e)
+        {
+            Indicator.Text = indicatorview.Position.ToString();
+        }
+
+        private void OnTapGestureRecognizerTappedTest(object sender, EventArgs e)
+        {
+            popupLayoutTest.Show();
         }
     }
 }

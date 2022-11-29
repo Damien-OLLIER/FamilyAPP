@@ -126,9 +126,9 @@
                                         HorizontalOptions="FillAndExpand"
                                         WidthRequest="200" HeightRequest="400"
                                         >
-                                    
 
-                                    <!--Implémentation du Double tap pour ouvrir la fenêtre PopUp afin de modifier le contenu du carousel-->
+
+                                        <!--Implémentation du Double tap pour ouvrir la fenêtre PopUp afin de modifier le contenu du carousel-->
                                         <Image.GestureRecognizers>
                                             <TapGestureRecognizer
                                         Tapped="OnTapGestureRecognizerTapped" 
@@ -154,7 +154,7 @@
                 <Label x:Name="LabelIndicatorView" Text="" Grid.Row="1" Margin="19,-40,15,0" TextColor="White" HorizontalOptions="Center">
 
                 </Label>
-                
+
                 <!--Affichage de la description du voyage choisi (aléatoirement ou via la fenetre PopUp)-->
                 <Label x:Name="LabelDescription" Text="" Grid.Row="2" Margin="19,-40,15,0" TextColor="White">
                     <!--le text est vide, mais se rempli au demarrage et à chaque modification du voyage-->
@@ -380,8 +380,7 @@
                               Label="{Binding PlaceName}"                              
                               MarkerClicked="Pin_MarkerClicked"
                               InfoWindowClicked="Pin_InfoWindowClicked"
-                              Type="SearchResult"                        
-                            
+                              Type="SearchResult"    
                         />
                         <!--To modify: add an @ on address or test Address.-->
                         <!--https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.maps.pintype?view=xamarin-forms-->
@@ -391,7 +390,7 @@
 
             <!--TextColor="black"-->
             <Label x:Name="CardImageCounter" Text="Hello" Grid.Row="1" FontSize="Large" FontAttributes="Bold" IsVisible="false"  BackgroundColor="Transparent" TextColor="White" HorizontalOptions="Center" VerticalOptions="End"/>
- 
+
             <!--CarouselView qui s'ouvre a chaque fois qu'un PIN de voyage est selectionné-->
             <CarouselView x:Name="CardImage" Margin="10"   HeightRequest="150" IsVisible="false" Grid.Row="1"  ItemsSource="{Binding CarouselView}" PositionChanged="CardImage_PositionChanged" >
                 <CarouselView.ItemTemplate>
@@ -449,6 +448,137 @@
         </Grid>
 
     </ContentPage>
+
+    <ContentPage Title="WIP"  IconImageSource="WIP.PNG" Appearing="ContentPage_Appearing_2">
+        <Grid BackgroundColor="#F3F5F9">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="20" />
+            </Grid.RowDefinitions>
+
+            <sfPopup:SfPopupLayout x:Name="popupLayoutTest" Closed="popupLayout_Closed" >
+                <!--pour plus d'info à propos du popupLayout https://help.syncfusion.com/xamarin/popup/getting-started -->
+                <sfPopup:SfPopupLayout.PopupView >
+                    <!--Mise en page de la fenetre PopUp-->
+                    <sfPopup:PopupView x:Name="popupViewTest" HeaderTitle="Choisir une destination"  HeightRequest="500"  AppearanceMode="TwoButton" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" >
+                        <sfPopup:PopupView.ContentTemplate>
+                            <!--On met en place le Template (Contenu de la fenetre)-->
+                            <DataTemplate>
+                                <!--Le contenu de la PopUp sera donc une list view, plus d'info https://help.syncfusion.com/xamarin/listview/getting-started -->
+                                <sfListView:SfListView  x:Name="listView"  ItemSpacing="5" WidthRequest="380" ItemSize="100" SelectionChanged="listView_SelectionChanged" ColumnDefinitions="2"  ItemsSource="{Binding Items}" >
+                                    <sfListView:SfListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell>
+                                                <ViewCell.View>
+                                                    <!--Mise en page de la list View avec le text et l'image associé-->
+                                                    <Grid x:Name="grid" RowSpacing="1">
+
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*" />
+                                                        </Grid.RowDefinitions>
+
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="50" />
+                                                            <ColumnDefinition Width="auto" />
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <!--la Description des Photos a afficher-->
+                                                        <Label Grid.Column="1"
+                                        HorizontalTextAlignment="Start"
+                                        LineBreakMode="WordWrap"     
+                                                                   
+                                        Text="{Binding Pays, StringFormat='Description: {0}'}"
+                                         TextColor="CadetBlue"
+                                        FontSize="Small" />
+                                                        <!--Une image de folder pour comprendre qu'on va ouvrir plusieurs photos-->
+                                                        <!--To Modify: Je suis completement con car j'aurai pu mettre la meme image pour tout le monde enfaite-->
+                                                        <Image Grid.Column="0" 
+                                       Source="Folder.png" 
+                                       VerticalOptions="StartAndExpand"
+                                       HorizontalOptions="Start"
+                                       HeightRequest="40"/>
+
+                                                    </Grid>
+                                                </ViewCell.View>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </sfListView:SfListView.ItemTemplate>
+                                </sfListView:SfListView>
+                            </DataTemplate>
+                        </sfPopup:PopupView.ContentTemplate>
+                    </sfPopup:PopupView>
+                </sfPopup:SfPopupLayout.PopupView>
+
+                <!--To Modify: Boutton pas important car invisible donc potentiellement à supprimer. Il devait me servir à la base pour les tests afin d'ouvrir la PopUp-->
+                <sfPopup:SfPopupLayout.Content>
+                    <StackLayout>
+                        <Button Text="Click to show popup" Clicked="isOpenButton_Clicked" IsVisible="false"/>
+                    </StackLayout>
+                </sfPopup:SfPopupLayout.Content>
+
+            </sfPopup:SfPopupLayout>
+
+
+            <!--<Image Source="https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/Autriche1.JPG"
+                        Aspect="AspectFit" HorizontalOptions="Center" Grid.Row="0"/>-->
+
+            <!--<xct:MediaElement Source="https://sec.ch9.ms/ch9/5d93/a1eab4bf-3288-4faf-81c4-294402a85d93/XamarinShow_mid.mp4" AutoPlay="True"  ShowsPlaybackControls="True" Grid.Row="0"/>-->
+
+            <!--<Image Source="https://github.com/Damien-OLLIER/TestAPPgit/blob/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/Autriche13.JPG"
+                        Aspect="AspectFit" HorizontalOptions="Center" Grid.Row="0"/>-->
+
+
+            <!--<Image Source="https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/Autriche3.JPG"
+                        Aspect="AspectFit" HorizontalOptions="Center" Grid.Row="2"/>-->
+
+            <CarouselView
+            x:Name="TheCarousel"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All"
+            Grid.Row="2"
+            IndicatorView="indicatorview" CurrentItemChanged="TheCarousel_CurrentItemChanged"  >
+
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <AbsoluteLayout>
+                            <StackLayout
+                            AbsoluteLayout.LayoutBounds=
+                            "0.5,0.3,AutoSize,AutoSize"
+                            AbsoluteLayout.LayoutFlags=
+                            "PositionProportional"
+                            HorizontalOptions="Center">
+                                <Image Source="{Binding .}" Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="2">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                        Tapped="OnTapGestureRecognizerTappedTest" 
+                                        NumberOfTapsRequired="2" />
+                                        <!--OnTapGestureRecognizerTapped est une methode-->
+
+                                    </Image.GestureRecognizers>
+                                </Image>
+                            </StackLayout>
+                        </AbsoluteLayout>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+
+            <IndicatorView
+            x:Name="indicatorview"
+            AbsoluteLayout.LayoutBounds="0.5,0.95,100,100"
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            IndicatorColor="LightGray"
+            IndicatorSize="10"
+            SelectedIndicatorColor="Black" Grid.Row="3" IsEnabled="False" IsVisible="False"/>
+
+            <Label x:Name="Indicator" Text="1" Grid.Row="3" HorizontalOptions="Center"/>
+
+        </Grid>
+
+
+    </ContentPage>
+
 
 
 </TabbedPage>
