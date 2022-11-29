@@ -520,7 +520,7 @@
 
             </sfPopup:SfPopupLayout>
 
-
+            <Button Grid.Row="0" Text="click" Clicked="Button_Clicked_2"/>
             <!--<Image Source="https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/Autriche1.JPG"
                         Aspect="AspectFit" HorizontalOptions="Center" Grid.Row="0"/>-->
 
@@ -582,3 +582,5 @@
 
 
 </TabbedPage>
+
+    

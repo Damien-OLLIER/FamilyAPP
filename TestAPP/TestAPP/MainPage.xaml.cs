@@ -1,5 +1,6 @@
 ﻿using AndroidX.Lifecycle;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Plugin.Media;
 using Plugin.Messaging;
 using Syncfusion.ListView.XForms;
@@ -12,6 +13,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -1377,6 +1380,38 @@ namespace TestAPP
         private void OnTapGestureRecognizerTappedTest(object sender, EventArgs e)
         {
             popupLayoutTest.Show();
+        }
+
+        private async void Button_Clicked_2(object sender, EventArgs e)
+        {
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.UserAgent.Add(
+                new ProductInfoHeaderValue("MyApplication", "1"));
+            var repo = "Damien-OLLIER/AppPictures";
+            var contentsUrl = $"https://api.github.com/repos/{repo}/contents";
+            var contentsJson = await httpClient.GetStringAsync(contentsUrl);
+            var contents = (JArray)JsonConvert.DeserializeObject(contentsJson);
+
+            Debug.WriteLine("Biginning");
+
+            foreach (var file in contents)
+            {
+                var fileType = (string)file["type"];
+                if (fileType == "dir")
+                {
+                    var directoryContentsUrl = (string)file["url"];
+                    // use this URL to list the contents of the folder
+                    Debug.WriteLine($"DIR: {directoryContentsUrl}");
+                }
+                else if (fileType == "file")
+                {
+                    var downloadUrl = (string)file["download_url"];
+                    // use this URL to download the contents of the file
+                    Debug.WriteLine($"DOWNLOAD: {downloadUrl}");
+                }
+            }
+
+            Debug.WriteLine("Done");
         }
     }
 }
