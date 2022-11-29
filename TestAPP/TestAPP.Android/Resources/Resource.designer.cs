@@ -26100,178 +26100,181 @@ namespace TestAPP.Droid
 			public const int tooltip_frame_light = 2131166542;
 			
 			// aapt resource value: 0x7F07054F
-			public const int Zurich1 = 2131166543;
+			public const int WIP = 2131166543;
 			
 			// aapt resource value: 0x7F070550
-			public const int Zurich10 = 2131166544;
+			public const int Zurich1 = 2131166544;
 			
 			// aapt resource value: 0x7F070551
-			public const int Zurich11 = 2131166545;
+			public const int Zurich10 = 2131166545;
 			
 			// aapt resource value: 0x7F070552
-			public const int Zurich12 = 2131166546;
+			public const int Zurich11 = 2131166546;
 			
 			// aapt resource value: 0x7F070553
-			public const int Zurich13 = 2131166547;
+			public const int Zurich12 = 2131166547;
 			
 			// aapt resource value: 0x7F070554
-			public const int Zurich14 = 2131166548;
+			public const int Zurich13 = 2131166548;
 			
 			// aapt resource value: 0x7F070555
-			public const int Zurich15 = 2131166549;
+			public const int Zurich14 = 2131166549;
 			
 			// aapt resource value: 0x7F070556
-			public const int Zurich16 = 2131166550;
+			public const int Zurich15 = 2131166550;
 			
 			// aapt resource value: 0x7F070557
-			public const int Zurich17 = 2131166551;
+			public const int Zurich16 = 2131166551;
 			
 			// aapt resource value: 0x7F070558
-			public const int Zurich18 = 2131166552;
+			public const int Zurich17 = 2131166552;
 			
 			// aapt resource value: 0x7F070559
-			public const int Zurich19 = 2131166553;
+			public const int Zurich18 = 2131166553;
 			
 			// aapt resource value: 0x7F07055A
-			public const int Zurich2 = 2131166554;
+			public const int Zurich19 = 2131166554;
 			
 			// aapt resource value: 0x7F07055B
-			public const int Zurich20 = 2131166555;
+			public const int Zurich2 = 2131166555;
 			
 			// aapt resource value: 0x7F07055C
-			public const int Zurich21 = 2131166556;
+			public const int Zurich20 = 2131166556;
 			
 			// aapt resource value: 0x7F07055D
-			public const int Zurich22 = 2131166557;
+			public const int Zurich21 = 2131166557;
 			
 			// aapt resource value: 0x7F07055E
-			public const int Zurich23 = 2131166558;
+			public const int Zurich22 = 2131166558;
 			
 			// aapt resource value: 0x7F07055F
-			public const int Zurich24 = 2131166559;
+			public const int Zurich23 = 2131166559;
 			
 			// aapt resource value: 0x7F070560
-			public const int Zurich25 = 2131166560;
+			public const int Zurich24 = 2131166560;
 			
 			// aapt resource value: 0x7F070561
-			public const int Zurich26 = 2131166561;
+			public const int Zurich25 = 2131166561;
 			
 			// aapt resource value: 0x7F070562
-			public const int Zurich27 = 2131166562;
+			public const int Zurich26 = 2131166562;
 			
 			// aapt resource value: 0x7F070563
-			public const int Zurich28 = 2131166563;
+			public const int Zurich27 = 2131166563;
 			
 			// aapt resource value: 0x7F070564
-			public const int Zurich29 = 2131166564;
+			public const int Zurich28 = 2131166564;
 			
 			// aapt resource value: 0x7F070565
-			public const int Zurich3 = 2131166565;
+			public const int Zurich29 = 2131166565;
 			
 			// aapt resource value: 0x7F070566
-			public const int Zurich30 = 2131166566;
+			public const int Zurich3 = 2131166566;
 			
 			// aapt resource value: 0x7F070567
-			public const int Zurich31 = 2131166567;
+			public const int Zurich30 = 2131166567;
 			
 			// aapt resource value: 0x7F070568
-			public const int Zurich32 = 2131166568;
+			public const int Zurich31 = 2131166568;
 			
 			// aapt resource value: 0x7F070569
-			public const int Zurich33 = 2131166569;
+			public const int Zurich32 = 2131166569;
 			
 			// aapt resource value: 0x7F07056A
-			public const int Zurich34 = 2131166570;
+			public const int Zurich33 = 2131166570;
 			
 			// aapt resource value: 0x7F07056B
-			public const int Zurich35 = 2131166571;
+			public const int Zurich34 = 2131166571;
 			
 			// aapt resource value: 0x7F07056C
-			public const int Zurich36 = 2131166572;
+			public const int Zurich35 = 2131166572;
 			
 			// aapt resource value: 0x7F07056D
-			public const int Zurich37 = 2131166573;
+			public const int Zurich36 = 2131166573;
 			
 			// aapt resource value: 0x7F07056E
-			public const int Zurich38 = 2131166574;
+			public const int Zurich37 = 2131166574;
 			
 			// aapt resource value: 0x7F07056F
-			public const int Zurich39 = 2131166575;
+			public const int Zurich38 = 2131166575;
 			
 			// aapt resource value: 0x7F070570
-			public const int Zurich4 = 2131166576;
+			public const int Zurich39 = 2131166576;
 			
 			// aapt resource value: 0x7F070571
-			public const int Zurich40 = 2131166577;
+			public const int Zurich4 = 2131166577;
 			
 			// aapt resource value: 0x7F070572
-			public const int Zurich41 = 2131166578;
+			public const int Zurich40 = 2131166578;
 			
 			// aapt resource value: 0x7F070573
-			public const int Zurich42 = 2131166579;
+			public const int Zurich41 = 2131166579;
 			
 			// aapt resource value: 0x7F070574
-			public const int Zurich43 = 2131166580;
+			public const int Zurich42 = 2131166580;
 			
 			// aapt resource value: 0x7F070575
-			public const int Zurich44 = 2131166581;
+			public const int Zurich43 = 2131166581;
 			
 			// aapt resource value: 0x7F070576
-			public const int Zurich45 = 2131166582;
+			public const int Zurich44 = 2131166582;
 			
 			// aapt resource value: 0x7F070577
-			public const int Zurich46 = 2131166583;
+			public const int Zurich45 = 2131166583;
 			
 			// aapt resource value: 0x7F070578
-			public const int Zurich47 = 2131166584;
+			public const int Zurich46 = 2131166584;
 			
 			// aapt resource value: 0x7F070579
-			public const int Zurich48 = 2131166585;
+			public const int Zurich47 = 2131166585;
 			
 			// aapt resource value: 0x7F07057A
-			public const int Zurich49 = 2131166586;
+			public const int Zurich48 = 2131166586;
 			
 			// aapt resource value: 0x7F07057B
-			public const int Zurich5 = 2131166587;
+			public const int Zurich49 = 2131166587;
 			
 			// aapt resource value: 0x7F07057C
-			public const int Zurich50 = 2131166588;
+			public const int Zurich5 = 2131166588;
 			
 			// aapt resource value: 0x7F07057D
-			public const int Zurich51 = 2131166589;
+			public const int Zurich50 = 2131166589;
 			
 			// aapt resource value: 0x7F07057E
-			public const int Zurich52 = 2131166590;
+			public const int Zurich51 = 2131166590;
 			
 			// aapt resource value: 0x7F07057F
-			public const int Zurich53 = 2131166591;
+			public const int Zurich52 = 2131166591;
 			
 			// aapt resource value: 0x7F070580
-			public const int Zurich54 = 2131166592;
+			public const int Zurich53 = 2131166592;
 			
 			// aapt resource value: 0x7F070581
-			public const int Zurich55 = 2131166593;
+			public const int Zurich54 = 2131166593;
 			
 			// aapt resource value: 0x7F070582
-			public const int Zurich56 = 2131166594;
+			public const int Zurich55 = 2131166594;
 			
 			// aapt resource value: 0x7F070583
-			public const int Zurich57 = 2131166595;
+			public const int Zurich56 = 2131166595;
 			
 			// aapt resource value: 0x7F070584
-			public const int Zurich58 = 2131166596;
+			public const int Zurich57 = 2131166596;
 			
 			// aapt resource value: 0x7F070585
-			public const int Zurich6 = 2131166597;
+			public const int Zurich58 = 2131166597;
 			
 			// aapt resource value: 0x7F070586
-			public const int Zurich7 = 2131166598;
+			public const int Zurich6 = 2131166598;
 			
 			// aapt resource value: 0x7F070587
-			public const int Zurich8 = 2131166599;
+			public const int Zurich7 = 2131166599;
 			
 			// aapt resource value: 0x7F070588
-			public const int Zurich9 = 2131166600;
+			public const int Zurich8 = 2131166600;
+			
+			// aapt resource value: 0x7F070589
+			public const int Zurich9 = 2131166601;
 			
 			static Drawable()
 			{
