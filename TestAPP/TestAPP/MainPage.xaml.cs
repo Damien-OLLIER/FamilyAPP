@@ -13,10 +13,14 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -1408,10 +1412,64 @@ namespace TestAPP
                     var downloadUrl = (string)file["download_url"];
                     // use this URL to download the contents of the file
                     Debug.WriteLine($"DOWNLOAD: {downloadUrl}");
+                    //downloadUrl = downloadUrl.Remove(0, 1);
+
+                    using (WebClient wc = new WebClient())
+                    {
+                        var encoding = wc.Encoding.ToString();
+                        var json = wc.DownloadString(downloadUrl);
+
+                        var ob = JsonConvert.DeserializeObject<Root>(json);
+
+                        //Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(json);
+                        foreach (var result in ob.results) 
+                        {
+                            Debug.WriteLine(result.name);                       
+                        }
+                    }
+
+                    //using (StreamReader r = new StreamReader(downloadUrl))
+                    //{
+                    //    string json = r.ReadToEnd();
+                    //    Debug.WriteLine(json);
+                    //}
                 }
             }
 
             Debug.WriteLine("Done");
+        }
+        //public class Item
+        //{
+        //    public int lat { get; set; }
+        //    public int lng { get; set; }
+        //    public string name { get; set; }
+        //    public string vicinity { get; set; }
+        //}
+
+        public class Geometry
+        {
+            public Location location { get; set; }
+        }
+
+        public class Location
+        {
+            public double lat { get; set; }
+            public double lng { get; set; }
+        }
+
+        public class Result
+        {
+            public Geometry geometry { get; set; }
+            public string name { get; set; }
+            public string vicinity { get; set; }
+        }
+
+        public class Root
+        {
+            public List<object> html_attributions { get; set; }
+            public string next_page_token { get; set; }
+            public List<Result> results { get; set; }
+            public string status { get; set; }
         }
     }
 }
