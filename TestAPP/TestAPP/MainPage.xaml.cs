@@ -1398,25 +1398,70 @@ namespace TestAPP
 
             Debug.WriteLine("Biginning");
 
+            var i = 0;
             foreach (var file in contents)
             {
+                i += 1;
                 var fileType = (string)file["type"];
                 if (fileType == "dir")
                 {
                     var directoryContentsUrl = (string)file["url"];
                     // use this URL to list the contents of the folder
                     Debug.WriteLine($"DIR: {directoryContentsUrl}");
+
+                
+                    if (directoryContentsUrl.Contains(".vs?ref=main"))
+                    {
+                        
+                    }
+                    else 
+                    {
+                        var contentsJson1 = await httpClient.GetStringAsync(directoryContentsUrl);
+
+                        Debug.WriteLine("**************");
+                        Debug.WriteLine("");
+                        Debug.WriteLine(contentsJson1);
+                        Debug.WriteLine("");
+                        Debug.WriteLine("**************");
+                        Debug.WriteLine("");
+
+                        // Folder, where a file is created.  
+                        // Make sure to change this folder to your own folder  
+                        string folder = @"C:\Temp\";
+                        // Filename  
+                        string fileName = "CSharpCornerAuthors" + i + ".json";
+                        // Fullpath. You can direct hardcode it if you like.  
+                        string fullPath = folder + fileName;
+                        // An array of strings  
+                        
+                        // Write array of strings to a file using WriteAllLines.  
+                        // If the file does not exists, it will create a new file.  
+                        // This method automatically opens the file, writes to it, and closes file  
+                        File.WriteAllText(fullPath, contentsJson1);
+                        // Read a file  
+                        string readText = File.ReadAllText(fullPath);
+                        Console.WriteLine("c'est le text " + i + ":" + readText);
+
+                        var ob = JsonConvert.DeserializeObject<Root>(directoryContentsUrl);
+
+                    }
+
+                    //RootPictures test = new RootPictures();
+
+                    //RootPictures ob = JsonConvert.DeserializeAnonymousType<RootPictures>(contentsJson1, test);
+
+                    //Debug.WriteLine(ob.download_url.ToString());
+
                 }
                 else if (fileType == "file")
                 {
                     var downloadUrl = (string)file["download_url"];
-                    // use this URL to download the contents of the file
                     Debug.WriteLine($"DOWNLOAD: {downloadUrl}");
-                    //downloadUrl = downloadUrl.Remove(0, 1);
 
                     using (WebClient wc = new WebClient())
                     {
-                        var encoding = wc.Encoding.ToString();
+                        var b = wc.Encoding;
+
                         var json = wc.DownloadString(downloadUrl);
 
                         var ob = JsonConvert.DeserializeObject<Root>(json);
@@ -1427,25 +1472,11 @@ namespace TestAPP
                             Debug.WriteLine(result.name);                       
                         }
                     }
-
-                    //using (StreamReader r = new StreamReader(downloadUrl))
-                    //{
-                    //    string json = r.ReadToEnd();
-                    //    Debug.WriteLine(json);
-                    //}
                 }
             }
 
             Debug.WriteLine("Done");
         }
-        //public class Item
-        //{
-        //    public int lat { get; set; }
-        //    public int lng { get; set; }
-        //    public string name { get; set; }
-        //    public string vicinity { get; set; }
-        //}
-
         public class Geometry
         {
             public Location location { get; set; }
@@ -1471,6 +1502,28 @@ namespace TestAPP
             public List<Result> results { get; set; }
             public string status { get; set; }
         }
+
+        public class Links
+        {
+            public string self { get; set; }
+            public string git { get; set; }
+            public string html { get; set; }
+        }
+
+        public class RootPictures
+        {
+            public string name { get; set; }
+            public string path { get; set; }
+            public string sha { get; set; }
+            public int size { get; set; }
+            public string url { get; set; }
+            public string html_url { get; set; }
+            public string git_url { get; set; }
+            public string download_url { get; set; }
+            public string type { get; set; }
+            public Links _links { get; set; }
+        }
+
     }
 }
 
