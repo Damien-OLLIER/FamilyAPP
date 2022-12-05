@@ -1398,10 +1398,10 @@ namespace TestAPP
 
             Debug.WriteLine("Biginning");
 
-            var i = 0;
+            List<string> JSONList = new List<string>();
+
             foreach (var file in contents)
             {
-                i += 1;
                 var fileType = (string)file["type"];
                 if (fileType == "dir")
                 {
@@ -1418,31 +1418,17 @@ namespace TestAPP
                     {
                         var contentsJson1 = await httpClient.GetStringAsync(directoryContentsUrl);
 
-                        Debug.WriteLine("**************");
-                        Debug.WriteLine("");
-                        Debug.WriteLine(contentsJson1);
-                        Debug.WriteLine("");
-                        Debug.WriteLine("**************");
-                        Debug.WriteLine("");
+                        //Debug.WriteLine("**************");
+                        //Debug.WriteLine("");
+                        //Debug.WriteLine(contentsJson1);
+                        //Debug.WriteLine("");
+                        //Debug.WriteLine("**************");
+                        //Debug.WriteLine("");
 
-                        // Folder, where a file is created.  
-                        // Make sure to change this folder to your own folder  
-                        string folder = @"C:\Temp\";
-                        // Filename  
-                        string fileName = "CSharpCornerAuthors" + i + ".json";
-                        // Fullpath. You can direct hardcode it if you like.  
-                        string fullPath = folder + fileName;
-                        // An array of strings  
-                        
-                        // Write array of strings to a file using WriteAllLines.  
-                        // If the file does not exists, it will create a new file.  
-                        // This method automatically opens the file, writes to it, and closes file  
-                        File.WriteAllText(fullPath, contentsJson1);
-                        // Read a file  
-                        string readText = File.ReadAllText(fullPath);
-                        Console.WriteLine("c'est le text " + i + ":" + readText);
+                        JSONList.Add(contentsJson1);
 
-                        var ob = JsonConvert.DeserializeObject<Root>(directoryContentsUrl);
+
+                        // var ob = JsonConvert.DeserializeObject<Root>(directoryContentsUrl);
 
                     }
 
@@ -1475,6 +1461,7 @@ namespace TestAPP
                 }
             }
 
+            var test = JSONList;
             Debug.WriteLine("Done");
         }
         public class Geometry
