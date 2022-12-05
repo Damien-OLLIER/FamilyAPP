@@ -1293,16 +1293,13 @@ namespace TestAPP
 
                 Colors.Add("Je t'aime");
                 Colors.Add("Tu me manques");
+                Colors.Add("Roulades !");
+                Colors.Add("Damien !");
                 Colors.Add("Arrete ou je te pete dessus");
                 Colors.Add("J'ai hate de rentrer sur Lyon");
                 Colors.Add("Oui je veux aussi un boubou");
-                Colors.Add("Oui je veux aussi deux boubou");
-                Colors.Add("Oui je veux aussi trois boubou");
                 Colors.Add("Tu veux combien d'animaux ?");
-                Colors.Add("T'es sur que tu veux pas de baleine");
-                Colors.Add("Ton application est trop bien t'es le meilleure je t'aime de tout mon coeur !");
-                Colors.Add("J'ai trouvé la première surprise, hate de la partager avec toi !");
-                Colors.Add("Je suis prête et j'adore la deuxième surprise !");
+                Colors.Add("Je t'aime de tout mon coeur !");
                 Colors.Add("J'arrive !");
             }
         }
