@@ -1294,13 +1294,13 @@ namespace TestAPP
                 Colors.Add("Je t'aime");
                 Colors.Add("Tu me manques");
                 Colors.Add("Roulades !");
+                Colors.Add("Tipi !");
                 Colors.Add("Damien !");
                 Colors.Add("Arrete ou je te pete dessus");
                 Colors.Add("J'ai hate de rentrer sur Lyon");
                 Colors.Add("Oui je veux aussi un boubou");
-                Colors.Add("Tu veux combien d'animaux ?");
-                Colors.Add("Je t'aime de tout mon coeur !");
-                Colors.Add("J'arrive !");
+                Colors.Add("T'es sur que tu veux pas de baleine");
+                Colors.Add("T'es le meilleure je t'aime de tout mon coeur !");
             }
         }
 
