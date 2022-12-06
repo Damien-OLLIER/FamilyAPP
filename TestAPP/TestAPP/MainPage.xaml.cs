@@ -1300,17 +1300,14 @@ namespace TestAPP
 
                 Colors.Add("Je t'aime");
                 Colors.Add("Tu me manques");
+                Colors.Add("Roulades !");
+                Colors.Add("Tipi !");
+                Colors.Add("Damien !");
                 Colors.Add("Arrete ou je te pete dessus");
                 Colors.Add("J'ai hate de rentrer sur Lyon");
                 Colors.Add("Oui je veux aussi un boubou");
-                Colors.Add("Oui je veux aussi deux boubou");
-                Colors.Add("Oui je veux aussi trois boubou");
-                Colors.Add("Tu veux combien d'animaux ?");
                 Colors.Add("T'es sur que tu veux pas de baleine");
-                Colors.Add("Ton application est trop bien t'es le meilleure je t'aime de tout mon coeur !");
-                Colors.Add("J'ai trouvé la première surprise, hate de la partager avec toi !");
-                Colors.Add("Je suis prête et j'adore la deuxième surprise !");
-                Colors.Add("J'arrive !");
+                Colors.Add("T'es le meilleure je t'aime de tout mon coeur !");
             }
         }
 
@@ -1370,7 +1367,6 @@ namespace TestAPP
             for (int i = 1; i < 48; i++)
             {
                 TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/Autriche/Autriche" + i + ".JPG");
-                Debug.WriteLine(TestList[i - 1]);
             }
 
             TheCarousel.ItemsSource = TestList;
@@ -1381,8 +1377,17 @@ namespace TestAPP
             Indicator.Text = indicatorview.Position.ToString();
         }
 
-        private void OnTapGestureRecognizerTappedTest(object sender, EventArgs e)
+        private async void OnTapGestureRecognizerTappedTest(object sender, EventArgs e)
         {
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.UserAgent.Add(
+                new ProductInfoHeaderValue("MyApplication", "1"));
+            var repo = "Damien-OLLIER/AppPictures";
+            var contentsUrl = $"https://api.github.com/repos/{repo}/contents";
+            var contentsJson = await httpClient.GetStringAsync(contentsUrl);
+            var contents = (JArray)JsonConvert.DeserializeObject(contentsJson);
+
+            this.BindingContext = new MapsViewModel(contents);
             popupLayoutTest.Show();
         }
 
@@ -1391,7 +1396,7 @@ namespace TestAPP
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.UserAgent.Add(
                 new ProductInfoHeaderValue("MyApplication", "1"));
-            var repo = "Damien-OLLIER/AppPictures";
+             var repo = "Damien-OLLIER/AppPictures";
             var contentsUrl = $"https://api.github.com/repos/{repo}/contents";
             var contentsJson = await httpClient.GetStringAsync(contentsUrl);
             var contents = (JArray)JsonConvert.DeserializeObject(contentsJson);
@@ -1464,6 +1469,7 @@ namespace TestAPP
             var test = JSONList;
             Debug.WriteLine("Done");
         }
+
         public class Geometry
         {
             public Location location { get; set; }
@@ -1480,6 +1486,7 @@ namespace TestAPP
             public Geometry geometry { get; set; }
             public string name { get; set; }
             public string vicinity { get; set; }
+            public string GitName { get; set; }
         }
 
         public class Root
@@ -1511,6 +1518,12 @@ namespace TestAPP
             public Links _links { get; set; }
         }
 
+        private void Button_Clicked_3(object sender, EventArgs e)
+        {
+
+        }
+
+       
     }
 }
 

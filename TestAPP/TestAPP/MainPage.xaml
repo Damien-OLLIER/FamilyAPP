@@ -453,6 +453,7 @@
         <Grid BackgroundColor="#F3F5F9">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
                 <RowDefinition Height="5" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="20" />
@@ -514,13 +515,15 @@
                 <!--To Modify: Boutton pas important car invisible donc potentiellement à supprimer. Il devait me servir à la base pour les tests afin d'ouvrir la PopUp-->
                 <sfPopup:SfPopupLayout.Content>
                     <StackLayout>
-                        <Button Text="Click to show popup" Clicked="isOpenButton_Clicked" IsVisible="false"/>
+                        <Button Text="Click to show popup" Clicked="isOpenButton_Clicked" IsVisible="true"/>
                     </StackLayout>
                 </sfPopup:SfPopupLayout.Content>
 
             </sfPopup:SfPopupLayout>
 
             <Button Grid.Row="0" Text="click" Clicked="Button_Clicked_2"/>
+            <Button Grid.Row="1" Text="click" Clicked="Button_Clicked_3"/>
+
             <!--<Image Source="https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/Autriche1.JPG"
                         Aspect="AspectFit" HorizontalOptions="Center" Grid.Row="0"/>-->
 
@@ -537,7 +540,7 @@
             x:Name="TheCarousel"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
             AbsoluteLayout.LayoutFlags="All"
-            Grid.Row="2"
+            Grid.Row="3"
             IndicatorView="indicatorview" CurrentItemChanged="TheCarousel_CurrentItemChanged"  >
 
                 <CarouselView.ItemTemplate>
@@ -572,7 +575,7 @@
             IndicatorSize="10"
             SelectedIndicatorColor="Black" Grid.Row="3" IsEnabled="False" IsVisible="False"/>
 
-            <Label x:Name="Indicator" Text="1" Grid.Row="3" HorizontalOptions="Center"/>
+            <Label x:Name="Indicator" Text="1" Grid.Row="4" HorizontalOptions="Center"/>
 
         </Grid>
 
