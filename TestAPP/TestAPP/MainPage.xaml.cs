@@ -1518,12 +1518,96 @@ namespace TestAPP
             public Links _links { get; set; }
         }
 
-        private void Button_Clicked_3(object sender, EventArgs e)
+        private async void Button_Clicked_3(object sender, EventArgs e)
         {
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.UserAgent.Add(
+                new ProductInfoHeaderValue("MyApplication", "1"));
+            var repo = "Damien-OLLIER/AppPictures";
+            var contentsUrl = $"https://api.github.com/repos/{repo}/contents";
+            var contentsJson = await httpClient.GetStringAsync(contentsUrl);
+            var contents = (JArray)JsonConvert.DeserializeObject(contentsJson);
 
+            Debug.WriteLine("Biginning");
+
+            List<string> JSONList = new List<string>();
+
+            var file = contents[1];
+            var GitUrl  = (string)file["git_url"];
+            var contentsJson1 = await httpClient.GetStringAsync(GitUrl);
+
+            var fileType = (string)file["sha"];
+            var directoryContentsUrl = file["tree"];
+
+            //foreach (var file in contents)
+            //{
+            //    var fileType = (string)file["type"];
+            //    if (fileType == "dir")
+            //    {
+            //        var directoryContentsUrl = (string)file["git_url"];
+            //        // use this URL to list the contents of the folder
+            //        Debug.WriteLine($"DIR: {directoryContentsUrl}");
+
+
+            //        if (directoryContentsUrl.Contains(".vs?ref=main"))
+            //        {
+
+            //        }
+            //        else
+            //        {
+            //            var contentsJson1 = await httpClient.GetStringAsync(directoryContentsUrl);
+
+            //            JSONList.Add(contentsJson1);
+            //        }
+            //    }
+            //    else if (fileType == "file")
+            //    {
+            //        var downloadUrl = (string)file["download_url"];
+            //        Debug.WriteLine($"DOWNLOAD: {downloadUrl}");
+
+            //        using (WebClient wc = new WebClient())
+            //        {
+            //            var b = wc.Encoding;
+
+            //            var json = wc.DownloadString(downloadUrl);
+
+            //            var ob = JsonConvert.DeserializeObject<Root>(json);
+
+            //            foreach (var result in ob.results)
+            //            {
+            //                Debug.WriteLine(result.name);
+            //            }
+            //        }
+            //    }
+            //}
+
+            var test = JSONList;
         }
 
-       
+        private void listView_SelectionChanged_1(object sender, ItemSelectionChangedEventArgs e)
+        {
+            //On recupere l'info sur la destination choisi
+            var SelectedItem = e.AddedItems;
+            var SelectedItem0 = SelectedItem[0];
+
+            //On converti l'objet reçu en Maps avec ses attributs
+            var maps = SelectedItem0 as Maps;
+
+            var GitNamePicture = maps.gitname;
+
+            var TestList = new List<string>
+            { };
+
+            for (int i = 1; i <= 5; i += 1)
+            {
+                /* https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/ */
+                TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/" + GitNamePicture + "/" + GitNamePicture + i + ".JPG");
+            }
+
+            TheCarousel.ItemsSource = TestList;
+                        
+            //Close the PopUp Layout
+            popupLayoutTest.IsOpen = false;
+        }
     }
 }
-

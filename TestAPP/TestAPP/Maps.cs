@@ -12,12 +12,14 @@ namespace TestAPP
     {
         private string CountryList;
         private string Description;
+        private string Gitname;
         private string pays;
 
-        public Maps(string name, string number)
+        public Maps(string name, string number, string gitname)
         {
             CountryList = name;
             Description = number;
+            Gitname = gitname;
         }
 
         public string countryList
@@ -30,6 +32,10 @@ namespace TestAPP
             get { return Description; }
         }
 
+        public string gitname
+        {
+            get { return Gitname; }
+        }
         public string Pays
         {
             get { return pays; }
@@ -41,6 +47,5 @@ namespace TestAPP
                 }
             }
         }       
-
     }
 }

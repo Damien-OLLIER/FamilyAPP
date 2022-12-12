@@ -468,7 +468,7 @@
                             <!--On met en place le Template (Contenu de la fenetre)-->
                             <DataTemplate>
                                 <!--Le contenu de la PopUp sera donc une list view, plus d'info https://help.syncfusion.com/xamarin/listview/getting-started -->
-                                <sfListView:SfListView  x:Name="listView"  ItemSpacing="5" WidthRequest="380" ItemSize="100" SelectionChanged="listView_SelectionChanged" ColumnDefinitions="2"  ItemsSource="{Binding Items}" >
+                                <sfListView:SfListView  x:Name="listView"  ItemSpacing="5" WidthRequest="380" ItemSize="100" SelectionChanged="listView_SelectionChanged_1"  ColumnDefinitions="2"  ItemsSource="{Binding Items}" >
                                     <sfListView:SfListView.ItemTemplate>
                                         <DataTemplate>
                                             <ViewCell>

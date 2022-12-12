@@ -70,7 +70,7 @@ namespace TestAPP
 
             for (int i = 0; i < placesList.Count(); i++)
             {
-                var MapsInfo = new Maps(placesList[i].PlaceName, placesList[i].Address);
+                var MapsInfo = new Maps(placesList[i].PlaceName, placesList[i].Address, "test2");
                 MapsInfo.Pays = placesList[i].Address;
                 Items.Add(MapsInfo);
             }
@@ -111,6 +111,7 @@ namespace TestAPP
                                 PlaceName = place.name,
                                 Address = place.vicinity,
                                 Location = place.geometry.location,
+                                Gitname = place.Gitname,
                                 Position = new Position(place.geometry.location.lat, place.geometry.location.lng),
                             });
                         }
@@ -119,7 +120,7 @@ namespace TestAPP
 
                         for (int i = 0; i < placesList.Count(); i++)
                         {
-                            var MapsInfo = new Maps(placesList[i].PlaceName, placesList[i].Address);
+                            var MapsInfo = new Maps(placesList[i].PlaceName, placesList[i].Address, placesList[i].Gitname);
                             MapsInfo.Pays = placesList[i].Address;
                             Items.Add(MapsInfo);
                         }
