@@ -23,6 +23,7 @@ namespace TestAPP
     public class MapsViewModel : INotifyPropertyChanged
     {
         #region Properties
+        static public JArray RespoJSON { get; set; }
 
         public ObservableCollection<Maps> Items { get; set; }
         List<Place> placesList = new List<Place>();
@@ -78,7 +79,8 @@ namespace TestAPP
             //Pour chaque iteration de "resultObject", on a acces à ses parametres tels que l'adressem la position, etc...
         }
         public MapsViewModel(JArray contents)
-        {          
+        {
+            RespoJSON = contents;
 
             foreach (var file in contents)
             {
@@ -90,10 +92,7 @@ namespace TestAPP
                 else if (filetype == "file")
                 {
                     var downloadurl = (string)file["download_url"];
-                    Debug.WriteLine("");
-                    Debug.WriteLine("*******");
-                    Debug.WriteLine($"download: {downloadurl}");
-
+                   
                     using (WebClient wc = new WebClient())
                     {
                         Debug.WriteLine("");
@@ -126,25 +125,7 @@ namespace TestAPP
                         }
                     }
                 }
-            }
-
-
-            //// On recupere les Infos du Fichier JSON (Longitude, Latitude, etc...)
-            //var assembly = IntrospectionExtensions.GetTypeInfo(typeof(MainPage)).Assembly;
-            //Stream stream = assembly.GetManifestResourceStream("TestAPP.Places.json");
-
-            //// On met tout ça en format text 
-            //string text = string.Empty;
-            //using (var reader = new StreamReader(stream, Encoding.UTF7))
-            //{
-            //    text = reader.ReadToEnd();
-            //}
-
-            // On creer l'objet  "resultObject" qui contient toutes les infos
-            // var resultObject = JsonConvert.DeserializeObject<Places>(text);
-
-            // Pour chaque iteration de "resultObject", on a acces à ses parametres tels que l'adressem la position, etc...
-            
+            }            
         }
 
         public void test() 

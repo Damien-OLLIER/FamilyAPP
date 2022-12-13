@@ -1,13 +1,10 @@
-﻿using AndroidX.Lifecycle;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Plugin.Media;
 using Plugin.Messaging;
 using Syncfusion.ListView.XForms;
 using Syncfusion.SfPicker.XForms;
-using Syncfusion.XForms.Cards;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -18,17 +15,12 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
-using System.Text.Encodings.Web;
-using System.Text.Json;
-using System.Text.Unicode;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
-using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 
 namespace TestAPP
 {
@@ -1374,7 +1366,7 @@ namespace TestAPP
 
         private void TheCarousel_CurrentItemChanged(object sender, CurrentItemChangedEventArgs e)
         {
-            Indicator.Text = indicatorview.Position.ToString();
+            Indicator.Text = (indicatorview.Position + 1).ToString();
         }
 
         private async void OnTapGestureRecognizerTappedTest(object sender, EventArgs e)
@@ -1533,58 +1525,30 @@ namespace TestAPP
             List<string> JSONList = new List<string>();
 
             var file = contents[1];
+            var Name = (string)file["name"];
+
             var GitUrl  = (string)file["git_url"];
-            var contentsJson1 = await httpClient.GetStringAsync(GitUrl);
+            string contentsJson1 = await httpClient.GetStringAsync(GitUrl);
 
-            var fileType = (string)file["sha"];
-            var directoryContentsUrl = file["tree"];
+            JObject json = JObject.Parse(contentsJson1);
 
-            //foreach (var file in contents)
-            //{
-            //    var fileType = (string)file["type"];
-            //    if (fileType == "dir")
-            //    {
-            //        var directoryContentsUrl = (string)file["git_url"];
-            //        // use this URL to list the contents of the folder
-            //        Debug.WriteLine($"DIR: {directoryContentsUrl}");
+            var sha = (string)json["sha"];
+            var tree = json["tree"];
 
+            var TestList = new List<string>
+            { };
 
-            //        if (directoryContentsUrl.Contains(".vs?ref=main"))
-            //        {
-
-            //        }
-            //        else
-            //        {
-            //            var contentsJson1 = await httpClient.GetStringAsync(directoryContentsUrl);
-
-            //            JSONList.Add(contentsJson1);
-            //        }
-            //    }
-            //    else if (fileType == "file")
-            //    {
-            //        var downloadUrl = (string)file["download_url"];
-            //        Debug.WriteLine($"DOWNLOAD: {downloadUrl}");
-
-            //        using (WebClient wc = new WebClient())
-            //        {
-            //            var b = wc.Encoding;
-
-            //            var json = wc.DownloadString(downloadUrl);
-
-            //            var ob = JsonConvert.DeserializeObject<Root>(json);
-
-            //            foreach (var result in ob.results)
-            //            {
-            //                Debug.WriteLine(result.name);
-            //            }
-            //        }
-            //    }
-            //}
-
-            var test = JSONList;
+            foreach (var Tree in tree)
+            {
+                var Path = (string)Tree["path"];
+                TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/" + Name + "/" + Path);
+            }
+                 
+           
+            TheCarousel.ItemsSource = TestList;
         }
 
-        private void listView_SelectionChanged_1(object sender, ItemSelectionChangedEventArgs e)
+        private async void listView_SelectionChanged_1(object sender, ItemSelectionChangedEventArgs e)
         {
             //On recupere l'info sur la destination choisi
             var SelectedItem = e.AddedItems;
@@ -1595,19 +1559,43 @@ namespace TestAPP
 
             var GitNamePicture = maps.gitname;
 
-            var TestList = new List<string>
-            { };
+            var RespoJSON = MapsViewModel.RespoJSON;
 
-            for (int i = 1; i <= 5; i += 1)
+            var httpClient = new HttpClient();
+
+            foreach (var file in RespoJSON)
             {
-                /* https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/ */
-                TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/" + GitNamePicture + "/" + GitNamePicture + i + ".JPG");
-            }
+                var fileName = (string)file["name"];
+                if (GitNamePicture == fileName) 
+                {
+                    var GitUrl = (string)file["git_url"];
 
-            TheCarousel.ItemsSource = TestList;
-                        
-            //Close the PopUp Layout
-            popupLayoutTest.IsOpen = false;
+
+                    string contentsJson1 = await httpClient.GetStringAsync(GitUrl);
+
+                    JObject json = JObject.Parse(contentsJson1);
+
+                    var sha = (string)json["sha"];
+                    var tree = json["tree"];
+
+                    var TestList = new List<string>
+                    { };
+
+                    foreach (var Tree in tree)
+                    {
+                        var Path = (string)Tree["path"];
+                        TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/" + fileName + "/" + Path);
+                    }
+
+
+                    TheCarousel.ItemsSource = TestList;
+                    popupLayoutTest.IsOpen = false;
+                }
+                else 
+                {
+
+                }
+            }
         }
     }
 }
