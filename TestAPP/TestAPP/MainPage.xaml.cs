@@ -603,7 +603,14 @@ namespace TestAPP
                 if (SelectedItem != "")
                 {
                     //On place en mémoire le bon numero selectionné
-                    numero = SelectedItem;
+                    if (SelectedItem == "Damien") 
+                    {
+                        numero = "+33632183163";
+                    }
+                    else 
+                    {
+                        numero = "+33695790868";
+                    }
                 }
             }// sinon il ne se passe rien outre le fait que la fenetre PopUp se ferme
         }
@@ -1316,8 +1323,8 @@ namespace TestAPP
             public Telephone()
             {
                 Number = new ObservableCollection<string>();
-                Number.Add("+33632183163");
-                Number.Add("+33695790868");
+                Number.Add("Damien"); //+33632183163
+                Number.Add("Camille"); //+33695790868
             }
         }
 
@@ -1586,8 +1593,6 @@ namespace TestAPP
                         var Path = (string)Tree["path"];
                         TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/" + fileName + "/" + Path);
                     }
-
-
                     TheCarousel.ItemsSource = TestList;
                     popupLayoutTest.IsOpen = false;
                 }

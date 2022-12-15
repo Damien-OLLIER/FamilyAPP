@@ -524,18 +524,6 @@
             <Button Grid.Row="0" Text="click" Clicked="Button_Clicked_2"/>
             <Button Grid.Row="1" Text="click" Clicked="Button_Clicked_3"/>
 
-            <!--<Image Source="https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/Autriche1.JPG"
-                        Aspect="AspectFit" HorizontalOptions="Center" Grid.Row="0"/>-->
-
-            <!--<xct:MediaElement Source="https://sec.ch9.ms/ch9/5d93/a1eab4bf-3288-4faf-81c4-294402a85d93/XamarinShow_mid.mp4" AutoPlay="True"  ShowsPlaybackControls="True" Grid.Row="0"/>-->
-
-            <!--<Image Source="https://github.com/Damien-OLLIER/TestAPPgit/blob/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/Autriche13.JPG"
-                        Aspect="AspectFit" HorizontalOptions="Center" Grid.Row="0"/>-->
-
-
-            <!--<Image Source="https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/Autriche3.JPG"
-                        Aspect="AspectFit" HorizontalOptions="Center" Grid.Row="2"/>-->
-
             <CarouselView
             x:Name="TheCarousel"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
@@ -578,12 +566,7 @@
             <Label x:Name="Indicator" Text="1" Grid.Row="4" HorizontalOptions="Center"/>
 
         </Grid>
-
-
     </ContentPage>
-
-
-
 </TabbedPage>
 
     
