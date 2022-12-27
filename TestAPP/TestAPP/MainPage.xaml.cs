@@ -909,7 +909,23 @@ namespace TestAPP
 
                 NumberOfItems = 79;
             }
+            else if (Lieu == "Innsbruck")
+            {
+                var AutrichePicture = new ObservableCollection<Image>();
 
+                for (int i = 1; i < 47; i++)
+                {
+                    AutrichePicture.Add(new Image { Name = "Autriche" + i + ".JPG" });
+                }
+
+                Carousel.ItemsSource = AutrichePicture;
+
+                popupLayout.IsOpen = false;
+
+                LabelDescription.Text = "Description : " + Description;
+
+                NumberOfItems = 47;
+            }
             LabelIndicatorView.Text = 1 + "/" + (NumberOfItems - 1).ToString();
 
         }
@@ -1502,7 +1518,6 @@ namespace TestAPP
             public string git { get; set; }
             public string html { get; set; }
         }
-
         public class RootPictures
         {
             public string name { get; set; }
@@ -1550,8 +1565,6 @@ namespace TestAPP
                 var Path = (string)Tree["path"];
                 TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/" + Name + "/" + Path);
             }
-                 
-           
             TheCarousel.ItemsSource = TestList;
         }
 
