@@ -105,7 +105,7 @@
                 <!-- CarouselView qui sert de galerie d'image au centre du premier onglet -->
                 <!-- Importat de set ItemsSource pour le Binding d'image 8 lignes plus bas-->
                 <!--IndicatorView="IndicatorView"-->
-                <CarouselView x:Name="Carousel" Margin="8"  Grid.Row="0" ItemsSource="{Binding CarouselView}" PositionChanged="Carousel_PositionChanged"  >
+                <CarouselView x:Name="Carousel" Margin="8" IndicatorView="IndicatorView" Grid.Row="0" ItemsSource="{Binding CarouselView}"   CurrentItemChanged="Carousel_CurrentItemChanged_1">
                     <!--To explain: d'ou vient ce CarouselView, car il change a chaque demarrage d'app mais je retrouve plus ou-->
                     <CarouselView.ItemTemplate>
                         <DataTemplate>
@@ -118,7 +118,7 @@
                                        >
 
                                     <!--To do: retravailler le zoom ou la taille de certaines image. Travailler aussi sur l'orientation des images de travers-->
-                                    <Image x:Name="CarouselPicture"  Source="{Binding Name}"     
+                                    <Image x:Name="CarouselPicture"  Source="{Binding .}"     
                                       
                                        Aspect="AspectFit"   
                                        Margin="0,0,0,0"
@@ -126,8 +126,7 @@
                                         HorizontalOptions="FillAndExpand"
                                         WidthRequest="200" HeightRequest="400"
                                         >
-
-
+                                        
                                         <!--Implémentation du Double tap pour ouvrir la fenêtre PopUp afin de modifier le contenu du carousel-->
                                         <Image.GestureRecognizers>
                                             <TapGestureRecognizer
@@ -145,7 +144,7 @@
 
                 <!--IndicatorView sont les petits points sous le carousel view qui indique la position de l'image quand l'utilisateur défile les images.-->
                 <!--To modify: A modifier ou remplacer car bug completement depuis qu'il y a des dossiers a 200 images. Remplacer par un compteur ex: 57/225 -->
-                <IndicatorView x:Name="IndicatorView"
+                <IndicatorView x:Name="IndicatorView" IsVisible="false"                           
                        IndicatorColor="LightGray"
                        SelectedIndicatorColor="DarkSlateGray"
                        HorizontalOptions="Center" VerticalOptions="Start"  Grid.Row="1" Margin="19,-45,15,0" >

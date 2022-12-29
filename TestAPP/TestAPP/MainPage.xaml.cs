@@ -21,6 +21,7 @@ using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
+using System.Linq;
 
 namespace TestAPP
 {
@@ -264,10 +265,17 @@ namespace TestAPP
         }
 
         // La méthode est appelée quand l'utilisateur appui deux fois sur l'image du caroussel view sur la premiere page
-        private void OnTapGestureRecognizerTapped(object sender, EventArgs e)
+        private async void OnTapGestureRecognizerTapped(object sender, EventArgs e)
         {
-            //Ligne qui permet d'afficher la liste déroulante contenue dans la PopUp. La liste doit contenir tout les pays/ville disponible à afficher
-            this.BindingContext = new MapsViewModel();
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.UserAgent.Add(
+                new ProductInfoHeaderValue("MyApplication", "1"));
+            var repo = "Damien-OLLIER/AppPictures";
+            var contentsUrl = $"https://api.github.com/repos/{repo}/contents";
+            var contentsJson = await httpClient.GetStringAsync(contentsUrl);
+            var contents = (JArray)JsonConvert.DeserializeObject(contentsJson);
+
+            this.BindingContext = new MapsViewModel(contents);
 
             //Affichage de la PopUp qui contient le listing des pays/ville disponible à afficher
             popupLayout.Show();
@@ -631,7 +639,7 @@ namespace TestAPP
         }
 
         // La méthode est appelée apres que l'utilisateur ai choisi un nouveau voyage à afficher dans la PopUp (quand elle se ferme)
-        private void listView_SelectionChanged(object sender, ItemSelectionChangedEventArgs e)
+        private async void listView_SelectionChanged(object sender, ItemSelectionChangedEventArgs e)
         {
             //On recupere l'info sur la destination choisi
             var SelectedItem = e.AddedItems;
@@ -640,294 +648,45 @@ namespace TestAPP
             //On converti l'objet reçu en Maps avec ses attributs
             var maps = SelectedItem0 as Maps;
 
-            //On cherche à recuprer sa description et la Destination
-            var Lieu = maps.countryList;
-            var Description = maps.description;
+            var GitNamePicture = maps.gitname;
 
-            // Suivant le Lieu, on affiche les images en relations avec le Pin cliqué
-            //To modify: si tu veux ameliorer la suite de if/Else if je suis preneur
-            if (Lieu == "Venise")
+            var RespoJSON = MapsViewModel.RespoJSON;
+
+            var httpClient = new HttpClient();
+
+            foreach (var file in RespoJSON)
             {
-                //On instancie la liste "ObservableCollection" contenant des objets de la classe "Image"
-                var ItalyPicture = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 88; i++)
+                var fileName = (string)file["name"];
+                if (GitNamePicture == fileName)
                 {
-                    // On ajoute les images en rapport avec la destination choisi
-                    ItalyPicture.Add(new Image { Name = "Italie" + i + ".JPG" });
-                    //on return donc une liste de "Name"(string) contenant enfaite le nom de l'image
+                    var GitUrl = (string)file["git_url"];
+
+                    string contentsJson1 = await httpClient.GetStringAsync(GitUrl);
+
+                    JObject json = JObject.Parse(contentsJson1);
+
+                    var tree = json["tree"];
+
+                    var TestList = new List<string>
+                    { };
+
+                    foreach (var Tree in tree)
+                    {
+                        var Path = (string)Tree["path"];
+                        TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/" + fileName + "/" + Path);
+                    }
+
+                    // LabelDescription.Text = "Description : " + Description;
+                    Carousel.ItemsSource = TestList;
+                    popupLayout.IsOpen = false;
+
+                    LabelDescription.Text = "Description : " + maps.description;
                 }
-
-                //On donne cette liste "ObservableCollection" contenant des objets de la classe "Image" comme item source au carousel view.
-                Carousel.ItemsSource = ItalyPicture;
-
-                //Le carousel va donc utiliser cette source pour "Populer"/remplir (To populate) son template qui est enfaite une Image donc la source est "Name"
-
-                //Close the PopUp Layout
-                popupLayout.IsOpen = false;
-
-                //Mise à jour de la description de voyage en dessous du carousel view du premier onglet
-                LabelDescription.Text = "Description : " + Description;
-
-                NumberOfItems = 88;
-            }
-            else if (Lieu == "Autriche")
-            {
-                var AutrichePicture = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 47; i++)
+                else
                 {
-                    AutrichePicture.Add(new Image { Name = "Autriche" + i + ".JPG" });
+
                 }
-
-                Carousel.ItemsSource = AutrichePicture;
-
-                popupLayout.IsOpen = false;
-
-                LabelDescription.Text = "Description : " + Description;
-
-                NumberOfItems = 47;
             }
-            else if (Lieu == "Loire à vélo")
-            {
-                var Loire = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 10; i++)
-                {
-                    Loire.Add(new Image { Name = "Loire" + i + ".JPG" });
-                }
-
-                Carousel.ItemsSource = Loire;
-
-                popupLayout.IsOpen = false;
-
-                LabelDescription.Text = "Description : " + Description;
-
-                NumberOfItems = 10;
-            }
-            else if (Lieu == "Zurich")
-            {
-                var Zurich = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 58; i++)
-                {
-                    Zurich.Add(new Image { Name = "Zurich" + i + ".JPG" });
-                }
-
-                Carousel.ItemsSource = Zurich;
-
-                popupLayout.IsOpen = false;
-
-                LabelDescription.Text = "Description : " + Description;
-
-                NumberOfItems = 58;
-            }
-            else if (Lieu == "Chutes du Rhin")
-            {
-                var Rhin = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 58; i++)
-                {
-                    Rhin.Add(new Image { Name = "Rhin" + i + ".JPG" });
-                }
-
-                Carousel.ItemsSource = Rhin;
-
-                popupLayout.IsOpen = false;
-
-                LabelDescription.Text = "Description : " + Description;
-
-                NumberOfItems = 58;
-            }
-            else if (Lieu == "Lucerne")
-            {
-                var Lucerne = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 151; i++)
-                {
-                    Lucerne.Add(new Image { Name = "Lucerne" + i + ".JPG" });
-                }
-
-                Carousel.ItemsSource = Lucerne;
-
-                popupLayout.IsOpen = false;
-
-                LabelDescription.Text = "Description : " + Description;
-
-                NumberOfItems = 151;
-            }
-            else if (Lieu == "Thoune")
-            {
-                var Thoune = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 126; i++)
-                {
-                    Thoune.Add(new Image { Name = "Thoune" + i + ".JPG" });
-                }
-
-                Carousel.ItemsSource = Thoune;
-
-                popupLayout.IsOpen = false;
-
-                LabelDescription.Text = "Description : " + Description;
-
-                NumberOfItems = 126;
-            }
-            else if (Lieu == "Chichilianne")
-            {
-                var SkiDeFond = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 20; i++)
-                {
-                    SkiDeFond.Add(new Image { Name = "SkiDeFond" + i + ".JPG" });
-                }
-
-                Carousel.ItemsSource = SkiDeFond;
-
-                popupLayout.IsOpen = false;
-
-                LabelDescription.Text = "Description : " + Description;
-
-                NumberOfItems = 20;
-            }
-            else if (Lieu == "Pays-Bas")
-            {
-                var PaysBas = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 125; i++)
-                {
-                    PaysBas.Add(new Image { Name = "PaysBas" + i + ".JPG" });
-                }
-
-                Carousel.ItemsSource = PaysBas;
-
-                popupLayout.IsOpen = false;
-
-                LabelDescription.Text = "Description : " + Description;
-
-                NumberOfItems = 125;
-            }
-            else if (Lieu == "Nouvel an à Morzine")
-            {
-                var MorzineNouvelAn = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 29; i++)
-                {
-                    MorzineNouvelAn.Add(new Image { Name = "MorzineNouvelAn" + i + ".JPG" });
-                }
-
-                Carousel.ItemsSource = MorzineNouvelAn;
-
-                popupLayout.IsOpen = false;
-
-                LabelDescription.Text = "Description : " + Description;
-
-                NumberOfItems = 29;
-            }
-            else if (Lieu == "Morzine")
-            {
-                var MorzineJuin = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 18; i++)
-                {
-                    MorzineJuin.Add(new Image { Name = "MorzineJuin" + i + ".JPG" });
-                }
-
-                Carousel.ItemsSource = MorzineJuin;
-
-                popupLayout.IsOpen = false;
-
-                LabelDescription.Text = "Description : " + Description;
-
-                NumberOfItems = 18;
-            }
-            else if (Lieu == "Appartement des loulous")
-            {
-                var Confinement = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 78; i++)
-                {
-                    Confinement.Add(new Image { Name = "Confinement" + i + ".JPG" });
-                }
-
-                Carousel.ItemsSource = Confinement;
-
-                popupLayout.IsOpen = false;
-
-                LabelDescription.Text = "Description : " + Description;
-
-                NumberOfItems = 78;
-            }
-            else if (Lieu == "Année 2022")
-            {
-                var Photo2022 = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 51; i++)
-                {
-                    Photo2022.Add(new Image { Name = "Photo2022" + i + ".JPG" });
-                }
-
-                Carousel.ItemsSource = Photo2022;
-
-                popupLayout.IsOpen = false;
-
-                LabelDescription.Text = "Description : " + Description;
-
-                NumberOfItems = 51;
-            }
-            else if (Lieu == "Année 2021")
-            {
-                var Photo2021 = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 223; i++)
-                {
-                    Photo2021.Add(new Image { Name = "Photo2021" + i + ".JPG" });
-                }
-
-                Carousel.ItemsSource = Photo2021;
-
-                popupLayout.IsOpen = false;
-
-                LabelDescription.Text = "Description : " + Description;
-
-                NumberOfItems = 223;
-            }
-            else if (Lieu == "Année 2022")
-            {
-                var Photo2020 = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 79; i++)
-                {
-                    Photo2020.Add(new Image { Name = "Photo2020" + i + ".JPG" });
-                }
-
-                Carousel.ItemsSource = Photo2020;
-
-                popupLayout.IsOpen = false;
-
-                LabelDescription.Text = "Description : " + Description;
-
-                NumberOfItems = 79;
-            }
-            else if (Lieu == "Innsbruck")
-            {
-                var AutrichePicture = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 47; i++)
-                {
-                    AutrichePicture.Add(new Image { Name = "Autriche" + i + ".JPG" });
-                }
-
-                Carousel.ItemsSource = AutrichePicture;
-
-                popupLayout.IsOpen = false;
-
-                LabelDescription.Text = "Description : " + Description;
-
-                NumberOfItems = 47;
-            }
-            LabelIndicatorView.Text = 1 + "/" + (NumberOfItems - 1).ToString();
-
         }
 
         // La méthode est appelée lorsque l'app apparait à l'écran
@@ -1344,9 +1103,6 @@ namespace TestAPP
             }
         }
 
-        private void Carousel_CurrentItemChanged(object sender, CurrentItemChangedEventArgs e)
-        {
-        }
 
         private void Carousel_PositionChanged(object sender, PositionChangedEventArgs e)
         {
@@ -1366,16 +1122,6 @@ namespace TestAPP
 
         private void ContentPage_Appearing_2(object sender, EventArgs e)
         {
-            //var PictireListe = new List<string>
-            //{
-            //    "https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/Autriche1.JPG",
-            //    "https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/Autriche2.JPG",
-            //    "https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/Autriche3.JPG",
-
-            //};
-
-            //TheCarousel.ItemsSource = PictireListe;
-
             var TestList = new List<string>
             { };
 
@@ -1590,7 +1336,6 @@ namespace TestAPP
                 {
                     var GitUrl = (string)file["git_url"];
 
-
                     string contentsJson1 = await httpClient.GetStringAsync(GitUrl);
 
                     JObject json = JObject.Parse(contentsJson1);
@@ -1614,6 +1359,25 @@ namespace TestAPP
 
                 }
             }
+        }
+
+        private void Carousel_CurrentItemChanged_1(object sender, CurrentItemChangedEventArgs e)
+        {
+            var test = sender as Xamarin.Forms.ItemsView;
+            var Current_Position = sender as Xamarin.Forms.CarouselView;
+
+            var test2 = test.ItemsSource;
+
+            var i = 0;
+
+            foreach( var item in test2)
+            {
+                i += 1;
+            }
+
+            var CurrentPosition = (Current_Position?.Position + 1).ToString();
+
+            LabelIndicatorView.Text = CurrentPosition + "/" + (i).ToString();            
         }
     }
 }
