@@ -37,6 +37,7 @@ namespace TestAPP
         public string numero { get; private set; }
         public int NumberOfItems { get; private set; }
         public int NumberOfItemsMaps { get; private set; }
+        public string LocationJSON { get; private set; }
 
         //List contenant des objets de la classe Place afin de creer les Pin Maps
         List<Place> placesList = new List<Place>();
@@ -304,212 +305,51 @@ namespace TestAPP
             //IndicatorViewMap.IsVisible = true;
             // On recupere les infos de l'info Window cliqué par l'utilisateur
             var pin = sender as Pin;
-            var PinAddress = pin.Address; // on recupere le commentaire
+            var PinAddress = pin.Label; // on recupere le commentaire
 
-            // Suivant le commentaire, on affiche les images en relations avec le Pin cliqué
-            //To modify: si tu veux ameliorer la suite de if/Else if je suis preneur
-            if (PinAddress.Contains("louloute à Innsbruck"))
+            var GitNamePicture = PinAddress;
+
+            var httpClient = new HttpClient();
+
+            LocationJSON = await httpClient.GetStringAsync("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Places.json");
+
+            var ob = JsonConvert.DeserializeObject<Root>(LocationJSON);
+
+            var RespoJSON = MapsViewModel.RespoJSON;
+
+            foreach (var result in ob.results)
             {
-                //On instancie la liste "ObservableCollection" contenant des objets de la classe "Image"
-                var Innsbruck = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 47; i++)
+                if (GitNamePicture == result.name)
                 {
-                    // On ajoute les images en rapport avec la destination choisi
-                    Innsbruck.Add(new Image { Name = "Autriche" + i + ".JPG" });
-                    //on return donc une liste de "Name"(string) contenant enfaite le nom de l'image 
+                    var GitUrl = "";
+
+                    foreach (var file in RespoJSON)
+                    {
+                        var Name = (string)file["name"];
+                        if (Name == result.GitName) 
+                        {
+                            GitUrl = (string)file["git_url"];
+                        }
+                    }
+
+                    string contentsJson1 = await httpClient.GetStringAsync(GitUrl);
+
+                    JObject json = JObject.Parse(contentsJson1);
+
+                    var sha = (string)json["sha"];
+                    var tree = json["tree"];
+
+                    var TestList = new List<string>
+                    { };
+
+                    foreach (var Tree in tree)
+                    {
+                        var Path = (string)Tree["path"];
+                        TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/" + result.GitName + "/" + Path);
+                    }
+                    CardImage.ItemsSource = TestList;
                 }
-
-                //On donne cette liste "ObservableCollection" contenant des objets de la classe "Image" comme item source au carousel view.
-                CardImage.ItemsSource = Innsbruck;
-
-                NumberOfItemsMaps = 47;
-                //Le carousel va donc utiliser cette source pour "Populer"/remplir (To populate) son template qui est enfaite une Image donc la source est "Name"
             }
-            else if (PinAddress.Contains("Venise"))
-            {
-                var ItalieCard = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 88; i++)
-                {
-                    ItalieCard.Add(new Image { Name = "Italie" + i + ".JPG" });
-                }
-
-                CardImage.ItemsSource = ItalieCard;
-
-                NumberOfItemsMaps = 88;
-            }
-            else if (PinAddress.Contains("de la loire à vélo"))
-            {
-                var Loire = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 10; i++)
-                {
-                    Loire.Add(new Image { Name = "Loire" + i + ".JPG" });
-                }
-
-                CardImage.ItemsSource = Loire;
-
-                NumberOfItemsMaps = 10;
-            }
-            else if (PinAddress.Contains("à Zurich en octobre 2021"))
-            {
-                var Zurich = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 58; i++)
-                {
-                    Zurich.Add(new Image { Name = "Zurich" + i + ".JPG" });
-                }
-
-                CardImage.ItemsSource = Zurich;
-
-                NumberOfItemsMaps = 58;
-            }
-            else if (PinAddress.Contains("Visite des chutes du Rhin"))
-            {
-                var Rhin = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 58; i++)
-                {
-                    Rhin.Add(new Image { Name = "Rhin" + i + ".JPG" });
-                }
-
-                CardImage.ItemsSource = Rhin;
-
-                NumberOfItemsMaps = 58;
-            }
-            else if (PinAddress.Contains("Voyage à Lucerne"))
-            {
-                var Lucerne = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 151; i++)
-                {
-                    Lucerne.Add(new Image { Name = "Lucerne" + i + ".JPG" });
-                }
-
-                CardImage.ItemsSource = Lucerne;
-
-                NumberOfItemsMaps = 151;
-            }
-            else if (PinAddress.Contains("Visite de Thoune"))
-            {
-                var Thoune = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 126; i++)
-                {
-                    Thoune.Add(new Image { Name = "Thoune" + i + ".JPG" });
-                }
-
-                CardImage.ItemsSource = Thoune;
-
-                NumberOfItemsMaps = 126;
-            }
-            else if (PinAddress.Contains("Ski de fond à Chichilianne"))
-            {
-                var SkiDeFond = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 20; i++)
-                {
-                    SkiDeFond.Add(new Image { Name = "SkiDeFond" + i + ".JPG" });
-                }
-
-                CardImage.ItemsSource = SkiDeFond;
-
-                NumberOfItemsMaps = 20;
-            }
-            else if (PinAddress.Contains("Voyage à Amsterdam"))
-            {
-                var PaysBas = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 125; i++)
-                {
-                    PaysBas.Add(new Image { Name = "PaysBas" + i + ".JPG" });
-                }
-
-                CardImage.ItemsSource = PaysBas;
-
-                NumberOfItemsMaps = 125;
-            }
-            else if (PinAddress.Contains("Nouvel an à Morzine"))
-            {
-                var MorzineNouvelAn = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 29; i++)
-                {
-                    MorzineNouvelAn.Add(new Image { Name = "MorzineNouvelAn" + i + ".JPG" });
-                }
-
-                CardImage.ItemsSource = MorzineNouvelAn;
-
-                NumberOfItemsMaps = 29;
-            }
-            else if (PinAddress.Contains("Morzine avec les amis"))
-            {
-                var MorzineJuin = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 18; i++)
-                {
-                    MorzineJuin.Add(new Image { Name = "MorzineJuin" + i + ".JPG" });
-                }
-
-                CardImage.ItemsSource = MorzineJuin;
-
-                NumberOfItemsMaps = 18;
-            }
-            else if (PinAddress.Contains("Lieu de villégiature"))
-            {
-                var Confinement = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 78; i++)
-                {
-                    Confinement.Add(new Image { Name = "Confinement" + i + ".JPG" });
-                }
-
-                CardImage.ItemsSource = Confinement;
-
-                NumberOfItemsMaps = 78;
-            }
-            else if (PinAddress.Contains("Photos relatant notre année 2022 ensemble"))
-            {
-                var Photo2022 = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 51; i++)
-                {
-                    Photo2022.Add(new Image { Name = "Photo2022" + i + ".JPG" });
-                }
-
-                CardImage.ItemsSource = Photo2022;
-
-                NumberOfItemsMaps = 51;
-            }
-            else if (PinAddress.Contains("Photos relatant notre année 2021 ensemble"))
-            {
-                var Photo2021 = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 223; i++)
-                {
-                    Photo2021.Add(new Image { Name = "Photo2021" + i + ".JPG" });
-                }
-
-                CardImage.ItemsSource = Photo2021;
-
-                NumberOfItemsMaps = 223;
-            }
-            else if (PinAddress.Contains("Photos relatant notre année 2020 ensemble"))
-            {
-                var Photo2020 = new ObservableCollection<Image>();
-
-                for (int i = 1; i < 79; i++)
-                {
-                    Photo2020.Add(new Image { Name = "Photo2020" + i + ".JPG" });
-                }
-
-                CardImage.ItemsSource = Photo2020;
-
-                NumberOfItemsMaps = 79;
-            }
-
-            CardImageCounter.Text = 1 + "/" + (NumberOfItemsMaps - 1).ToString();
         }
 
         // La méthode est appelée quand l'utilisateur appui sur la map (autre qu'un Pin)
@@ -626,8 +466,6 @@ namespace TestAPP
         //To Modify: Boutton pas important car invisible donc potentiellement à supprimer.Il devait me servir à la base pour les tests afin d'ouvrir la PopUp
         private void isOpenButton_Clicked(object sender, EventArgs e)
         {
-            popupLayout.Show();
-            this.BindingContext = new MapsViewModel();
         }
 
         // La méthode est appelée quand la fenetre PopUp se ferme apres avoir choisi une nouvelle destination (dans le premier onglet apres le double tap)
@@ -752,15 +590,13 @@ namespace TestAPP
             Carousel.ItemsSource = TestList;
             popupLayout.IsOpen = false;
 
-            string LocationJSON = await httpClient.GetStringAsync("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Places.json");
+            LocationJSON = await httpClient.GetStringAsync("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Places.json");
 
             var ob = JsonConvert.DeserializeObject<Root>(LocationJSON);
 
             //Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(json);
             foreach (var result in ob.results)
             {
-                Debug.WriteLine(result.name);
-
                 if(GitName == result.GitName)
                 {
                     LabelDescription.Text = "Description : " + result.vicinity;

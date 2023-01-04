@@ -401,7 +401,8 @@
                                    Padding="3"
                                        >
                                 <!--To do: retravailler le zoom ou la taille de certaines image. Travailler aussi sur l'orientation des images de travers-->
-                                <Image x:Name="CarouselPicture" Source="{Binding Name}"                                      
+                                <Image x:Name="CarouselPicture" 
+                                       Source="{Binding .}"                                      
                                        Aspect="AspectFit"   
                                        Margin="0,0,0,0"
                                        VerticalOptions="CenterAndExpand"
@@ -412,38 +413,6 @@
                     </DataTemplate>
                 </CarouselView.ItemTemplate>
             </CarouselView>
-
-
-            <!--J'ai toujours espoir d'implementer les cards qui sont toujours plus joli que le vieu CarouselView de ses morts-->
-
-            <!--<cards:SfCardView HeightRequest="280" MinimumHeightRequest="280" WidthRequest="350" VerticalOptions="Center" HorizontalOptions="End" Opacity="100">
-                <Label  Text="Cyan" BackgroundColor="Cyan"/>
-            </cards:SfCardView>-->
-
-
-            <!--<cards:SfCardLayout BindableLayout.ItemsSource="{Binding Model.Colors}" x:Name="CardImage"  SwipeDirection="Left" VerticalOptions="Center"  HeightRequest="300" WidthRequest="300">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate>
-                        <cards:SfCardView BackgroundColor="{Binding}">
-                            <Image Source="{Binding}" HorizontalOptions="CenterAndExpand"/>
-                        </cards:SfCardView>
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
-            </cards:SfCardLayout>-->
-
-
-            <!--<cards:SfCardLayout x:Name="CardImage" BindableLayout.ItemsSource="{Binding Model.Colors}"  SwipeDirection="Left" VerticalOptions="End"  HeightRequest="300" WidthRequest="300" IsVisible="false">
-               
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate >                        
-                        <cards:SfCardView >
-                            <Image x:Name="CardImage" Source="{Binding }" HorizontalOptions="CenterAndExpand"/>
-                        </cards:SfCardView>
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
-                
-            </cards:SfCardLayout>-->
-
         </Grid>
 
     </ContentPage>

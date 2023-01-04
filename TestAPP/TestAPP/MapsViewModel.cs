@@ -38,46 +38,6 @@ namespace TestAPP
 
         #region Constructor
 
-        public MapsViewModel()
-        {
-            placesList.Clear();
-
-            // On recupere les Infos du Fichier JSON (Longitude, Latitude, etc...)
-            var assembly = IntrospectionExtensions.GetTypeInfo(typeof(MainPage)).Assembly;
-            Stream stream = assembly.GetManifestResourceStream("TestAPP.Places.json");
-
-            // On met tout ça en format text 
-            string text = string.Empty;
-            using (var reader = new StreamReader(stream, Encoding.UTF7))
-            {
-                text = reader.ReadToEnd();
-            }
-
-            //On creer l'objet  "resultObject" qui contient toutes les infos
-            var resultObject = JsonConvert.DeserializeObject<Places>(text);
-
-            foreach (var place in resultObject.results)
-            {
-                placesList.Add(new Place
-                {
-                    PlaceName = place.name,
-                    Address = place.vicinity,
-                    Location = place.geometry.location,
-                    Position = new Position(place.geometry.location.lat, place.geometry.location.lng),
-                });
-            }
-
-            Items = new ObservableCollection<Maps>();
-
-            for (int i = 0; i < placesList.Count(); i++)
-            {
-                var MapsInfo = new Maps(placesList[i].PlaceName, placesList[i].Address, "test2");
-                MapsInfo.Pays = placesList[i].Address;
-                Items.Add(MapsInfo);
-            }
-
-            //Pour chaque iteration de "resultObject", on a acces à ses parametres tels que l'adressem la position, etc...
-        }
         public MapsViewModel(JArray contents)
         {
             RespoJSON = contents;
