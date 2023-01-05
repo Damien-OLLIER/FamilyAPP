@@ -388,10 +388,10 @@
             </map:Map>
 
             <!--TextColor="black"-->
-            <Label x:Name="CardImageCounter" Text="Hello" Grid.Row="1" FontSize="Large" FontAttributes="Bold" IsVisible="false"  BackgroundColor="Transparent" TextColor="White" HorizontalOptions="Center" VerticalOptions="End"/>
+            <Label x:Name="CardImageCounter" Text="" Grid.Row="1" FontSize="Large" FontAttributes="Bold" IsVisible="false"  BackgroundColor="Transparent" TextColor="White" HorizontalOptions="Center" VerticalOptions="End"/>
 
             <!--CarouselView qui s'ouvre a chaque fois qu'un PIN de voyage est selectionné-->
-            <CarouselView x:Name="CardImage" Margin="10"   HeightRequest="150" IsVisible="false" Grid.Row="1"  ItemsSource="{Binding CarouselView}" PositionChanged="CardImage_PositionChanged" >
+            <CarouselView x:Name="CardImage" Margin="10"   HeightRequest="150" IsVisible="false" Grid.Row="1"  ItemsSource="{Binding CarouselView}" CurrentItemChanged="CardImage_PositionChanged" >
                 <CarouselView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">

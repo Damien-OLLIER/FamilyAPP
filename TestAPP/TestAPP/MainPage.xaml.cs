@@ -565,8 +565,6 @@ namespace TestAPP
             }
                         
             int RandNumber = rnd.Next(0, ListName.Count);
-            //Debug.WriteLine(rnd.Next(1, ListName.Count+1)); // 1-15
-            //Debug.WriteLine(rnd.Next(0, ListName.Count)); // 0-14
             var GitFolder = RespoJSON[RandNumber];
             var GitUrl = (string)GitFolder["git_url"];
             var GitName = (string)GitFolder["name"];
@@ -755,7 +753,23 @@ namespace TestAPP
 
         private void CardImage_PositionChanged(object sender, PositionChangedEventArgs e)
         {
-            CardImageCounter.Text = (e.CurrentPosition + 1).ToString() + "/" + (NumberOfItemsMaps - 1).ToString();
+            var Items = sender as Xamarin.Forms.ItemsView;
+            var Current_Position = sender as Xamarin.Forms.CarouselView;
+
+            var ItemList = Items.ItemsSource;
+
+            var i = 0;
+
+            foreach (var item in ItemList)
+            {
+                i += 1;
+            }
+
+            var CurrentPosition = (Current_Position?.Position + 1).ToString();
+
+            CardImageCounter.Text = CurrentPosition + "/" + (i).ToString();
+
+            //CardImageCounter.Text = (e.CurrentPosition + 1).ToString() + "/" + (NumberOfItemsMaps - 1).ToString();
         }
 
         private void ContentPage_Appearing_2(object sender, EventArgs e)
@@ -1000,14 +1014,14 @@ namespace TestAPP
 
         private void Carousel_CurrentItemChanged_1(object sender, CurrentItemChangedEventArgs e)
         {
-            var test = sender as Xamarin.Forms.ItemsView;
+            var Items = sender as Xamarin.Forms.ItemsView;
             var Current_Position = sender as Xamarin.Forms.CarouselView;
 
-            var test2 = test.ItemsSource;
+            var ItemList = Items.ItemsSource;
 
             var i = 0;
 
-            foreach( var item in test2)
+            foreach( var item in ItemList)
             {
                 i += 1;
             }
