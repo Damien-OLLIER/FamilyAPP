@@ -345,7 +345,7 @@ namespace TestAPP
                     foreach (var Tree in tree)
                     {
                         var Path = (string)Tree["path"];
-                        TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/" + result.GitName + "/" + Path);
+                        TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/" + result.GitName + "/" + Path);
                     }
                     CardImage.ItemsSource = TestList;
                 }
@@ -511,7 +511,7 @@ namespace TestAPP
                     foreach (var Tree in tree)
                     {
                         var Path = (string)Tree["path"];
-                        TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/" + fileName + "/" + Path);
+                        TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/" + fileName + "/" + Path);
                     }
 
                     // LabelDescription.Text = "Description : " + Description;
@@ -583,7 +583,7 @@ namespace TestAPP
             foreach (var Tree in tree)
             {
                 var Path = (string)Tree["path"];
-                TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/" + GitName + "/" + Path);
+                TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/" + GitName + "/" + Path);
             }
 
             // LabelDescription.Text = "Description : " + Description;
@@ -946,7 +946,7 @@ namespace TestAPP
             foreach (var Tree in tree)
             {
                 var Path = (string)Tree["path"];
-                TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/" + Name + "/" + Path);
+                TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/" + Name + "/" + Path);
             }
             TheCarousel.ItemsSource = TestList;
         }
@@ -986,7 +986,7 @@ namespace TestAPP
                     foreach (var Tree in tree)
                     {
                         var Path = (string)Tree["path"];
-                        TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/" + fileName + "/" + Path);
+                        TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/" + fileName + "/" + Path);
                     }
                     TheCarousel.ItemsSource = TestList;
                     popupLayoutTest.IsOpen = false;
