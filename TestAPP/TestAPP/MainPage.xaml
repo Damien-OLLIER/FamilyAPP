@@ -388,7 +388,7 @@
             </map:Map>
 
             <!--TextColor="black"-->
-            <Label x:Name="CardImageCounter" Text="" Grid.Row="1" FontSize="Large" FontAttributes="Bold" IsVisible="false"  BackgroundColor="Transparent" TextColor="White" HorizontalOptions="Center" VerticalOptions="End"/>
+            <Label x:Name="CardImageCounter" Text="" Grid.Row="1" FontSize="Large" FontAttributes="Bold" IsVisible="false" TextColor="DarkGray" HorizontalOptions="Center" VerticalOptions="End"/>
 
             <!--CarouselView qui s'ouvre a chaque fois qu'un PIN de voyage est selectionné-->
             <CarouselView x:Name="CardImage" Margin="10"   HeightRequest="150" IsVisible="false" Grid.Row="1"  ItemsSource="{Binding CarouselView}" CurrentItemChanged="CardImage_PositionChanged" >
@@ -417,7 +417,7 @@
 
     </ContentPage>
 
-    <ContentPage Title="WIP"  IconImageSource="WIP.PNG" Appearing="ContentPage_Appearing_2">
+    <!--<ContentPage Title="WIP"  IconImageSource="WIP.PNG" Appearing="ContentPage_Appearing_2">
         <Grid BackgroundColor="#F3F5F9">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -428,20 +428,20 @@
             </Grid.RowDefinitions>
 
             <sfPopup:SfPopupLayout x:Name="popupLayoutTest" Closed="popupLayout_Closed" >
-                <!--pour plus d'info à propos du popupLayout https://help.syncfusion.com/xamarin/popup/getting-started -->
+                --><!--pour plus d'info à propos du popupLayout https://help.syncfusion.com/xamarin/popup/getting-started --><!--
                 <sfPopup:SfPopupLayout.PopupView >
-                    <!--Mise en page de la fenetre PopUp-->
+                    --><!--Mise en page de la fenetre PopUp--><!--
                     <sfPopup:PopupView x:Name="popupViewTest" HeaderTitle="Choisir une destination"  HeightRequest="500"  AppearanceMode="TwoButton" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" >
                         <sfPopup:PopupView.ContentTemplate>
-                            <!--On met en place le Template (Contenu de la fenetre)-->
+                            --><!--On met en place le Template (Contenu de la fenetre)--><!--
                             <DataTemplate>
-                                <!--Le contenu de la PopUp sera donc une list view, plus d'info https://help.syncfusion.com/xamarin/listview/getting-started -->
+                                --><!--Le contenu de la PopUp sera donc une list view, plus d'info https://help.syncfusion.com/xamarin/listview/getting-started --><!--
                                 <sfListView:SfListView  x:Name="listView"  ItemSpacing="5" WidthRequest="380" ItemSize="100" SelectionChanged="listView_SelectionChanged_1"  ColumnDefinitions="2"  ItemsSource="{Binding Items}" >
                                     <sfListView:SfListView.ItemTemplate>
                                         <DataTemplate>
                                             <ViewCell>
                                                 <ViewCell.View>
-                                                    <!--Mise en page de la list View avec le text et l'image associé-->
+                                                    --><!--Mise en page de la list View avec le text et l'image associé--><!--
                                                     <Grid x:Name="grid" RowSpacing="1">
 
                                                         <Grid.RowDefinitions>
@@ -453,7 +453,7 @@
                                                             <ColumnDefinition Width="auto" />
                                                         </Grid.ColumnDefinitions>
 
-                                                        <!--la Description des Photos a afficher-->
+                                                        --><!--la Description des Photos a afficher--><!--
                                                         <Label Grid.Column="1"
                                         HorizontalTextAlignment="Start"
                                         LineBreakMode="WordWrap"     
@@ -461,8 +461,8 @@
                                         Text="{Binding Pays, StringFormat='Description: {0}'}"
                                          TextColor="CadetBlue"
                                         FontSize="Small" />
-                                                        <!--Une image de folder pour comprendre qu'on va ouvrir plusieurs photos-->
-                                                        <!--To Modify: Je suis completement con car j'aurai pu mettre la meme image pour tout le monde enfaite-->
+                                                        --><!--Une image de folder pour comprendre qu'on va ouvrir plusieurs photos-->
+                                                        <!--To Modify: Je suis completement con car j'aurai pu mettre la meme image pour tout le monde enfaite--><!--
                                                         <Image Grid.Column="0" 
                                        Source="Folder.png" 
                                        VerticalOptions="StartAndExpand"
@@ -480,7 +480,7 @@
                     </sfPopup:PopupView>
                 </sfPopup:SfPopupLayout.PopupView>
 
-                <!--To Modify: Boutton pas important car invisible donc potentiellement à supprimer. Il devait me servir à la base pour les tests afin d'ouvrir la PopUp-->
+                --><!--To Modify: Boutton pas important car invisible donc potentiellement à supprimer. Il devait me servir à la base pour les tests afin d'ouvrir la PopUp--><!--
                 <sfPopup:SfPopupLayout.Content>
                     <StackLayout>
                         <Button Text="Click to show popup" Clicked="isOpenButton_Clicked" IsVisible="true"/>
@@ -513,7 +513,7 @@
                                         <TapGestureRecognizer
                                         Tapped="OnTapGestureRecognizerTappedTest" 
                                         NumberOfTapsRequired="2" />
-                                        <!--OnTapGestureRecognizerTapped est une methode-->
+                                        --><!--OnTapGestureRecognizerTapped est une methode--><!--
 
                                     </Image.GestureRecognizers>
                                 </Image>
@@ -534,7 +534,7 @@
             <Label x:Name="Indicator" Text="1" Grid.Row="4" HorizontalOptions="Center"/>
 
         </Grid>
-    </ContentPage>
+    </ContentPage>-->
 </TabbedPage>
 
     

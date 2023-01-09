@@ -781,37 +781,6 @@ namespace TestAPP
             //CardImageCounter.Text = (e.CurrentPosition + 1).ToString() + "/" + (NumberOfItemsMaps - 1).ToString();
         }
 
-        private void ContentPage_Appearing_2(object sender, EventArgs e)
-        {
-            var TestList = new List<string>
-            { };
-
-            for (int i = 1; i < 48; i++)
-            {
-                TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/TestAPPgit/NewFeatures/TestAPP/TestAPP.Android/Resources/drawable/Autriche/Autriche" + i + ".JPG");
-            }
-
-            TheCarousel.ItemsSource = TestList;
-        }
-
-        private void TheCarousel_CurrentItemChanged(object sender, CurrentItemChangedEventArgs e)
-        {
-            Indicator.Text = (indicatorview.Position + 1).ToString();
-        }
-
-        private async void OnTapGestureRecognizerTappedTest(object sender, EventArgs e)
-        {
-            var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.UserAgent.Add(
-                new ProductInfoHeaderValue("MyApplication", "1"));
-            var repo = "Damien-OLLIER/AppPictures";
-            var contentsUrl = $"https://api.github.com/repos/{repo}/contents";
-            var contentsJson = await httpClient.GetStringAsync(contentsUrl);
-            var contents = (JArray)JsonConvert.DeserializeObject(contentsJson);
-
-            this.BindingContext = new MapsViewModel(contents);
-            popupLayoutTest.Show();
-        }
 
         private async void Button_Clicked_2(object sender, EventArgs e)
         {
@@ -938,88 +907,6 @@ namespace TestAPP
             public Links _links { get; set; }
         }
 
-        private async void Button_Clicked_3(object sender, EventArgs e)
-        {
-            var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.UserAgent.Add(
-                new ProductInfoHeaderValue("MyApplication", "1"));
-            var repo = "Damien-OLLIER/AppPictures";
-            var contentsUrl = $"https://api.github.com/repos/{repo}/contents";
-            var contentsJson = await httpClient.GetStringAsync(contentsUrl);
-            var contents = (JArray)JsonConvert.DeserializeObject(contentsJson);
-
-            Debug.WriteLine("Biginning");
-
-            List<string> JSONList = new List<string>();
-
-            var file = contents[1];
-            var Name = (string)file["name"];
-
-            var GitUrl  = (string)file["git_url"];
-            string contentsJson1 = await httpClient.GetStringAsync(GitUrl);
-
-            JObject json = JObject.Parse(contentsJson1);
-
-            var sha = (string)json["sha"];
-            var tree = json["tree"];
-
-            var TestList = new List<string>
-            { };
-
-            foreach (var Tree in tree)
-            {
-                var Path = (string)Tree["path"];
-                TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/" + Name + "/" + Path);
-            }
-            TheCarousel.ItemsSource = TestList;
-        }
-
-        private async void listView_SelectionChanged_1(object sender, ItemSelectionChangedEventArgs e)
-        {
-            //On recupere l'info sur la destination choisi
-            var SelectedItem = e.AddedItems;
-            var SelectedItem0 = SelectedItem[0];
-
-            //On converti l'objet reçu en Maps avec ses attributs
-            var maps = SelectedItem0 as Maps;
-
-            var GitNamePicture = maps.gitname;
-
-            var RespoJSON = MapsViewModel.RespoJSON;
-
-            var httpClient = new HttpClient();
-
-            foreach (var file in RespoJSON)
-            {
-                var fileName = (string)file["name"];
-                if (GitNamePicture == fileName) 
-                {
-                    var GitUrl = (string)file["git_url"];
-
-                    string contentsJson1 = await httpClient.GetStringAsync(GitUrl);
-
-                    JObject json = JObject.Parse(contentsJson1);
-
-                    var sha = (string)json["sha"];
-                    var tree = json["tree"];
-
-                    var TestList = new List<string>
-                    { };
-
-                    foreach (var Tree in tree)
-                    {
-                        var Path = (string)Tree["path"];
-                        TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/" + fileName + "/" + Path);
-                    }
-                    TheCarousel.ItemsSource = TestList;
-                    popupLayoutTest.IsOpen = false;
-                }
-                else 
-                {
-
-                }
-            }
-        }
 
         private void Carousel_CurrentItemChanged_1(object sender, CurrentItemChangedEventArgs e)
         {
