@@ -538,11 +538,20 @@ namespace TestAPP
                 new ProductInfoHeaderValue("MyApplication", "1"));
             var repo = "Damien-OLLIER/AppPictures";
             var contentsUrl = $"https://api.github.com/repos/{repo}/contents";
-            var contentsJson = await httpClient.GetStringAsync(contentsUrl);
-            var contents = (JArray)JsonConvert.DeserializeObject(contentsJson);
 
-            // On creer une intsance de "MapsViewModel" afin d'avoir acces a la liste des pays possible
-            this.BindingContext = new MapsViewModel(contents);
+            try 
+            {
+                var contentsJson = await httpClient.GetStringAsync(contentsUrl);
+                var contents = (JArray)JsonConvert.DeserializeObject(contentsJson);
+
+                // On creer une intsance de "MapsViewModel" afin d'avoir acces a la liste des pays possible
+                this.BindingContext = new MapsViewModel(contents);
+            }
+            catch
+            {
+                await DisplayAlert("Internet Error", "Please restart the App with Internet", "OK");
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+            }
 
 
             var RespoJSON = MapsViewModel.RespoJSON;
