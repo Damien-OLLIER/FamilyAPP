@@ -1,4 +1,5 @@
 {
+  "files.encoding": "utf8bom",
   "html_attributions": [],
   "next_page_token": "CrQEJgIAAHkeCtnPrStdevV698oaeW9intrlX2YmGkAomiVM3-REQIyCZi8f2VmJ0GLb_cuKF2ISfGcu5dPZ0y7W_z544Y7k0lhqzbabtH1QlEnwlzUwLOpNPv8ilr_ZVE4_nnxytYIF0y5b1EfuGcpwqDfmXSCLXAPv6reOtgZuQtswMQ3n_JQRcGrPczt6K-0HD7_l2q9VwaGNXQMNjMpd1qUc9_zC1MhfOoFMNMWjDlvEGBSov7g-s-9SH3oMA_B0HN4C4EqvisrIhSxAxX7nUgOoYD8-gzV7h4m7cLZt25WmN1q4z3FsyqHe3t7PYlpM7kCmTKurQclJ0NdJNKfrghV09b-oGpmiudbXFjH8RkoTve8hY-xre5PrBInAWAhUlUNHxkmwhvDnl5_qr_ky6WkSXCUpOUe9Azv5RILZOSj0kVJetWZmyfIsa2HkAednKnYg-BReVfK2IJpgDxeYTD5QReHc4ZzuS_zKsY4RlB13ONiw7o5vnVWBgf3NxV7KU0eZe0sAuFXA3lduqIrAVxNOVZFezRRb9X4EsxSKl3mGaeHgpT2hClm6kIxjFKV_UT9_ecqovs-ADA9o_wJGiyckBi7YV9NmtVEc4zWulZTMrqA1MGxL39Ne97NRly1ug4hIvoiFzr7i0sVzIN4pKVmqOVAJP3IYPP4Akk7nQjajozhlcj_uj4ksaucFOtUNz-4j6Lc1aZXhbDvkpKuxsLGI8PixBkE0La1O6rsDR9xwc0J3EhAd-MlMDnRdBf_imvnuLP3kGhQRQVFVtR5nMKXqd5-MIz3LR-2OoA",
   "results": [
@@ -10,7 +11,7 @@
         }
       },
       "name": "Venise",
-      "vicinity": "Voyage en amoureux à Venise"
+      "vicinity": "Voyage en amoureux à Venise !"
     },
     {
       "geometry": {

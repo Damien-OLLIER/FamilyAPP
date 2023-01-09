@@ -9,6 +9,7 @@ namespace TestAPP
     {
         public string PlaceName { get; set; }
         public string Address { get; set; }
+        public string Gitname { get; set; }
         public Position Position { get; set; }
         public Location Location { get; set; }
     }
@@ -23,6 +24,7 @@ namespace TestAPP
         public Geometry geometry { get; set; }
         public string name { get; set; }      
         public string vicinity { get; set; }
+        public string Gitname { get; set; }
     }
 
     public class Geometry
