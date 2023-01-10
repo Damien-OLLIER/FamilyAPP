@@ -814,12 +814,6 @@ namespace TestAPP
                     {
                         var contentsJson1 = await httpClient.GetStringAsync(directoryContentsUrl);
 
-                        //Debug.WriteLine("**************");
-                        //Debug.WriteLine("");
-                        //Debug.WriteLine(contentsJson1);
-                        //Debug.WriteLine("");
-                        //Debug.WriteLine("**************");
-                        //Debug.WriteLine("");
 
                         JSONList.Add(contentsJson1);
 
@@ -827,13 +821,6 @@ namespace TestAPP
                         // var ob = JsonConvert.DeserializeObject<Root>(directoryContentsUrl);
 
                     }
-
-                    //RootPictures test = new RootPictures();
-
-                    //RootPictures ob = JsonConvert.DeserializeAnonymousType<RootPictures>(contentsJson1, test);
-
-                    //Debug.WriteLine(ob.download_url.ToString());
-
                 }
                 else if (fileType == "file")
                 {
