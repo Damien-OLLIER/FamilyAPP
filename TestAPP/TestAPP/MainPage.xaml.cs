@@ -22,6 +22,7 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using System.Linq;
+using MediaManager;
 
 namespace TestAPP
 {
@@ -36,9 +37,10 @@ namespace TestAPP
         //Accesseur et mutateur pour Le numero de telephone envoyé de base avec le texto
         public string numero { get; private set; }
         public int NumberOfItems { get; private set; }
-        public int NumberOfItemsMaps { get; private set; }
         public string LocationJSON { get; private set; }
 
+        //private string videoUrl = "https://sec.ch9.ms/ch9/e68c/690eebb1-797a-40ef-a841-c63dded4e68c/Cognitive-Services-Emotion_high.mp4";
+        private string videoUrl = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
         //List contenant des objets de la classe Place afin de creer les Pin Maps
         List<Place> placesList = new List<Place>();
 
@@ -816,26 +818,8 @@ namespace TestAPP
                         {
                             var contentsJson1 = await httpClient.GetStringAsync(directoryContentsUrl);
 
-                            //Debug.WriteLine("**************");
-                            //Debug.WriteLine("");
-                            //Debug.WriteLine(contentsJson1);
-                            //Debug.WriteLine("");
-                            //Debug.WriteLine("**************");
-                            //Debug.WriteLine("");
-
-                            JSONList.Add(contentsJson1);
-
-
-                            // var ob = JsonConvert.DeserializeObject<Root>(directoryContentsUrl);
-
+                            JSONList.Add(contentsJson1);                            
                         }
-
-                        //RootPictures test = new RootPictures();
-
-                        //RootPictures ob = JsonConvert.DeserializeAnonymousType<RootPictures>(contentsJson1, test);
-
-                        //Debug.WriteLine(ob.download_url.ToString());
-
                     }
                     else if (fileType == "file")
                     {
@@ -937,9 +921,50 @@ namespace TestAPP
 
         }
 
-        private void Button_Clicked_3(object sender, EventArgs e)
+
+        private void ContentPage_Appearing_3(object sender, EventArgs e)
         {
 
+        }
+
+        //private async void PlayStop_Clicked(object sender, EventArgs e)
+        //{
+
+        //    if (PlayPauseButton.Text == "Play")
+        //    {
+        //        await CrossMediaManager.Current.Play(VideoEntry.Text);
+
+        //        PlayPauseButton.Text = "Stop";
+        //    }
+
+        //    else if (PlayPauseButton.Text == "Stop")
+        //    {
+        //        await CrossMediaManager.Current.Stop();
+
+        //        PlayPauseButton.Text = "Play";
+        //    }
+        //}
+
+        private void PlayStopButton(object sender, EventArgs e)
+        {
+            if (PlayStopButtonText.Text == "Play")
+            {
+                CrossMediaManager.Current.PlayPause();
+
+                PlayStopButtonText.Text = "Stop";
+            }
+            else if (PlayStopButtonText.Text == "Stop")
+            {
+                CrossMediaManager.Current.Pause();
+
+                PlayStopButtonText.Text = "Play";
+            }
+            else if (PlayStopButtonText.Text == "Start")
+            {
+                CrossMediaManager.Current.Play(videoUrl);
+
+                PlayStopButtonText.Text = "Stop";
+            }
         }
     }
 }

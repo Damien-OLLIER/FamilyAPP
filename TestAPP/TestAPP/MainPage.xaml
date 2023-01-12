@@ -11,7 +11,7 @@
             xmlns:border="clr-namespace:Syncfusion.XForms.Border;assembly=Syncfusion.Core.XForms" 
             xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" 
             xmlns:syncfusion="http://schemas.syncfusion.com/xamarin" 
-            xmlns:sfListView="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+            xmlns:sfListView="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms" xmlns:mm="clr-namespace:MediaManager.Forms;assembly=MediaManager.Forms"
             x:Class="TestAPP.MainPage" Appearing="TabbedPage_Appearing">
 
     <!--"TabbedPage_Appearing" est la method appelé quand l'application s'ouvre. Cela permet de remplir le carousel view de la premiere page. La collection de photo est chosie aleatoirement-->
@@ -417,20 +417,37 @@
 
     </ContentPage>
 
-    <ContentPage Title="WIP"  IconImageSource="WIP.PNG">
-        <Grid BackgroundColor="#F3F5F9">
+    <ContentPage Title="WIP"  IconImageSource="WIP.PNG" Appearing="ContentPage_Appearing_3">
+        <!--<Grid BackgroundColor="#F3F5F9">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="5" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="20" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="4*" />
+                <RowDefinition Height="4" />
             </Grid.RowDefinitions>
 
             <Button Grid.Row="0" Text="click" Clicked="Button_Clicked_2"/>
-            <Button Grid.Row="1" Text="click" Clicked="Button_Clicked_3"/>
             
-        </Grid>
+            <Button x:Name="PlayPauseButton" Grid.Row="1" Text="Play" Clicked="PlayStop_Clicked"/>
+            
+            <Entry x:Name="VideoEntry"
+               Text ="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" 
+               Grid.Row="2"    />
+
+            <mm:VideoView x:Name="MyVideoView" VerticalOptions="FillAndExpand" ShowControls="true" Grid.Row="3"/>
+        </Grid>-->
+        <StackLayout>
+
+            <Button x:Name="PlayStopButtonText"  
+                    Text="Start"   
+                    Clicked="PlayStopButton"  
+                    TextColor="Black"/>
+            
+            <mm:VideoView HeightRequest="202"  
+                             WidthRequest="202" ShowControls="True"/>
+            
+        </StackLayout>
     </ContentPage>
 </TabbedPage>
 
