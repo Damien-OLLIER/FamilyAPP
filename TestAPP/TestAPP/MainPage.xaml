@@ -444,6 +444,8 @@
                     Clicked="PlayStopButton"  
                     TextColor="Black"/>
             
+            <Entry Text="Hello" />
+            
             <mm:VideoView HeightRequest="202"  
                              WidthRequest="202" ShowControls="True"/>
             

@@ -40,7 +40,8 @@ namespace TestAPP
         public string LocationJSON { get; private set; }
 
         //private string videoUrl = "https://sec.ch9.ms/ch9/e68c/690eebb1-797a-40ef-a841-c63dded4e68c/Cognitive-Services-Emotion_high.mp4";
-        private string videoUrl = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
+        private string videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/TestVideo1.mp4";
+        //https://api.github.com/repos/Damien-OLLIER/AppPictures/contents
         //List contenant des objets de la classe Place afin de creer les Pin Maps
         List<Place> placesList = new List<Place>();
 
