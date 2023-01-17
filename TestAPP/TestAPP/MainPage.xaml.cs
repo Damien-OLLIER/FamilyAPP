@@ -550,8 +550,15 @@ namespace TestAPP
                 // On creer une intsance de "MapsViewModel" afin d'avoir acces a la liste des pays possible
                 this.BindingContext = new MapsViewModel(contents);
             }
-            catch
+            catch (System.Net.Http.HttpRequestException ex)
             {
+                Debug.WriteLine(ex.ToString());
+                await DisplayAlert("Internet Error", "You have made too many HTTP requests. Please wait a few hours before using the app again.", "OK");
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
                 await DisplayAlert("Internet Error", "Please restart the App with Internet", "OK");
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
@@ -966,6 +973,73 @@ namespace TestAPP
 
                 PlayStopButtonText.Text = "Stop";
             }
+        }
+
+        private async void TestButton_Clicked(object sender, EventArgs e)
+        {
+            var httpClient = new HttpClient();
+
+             var GitFolder = await httpClient.GetStringAsync("https://api.github.com/repos/Damien-OLLIER/AppPictures/contents");
+           
+            var contents = (JArray)JsonConvert.DeserializeObject(GitFolder);
+
+            var git_url = "";
+
+            foreach (var file in contents)
+            {
+                var filetype = (string)file["type"];
+
+                if(filetype == "dir") 
+                {
+                    if( (string)file["name"] == "Video") 
+                    {
+                        git_url = (string)file["git_url"];
+                    }
+
+                }
+            }
+            
+            var VideoFolder = "";
+
+            VideoFolder = await httpClient.GetStringAsync(git_url);
+
+            var ob = JsonConvert.DeserializeObject<VideoFolderObject>(VideoFolder);
+
+            var TreeObject = ob.tree;
+
+            List<string> VideoNameList = new List<string>();
+
+            foreach (var VideoFile in ob.tree)
+            {
+                VideoNameList.Add(VideoFile.path);
+            }
+
+            Random rnd = new Random();
+
+            int RandNumber = rnd.Next(0, VideoNameList.Count);
+
+            Videoview.Source = VideoNameList[RandNumber];
+            await CrossMediaManager.Current.Play();
+
+        }
+
+        // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
+        public class VideoFolderObject
+        {
+            public string sha { get; set; }
+            public string url { get; set; }
+            public List<Tree> tree { get; set; }
+            public bool truncated { get; set; }
+        }
+
+        public class Tree
+        {
+            public string path { get; set; }
+            public string mode { get; set; }
+            public string type { get; set; }
+            public string sha { get; set; }
+            public int size { get; set; }
+            public string url { get; set; }
         }
     }
 }

@@ -444,10 +444,16 @@
                     Clicked="PlayStopButton"  
                     TextColor="Black"/>
             
+            <Button x:Name="Surprise" 
+                    Clicked="TestButton_Clicked"
+                    Text="Test Button"/>
+
             <Entry Text="Hello" />
             
-            <mm:VideoView HeightRequest="202"  
-                             WidthRequest="202" ShowControls="True"/>
+            <mm:VideoView x:Name="Videoview" 
+                          HeightRequest="202"  
+                          WidthRequest="202" 
+                          ShowControls="False"  />
             
         </StackLayout>
     </ContentPage>
