@@ -995,7 +995,6 @@ namespace TestAPP
                     {
                         git_url = (string)file["git_url"];
                     }
-
                 }
             }
             
@@ -1018,7 +1017,10 @@ namespace TestAPP
 
             int RandNumber = rnd.Next(0, VideoNameList.Count);
 
-            Videoview.Source = VideoNameList[RandNumber];
+            //videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+            Videoview.Source = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+            EntryVideoName.Text = Videoview.Source.ToString();
+
             await CrossMediaManager.Current.Play();
 
         }

@@ -448,7 +448,7 @@
                     Clicked="TestButton_Clicked"
                     Text="Test Button"/>
 
-            <Entry Text="Hello" />
+            <Entry x:Name="EntryVideoName" Text="Hello" />
             
             <mm:VideoView x:Name="Videoview" 
                           HeightRequest="202"  
