@@ -1022,7 +1022,6 @@ namespace TestAPP
             EntryVideoName.Text = Videoview.Source.ToString();
 
             await CrossMediaManager.Current.Play();
-
         }
 
         // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
@@ -1042,6 +1041,47 @@ namespace TestAPP
             public string sha { get; set; }
             public int size { get; set; }
             public string url { get; set; }
+        }
+
+
+        private async void PetitDejBtn_Clicked(object sender, EventArgs e)
+        {
+            PetitDejBtn.IsEnabled = false;
+            DejBtn.IsEnabled = true;
+            DinerBtn.IsEnabled = true;
+
+            gif.IsVisible = true;
+            await Task.Delay(1000);
+            gif.IsVisible = false;
+        }
+    
+
+        private async void DejBtn_Clicked(object sender, EventArgs e)
+            {
+
+            PetitDejBtn.IsEnabled = true;
+            DejBtn.IsEnabled = false;
+            DinerBtn.IsEnabled = true;
+
+            gif.IsVisible = true;
+            await Task.Delay(1000);
+            gif.IsVisible = false;
+        }
+
+        private async void DinerBtn_Clicked(object sender, EventArgs e)
+        {
+            PetitDejBtn.IsEnabled = true;
+            DejBtn.IsEnabled = true;
+            DinerBtn.IsEnabled = false;
+
+            gif.IsVisible = true;
+            await Task.Delay(1000);
+            gif.IsVisible = false;
+        }
+
+        private void ContentPage_Appearing_4(object sender, EventArgs e)
+        {
+
         }
     }
 }
