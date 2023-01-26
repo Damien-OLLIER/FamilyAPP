@@ -420,17 +420,20 @@
     <ContentPage Title="Menu"  IconImageSource="Food.png" Appearing="ContentPage_Appearing_4"   >
         <StackLayout>
             <Grid>
+                
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Text="Petit-déjeuner" x:Name="PetitDejBtn" FontSize="Small" Padding="0,0,0,0"  Margin="5,5,0,0" Clicked="PetitDejBtn_Clicked"/>
-                <Button Grid.Column="1" Text="Déjeuner" x:Name="DejBtn" FontSize="Small" Margin="5,5,0,0" Padding="0,-1,0,0" IsEnabled="true" Clicked="DejBtn_Clicked"/>
-                <Button Grid.Column="2" Text="Diner" x:Name="DinerBtn" FontSize="Small" Margin="5,5,5,0" Padding="0,-1,0,0" Clicked="DinerBtn_Clicked"/>
+                <Button Grid.Column="0" Text="Entrée"  x:Name="PetitDejBtn" FontSize="Small" Padding="0,0,0,0"  Margin="5,5,0,0" Clicked="PetitDejBtn_Clicked"/>
+                <Button Grid.Column="1" Text="Plat" x:Name="DejBtn" FontSize="Small" Margin="5,5,0,0" Padding="0,-1,0,0" IsEnabled="true" Clicked="DejBtn_Clicked"/>
+                <Button Grid.Column="2" Text="Dessert" x:Name="DinerBtn" FontSize="Small" Margin="5,5,5,0" Padding="0,-1,0,0" Clicked="DinerBtn_Clicked"/>
+                
             </Grid>
-            
+            <Button Text="" />
+
             <Image x:Name="gif" Source="Loading.gif" IsAnimationPlaying="True" IsVisible="false" Margin="0,250,0,0"/>
 
             
