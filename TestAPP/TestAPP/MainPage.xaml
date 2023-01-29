@@ -79,7 +79,7 @@
                                        Source="Folder.png" 
                                        VerticalOptions="StartAndExpand"
                                        HorizontalOptions="Start"
-                                       HeightRequest="40"/>
+                                       />
 
                                                         </Grid>
                                                     </ViewCell.View>
@@ -114,6 +114,7 @@
                                 <Frame HasShadow="True"
                                    Margin="3"
                                    Padding="3"
+                                       IsClippedToBounds="true"
                                        BackgroundColor="#1a1a1c"
                                        >
 
@@ -124,7 +125,6 @@
                                        Margin="0,0,0,0"
                                        VerticalOptions="FillAndExpand" 
                                         HorizontalOptions="FillAndExpand"
-                                        WidthRequest="200" HeightRequest="400"
                                         >
                                         
                                         <!--Implémentation du Double tap pour ouvrir la fenêtre PopUp afin de modifier le contenu du carousel-->
@@ -396,17 +396,20 @@
                     <DataTemplate>
                         <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
                             <!--To modify: le cadre autour des photos doit etre enlevé/modifier car ne rend pas bien sur le telephone de camille-->
-                            <Frame HasShadow="True"
+                            <Frame HasShadow="True"                                   
+                                   IsClippedToBounds="True"
                                    Margin="3"
                                    Padding="3"
-                                       >
+                                   >
+                                    <!--Margin="3"
+                                   Padding="3"-->
                                 <!--To do: retravailler le zoom ou la taille de certaines image. Travailler aussi sur l'orientation des images de travers-->
                                 <Image x:Name="CarouselPicture" 
                                        Source="{Binding .}"                                      
                                        Aspect="AspectFit"   
                                        Margin="0,0,0,0"
                                        VerticalOptions="CenterAndExpand"
-                                       HeightRequest="500" WidthRequest="200"  >
+                                       >
                                 </Image>
                             </Frame>
                         </StackLayout>
@@ -419,6 +422,7 @@
 
     <ContentPage Title="Menu"  IconImageSource="Food.png" Appearing="ContentPage_Appearing_4"   >
         <StackLayout>
+            
             <Grid>
                 
                 <Grid.ColumnDefinitions>
@@ -431,37 +435,16 @@
                 <Button Grid.Column="1" Text="Plat" x:Name="DejBtn" FontSize="Small" Margin="5,5,0,0" Padding="0,-1,0,0" IsEnabled="true" Clicked="DejBtn_Clicked"/>
                 <Button Grid.Column="2" Text="Dessert" x:Name="DinerBtn" FontSize="Small" Margin="5,5,5,0" Padding="0,-1,0,0" Clicked="DinerBtn_Clicked"/>
                 
-            </Grid>
-            <Button Text="" />
+            </Grid>          
 
             <Image x:Name="gif" Source="Loading.gif" IsAnimationPlaying="True" IsVisible="false" Margin="0,250,0,0"/>
-
-            
+           
 
         </StackLayout>
     </ContentPage>
 
 
-    <ContentPage Title="WIP"  IconImageSource="WIP.PNG" Appearing="ContentPage_Appearing_3">
-        <!--<Grid BackgroundColor="#F3F5F9">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="50" />
-                <RowDefinition Height="4*" />
-                <RowDefinition Height="4" />
-            </Grid.RowDefinitions>
-
-            <Button Grid.Row="0" Text="click" Clicked="Button_Clicked_2"/>
-            
-            <Button x:Name="PlayPauseButton" Grid.Row="1" Text="Play" Clicked="PlayStop_Clicked"/>
-            
-            <Entry x:Name="VideoEntry"
-               Text ="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" 
-               Grid.Row="2"    />
-
-            <mm:VideoView x:Name="MyVideoView" VerticalOptions="FillAndExpand" ShowControls="true" Grid.Row="3"/>
-        </Grid>-->
+    <ContentPage Title="WIP"  IconImageSource="WIP.PNG" Appearing="ContentPage_Appearing_3">      
         <StackLayout>
 
             <Button x:Name="PlayStopButtonText"  
