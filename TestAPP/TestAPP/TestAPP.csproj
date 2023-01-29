@@ -11,16 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Places.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Places.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Plugin.MediaManager" Version="1.1.1" />
     <PackageReference Include="Plugin.MediaManager.Forms" Version="1.1.1" />

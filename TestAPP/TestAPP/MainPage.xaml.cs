@@ -54,59 +54,8 @@ namespace TestAPP
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NTkzMjMwQDMxMzkyZTM0MmUzMGxLakdmUERlTjd4OHdYVnJ2WVlDSkhnSHZUWmFRa2swYmNEa0RnUFhIUGs9");
             InitializeComponent();
 
-            //var test = HomeGrid.RowDefinitions;
-
             message = "je t'aime !"; // Message de base affiché et envoyé au Num
-            numero = "+33632183163"; // Numero selectionne de base
-
-            UpdateMap();
-
-        }
-
-        //Methode qui permet d'initialiser le visuel de l'onglet Maps
-        private async void UpdateMap()
-        {
-            try
-            {// Pour eviter que l'app crash
-
-                // On recupere les Infos du Fichier JSON (Longitude, Latitude, etc...)
-                var assembly = IntrospectionExtensions.GetTypeInfo(typeof(MainPage)).Assembly;
-                Stream stream = assembly.GetManifestResourceStream("TestAPP.Places.json");
-
-                // On met tout ça en format text 
-                string text = string.Empty;
-                using (var reader = new StreamReader(stream, Encoding.UTF7))
-                {
-                    text = reader.ReadToEnd();
-                }
-
-                // On creer l'objet  "resultObject" qui contient toutes les infos
-                var resultObject = JsonConvert.DeserializeObject<Places>(text);
-
-                // Pour chaque iteration de "resultObject", on a acces à ses parametres tels que l'adressem la position, etc...
-                foreach (var place in resultObject.results)
-                {
-                    placesList.Add(new Place
-                    {
-                        PlaceName = place.name,
-                        Address = place.vicinity,
-                        Location = place.geometry.location,
-                        Position = new Position(place.geometry.location.lat, place.geometry.location.lng),
-                    });
-                }
-
-                //On met tout ça dans une liste que l'on Fourni a "MyMap" comme item Source
-                MyMap.ItemsSource = placesList;
-
-                //De base, map nous affiche les etats-unis. On bouge donc au milieu de l'europe à chaque demarrage
-                //TO DO: le commentaire du haut est faux, il faut changer la ligne du dessous car je suis con. Depuis le debut je mou fou au etats unis pour me mettre en europe, j'avais oublie l'existance de cette ligne 
-                MyMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(47.6370891183, -122.123736172), Distance.FromKilometers(100)));
-            }
-            catch (Exception ex)
-            {
-                //affichage de l'error dans la console (Output)
-                Debug.WriteLine(ex);
-            }
+            numero = "+33632183163"; // Numero selectionne de base            
         }
 
         //Méthode est appelée pour ouvrir la caméra frontale
@@ -576,7 +525,7 @@ namespace TestAPP
 
                 Debug.WriteLine(fileName);
 
-                if(fileName.Contains(".vs") || fileName.Contains("Video") || fileName.Contains("Places.json")) 
+                if(fileName.Contains(".vs") || fileName.Contains("Video") || fileName.Contains("Places.json") || fileName.Contains("Menu")) 
                 { 
                 }
                 else
@@ -621,8 +570,7 @@ namespace TestAPP
                     LabelDescription.Text = "Description : " + result.vicinity;
                 }
             }
-
-            //LabelDescription.Text = "Description : " + maps.description;
+            MyMap.ItemsSource = MapsViewModel.placesList;            
         }
 
         // To do: a supprimer ? potentiellement pas utilisé

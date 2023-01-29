@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using static TestAPP.MainPage;
@@ -26,13 +27,13 @@ namespace TestAPP
         static public JArray RespoJSON { get; set; }
 
         public ObservableCollection<Maps> Items { get; set; }
-        List<Place> placesList = new List<Place>();
+        static public List<Place> placesList { get; set; }
 
-        #endregion
+    #endregion
 
-        #region Fields
+    #region Fields
 
-        Random random = new Random(123456789);
+    Random random = new Random(123456789);
 
         #endregion
 
@@ -69,6 +70,8 @@ namespace TestAPP
 
                             var ob = JsonConvert.DeserializeObject<Places>(json);
 
+                            placesList = new List<Place>();  
+
                             foreach (var place in ob.results)
                             {
                                 placesList.Add(new Place
@@ -95,7 +98,12 @@ namespace TestAPP
             }            
         }
 
-       
+        public List<Place> GetPlacelist() 
+        {        
+            return placesList;  
+        }
+
+
         #endregion
 
         #region Fields
