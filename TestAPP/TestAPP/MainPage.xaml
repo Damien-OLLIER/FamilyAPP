@@ -109,14 +109,13 @@
                     <!--To explain: d'ou vient ce CarouselView, car il change a chaque demarrage d'app mais je retrouve plus ou-->
                     <CarouselView.ItemTemplate>
                         <DataTemplate>
-                            <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" >
+                            <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="End" >
                                 <!--To modify: le cadre autour des photos doit etre modifier car ne rend pas bien sur le telephone de camille-->
                                 <Frame HasShadow="True"
-                                   Margin="3"
-                                   Padding="3"
-                                       IsClippedToBounds="true"
-                                       BackgroundColor="#1a1a1c"
-                                       >
+                                    Margin="3"
+                                    Padding="3"
+                                    BackgroundColor="#1a1a1c" IsClippedToBounds="True"
+                                    >
 
                                     <!--To do: retravailler le zoom ou la taille de certaines image. Travailler aussi sur l'orientation des images de travers-->
                                     <Image x:Name="CarouselPicture"  Source="{Binding .}"     
@@ -124,7 +123,6 @@
                                        Aspect="AspectFit"   
                                        Margin="0,0,0,0"
                                        VerticalOptions="FillAndExpand" 
-                                        HorizontalOptions="FillAndExpand"
                                         >
                                         
                                         <!--Implémentation du Double tap pour ouvrir la fenêtre PopUp afin de modifier le contenu du carousel-->
@@ -394,12 +392,13 @@
             <CarouselView x:Name="CardImage" Margin="10"   HeightRequest="150" IsVisible="false" Grid.Row="1"  ItemsSource="{Binding CarouselView}" CurrentItemChanged="CardImage_PositionChanged" >
                 <CarouselView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand">
                             <!--To modify: le cadre autour des photos doit etre enlevé/modifier car ne rend pas bien sur le telephone de camille-->
                             <Frame HasShadow="True"                                   
-                                   IsClippedToBounds="True"
                                    Margin="3"
                                    Padding="3"
+                                   IsClippedToBounds="True"
+                                   BackgroundColor="Blue"
                                    >
                                     <!--Margin="3"
                                    Padding="3"-->
@@ -407,8 +406,6 @@
                                 <Image x:Name="CarouselPicture" 
                                        Source="{Binding .}"                                      
                                        Aspect="AspectFit"   
-                                       Margin="0,0,0,0"
-                                       VerticalOptions="CenterAndExpand"
                                        >
                                 </Image>
                             </Frame>
@@ -437,8 +434,7 @@
                 
             </Grid>          
 
-            <Image x:Name="gif" Source="Loading.gif" IsAnimationPlaying="True" IsVisible="false" Margin="0,250,0,0"/>
-           
+            <Image x:Name="gif" Source="Loading.gif" IsAnimationPlaying="True" IsVisible="false" Margin="0,250,0,0"/>          
 
         </StackLayout>
     </ContentPage>
@@ -462,9 +458,10 @@
                           HeightRequest="202"  
                           WidthRequest="202" 
                           ShowControls="False"  />
-            
+           
         </StackLayout>
     </ContentPage>
+
 </TabbedPage>
 
     
