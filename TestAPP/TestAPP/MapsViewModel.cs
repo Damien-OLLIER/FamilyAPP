@@ -43,12 +43,23 @@ namespace TestAPP
         {
             RespoJSON = contents;
 
+            JArray items = new JArray();
+
             foreach (var file in contents)
             {
                 var filetype = (string)file["type"];
                 if (filetype == "dir")
                 {
+                    var Name = (string)file["name"];
 
+                    if (Name.Contains("Video") || Name.Contains(".vs") || Name.Contains("Video") || Name.Contains("Menu")) 
+                    {
+                       // RespoJSON.Remove(file);
+                    }
+                    else 
+                    {
+                        items.Add(file);
+                    }
                 }
                 else if (filetype == "file")
                 {
@@ -95,13 +106,11 @@ namespace TestAPP
                         }
                     }
                 }
-            }            
+            }
+
+            RespoJSON = items;
         }
 
-        public List<Place> GetPlacelist() 
-        {        
-            return placesList;  
-        }
 
 
         #endregion

@@ -392,20 +392,13 @@
             <CarouselView x:Name="CardImage" Margin="10"   HeightRequest="150" IsVisible="false" Grid.Row="1"  ItemsSource="{Binding CarouselView}" CurrentItemChanged="CardImage_PositionChanged" >
                 <CarouselView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand">
-                            <!--To modify: le cadre autour des photos doit etre enlevé/modifier car ne rend pas bien sur le telephone de camille-->
-                            <Frame HasShadow="True"
-                                   Margin="3"
-                                   Padding="3"
-                                       >
-                                <!--To do: retravailler le zoom ou la taille de certaines image. Travailler aussi sur l'orientation des images de travers-->
-                                <Image x:Name="CarouselPicture" 
+                        <StackLayout HorizontalOptions="Center" VerticalOptions="End" >
+                            <Image x:Name="CarouselPicture" 
                                        Source="{Binding .}"                                      
                                        Aspect="AspectFit"   
                                        Margin="0,0,0,0"
                                        VerticalOptions="EndAndExpand">
-                                </Image>
-                            </Frame>
+                            </Image>
                         </StackLayout>
                     </DataTemplate>
                 </CarouselView.ItemTemplate>
