@@ -394,19 +394,17 @@
                     <DataTemplate>
                         <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand">
                             <!--To modify: le cadre autour des photos doit etre enlevé/modifier car ne rend pas bien sur le telephone de camille-->
-                            <Frame HasShadow="True"                                   
+                            <Frame HasShadow="True"
                                    Margin="3"
                                    Padding="3"
-                                   IsClippedToBounds="True"
-                                   BackgroundColor="Blue"
-                                   >
-                                    <!--Margin="3"
-                                   Padding="3"-->
+                                       >
                                 <!--To do: retravailler le zoom ou la taille de certaines image. Travailler aussi sur l'orientation des images de travers-->
                                 <Image x:Name="CarouselPicture" 
                                        Source="{Binding .}"                                      
                                        Aspect="AspectFit"   
-                                       >
+                                       Margin="0,0,0,0"
+                                       VerticalOptions="CenterAndExpand"
+                                       HorizontalOptions="End">
                                 </Image>
                             </Frame>
                         </StackLayout>
