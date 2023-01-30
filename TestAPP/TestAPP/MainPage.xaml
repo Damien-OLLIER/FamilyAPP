@@ -109,32 +109,24 @@
                     <!--To explain: d'ou vient ce CarouselView, car il change a chaque demarrage d'app mais je retrouve plus ou-->
                     <CarouselView.ItemTemplate>
                         <DataTemplate>
-                            <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="End" >
-                                <!--To modify: le cadre autour des photos doit etre modifier car ne rend pas bien sur le telephone de camille-->
-                                <Frame HasShadow="True"
-                                    Margin="3"
-                                    Padding="3"
-                                    BackgroundColor="#1a1a1c" IsClippedToBounds="True"
-                                    >
-
-                                    <!--To do: retravailler le zoom ou la taille de certaines image. Travailler aussi sur l'orientation des images de travers-->
-                                    <Image x:Name="CarouselPicture"  Source="{Binding .}"     
-                                      
-                                       Aspect="AspectFit"   
-                                       Margin="0,0,0,0"
-                                       VerticalOptions="FillAndExpand" 
+                            <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="Center" >
+                                <!--To do: retravailler le zoom ou la taille de certaines image. Travailler aussi sur l'orientation des images de travers-->
+                                <Image x:Name="CarouselPicture"  
+                                           Source="{Binding .}" 
+                                            Aspect="AspectFit"   
+                                            Margin="0,0,0,0"
+                                            VerticalOptions="FillAndExpand" 
                                         >
-                                        
-                                        <!--Implémentation du Double tap pour ouvrir la fenêtre PopUp afin de modifier le contenu du carousel-->
-                                        <Image.GestureRecognizers>
-                                            <TapGestureRecognizer
+
+                                    <!--Implémentation du Double tap pour ouvrir la fenêtre PopUp afin de modifier le contenu du carousel-->
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer
                                         Tapped="OnTapGestureRecognizerTapped" 
                                         NumberOfTapsRequired="2" />
-                                            <!--OnTapGestureRecognizerTapped est une methode-->
+                                        <!--OnTapGestureRecognizerTapped est une methode-->
 
-                                        </Image.GestureRecognizers>
-                                    </Image>
-                                </Frame>
+                                    </Image.GestureRecognizers>
+                                </Image>
                             </StackLayout>
                         </DataTemplate>
                     </CarouselView.ItemTemplate>
@@ -389,15 +381,16 @@
             <Label x:Name="CardImageCounter" Text="" Grid.Row="1" FontSize="Large" FontAttributes="Bold" IsVisible="false" TextColor="DarkGray" HorizontalOptions="Center" VerticalOptions="End"/>
 
             <!--CarouselView qui s'ouvre a chaque fois qu'un PIN de voyage est selectionné-->
-            <CarouselView x:Name="CardImage" Margin="10"   HeightRequest="150" IsVisible="false" Grid.Row="1"  ItemsSource="{Binding CarouselView}" CurrentItemChanged="CardImage_PositionChanged" >
+            <CarouselView x:Name="CardImage" Margin="10"   HeightRequest="140" IsVisible="false" Grid.Row="1"  ItemsSource="{Binding CarouselView}" CurrentItemChanged="CardImage_PositionChanged" >
                 <CarouselView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout HorizontalOptions="Center" VerticalOptions="End" >
+                        <StackLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand" >                            
                             <Image x:Name="CarouselPicture" 
                                        Source="{Binding .}"                                      
                                        Aspect="AspectFit"   
-                                       Margin="0,0,0,0"
-                                       VerticalOptions="EndAndExpand">
+                                       Margin="0,0,0,-130"
+                                       VerticalOptions="CenterAndExpand"
+                            >
                             </Image>
                         </StackLayout>
                     </DataTemplate>
