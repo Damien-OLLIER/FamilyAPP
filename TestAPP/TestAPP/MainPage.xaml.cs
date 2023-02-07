@@ -58,33 +58,99 @@ namespace TestAPP
             numero = "+33632183163"; // Numero selectionne de base            
         }
 
+
+        
         //Méthode est appelée pour ouvrir la caméra frontale
         private async void Button_Clicked_1(object sender, EventArgs e)
         {
-            //Ici, sont gérées les demandes de Permission à l'utilisateur pour pouvoir acceder à la caméra.
-            #region Permission
-            var permission = await Permissions.CheckStatusAsync<Permissions.Camera>();
+            HomeVideoview.MediaEnded += HomeVideoview_MediaEnded;
 
-            //si la permission n'a pas encore été accordé, on la demande
-            if (permission != PermissionStatus.Granted)
+            var httpClient = new HttpClient();
+
+            var GitFolder = await httpClient.GetStringAsync("https://api.github.com/repos/Damien-OLLIER/AppPictures/contents");
+
+            var contents = (JArray)JsonConvert.DeserializeObject(GitFolder);
+
+            var git_url = "";
+
+            foreach (var file in contents)
             {
-                permission = await Permissions.RequestAsync<Permissions.Camera>();
+                var filetype = (string)file["type"];
+
+                if (filetype == "dir")
+                {
+                    if ((string)file["name"] == "Video")
+                    {
+                        git_url = (string)file["git_url"];
+                    }
+                }
             }
 
-            if (permission != PermissionStatus.Granted)
+            var VideoFolder = "";
+
+            VideoFolder = await httpClient.GetStringAsync(git_url);
+
+            var ob = JsonConvert.DeserializeObject<VideoFolderObject>(VideoFolder);
+
+            var TreeObject = ob.tree;
+
+            List<string> VideoNameList = new List<string>();
+
+            foreach (var VideoFile in ob.tree)
             {
-                // rien ne se passe si la permission n'est pas accordé
-                return;
+                VideoNameList.Add(VideoFile.path);
             }
-            #endregion
 
-            var opts = new MediaPickerOptions
-            {
-                Title = "Tu es la plus belle",
-            };
+            Random rnd = new Random();
 
-            //To do: obliger la caméra frontale à s'ouvrir
-            await MediaPicker.CapturePhotoAsync(opts);
+            int RandNumber = rnd.Next(0, VideoNameList.Count);
+
+            HomeVideoview.Source = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+
+            HomeVideoview.IsVisible= true;
+            Carousel.IsVisible = false;
+            LabelIndicatorView.IsVisible= false;
+            LabelDescription.IsVisible= false;
+
+            HomeStackLayout.IsVisible= false;
+
+            //HomeVideoview.Play();
+            await CrossMediaManager.Current.Play();
+
+           
+
+            ////Ici, sont gérées les demandes de Permission à l'utilisateur pour pouvoir acceder à la caméra.
+            //#region Permission
+            //var permission = await Permissions.CheckStatusAsync<Permissions.Camera>();
+
+            ////si la permission n'a pas encore été accordé, on la demande
+            //if (permission != PermissionStatus.Granted)
+            //{
+            //    permission = await Permissions.RequestAsync<Permissions.Camera>();
+            //}
+
+            //if (permission != PermissionStatus.Granted)
+            //{
+            //    // rien ne se passe si la permission n'est pas accordé
+            //    return;
+            //}
+            //#endregion
+
+            //var opts = new MediaPickerOptions
+            //{
+            //    Title = "Tu es la plus belle",
+            //};
+
+            ////To do: obliger la caméra frontale à s'ouvrir
+            //await MediaPicker.CapturePhotoAsync(opts);
+        }
+
+        private void HomeVideoview_MediaEnded(object sender, EventArgs e)
+        {
+            HomeVideoview.IsVisible = false;
+            Carousel.IsVisible = true;
+            LabelIndicatorView.IsVisible = true;
+            LabelDescription.IsVisible = true;
         }
 
         //Méthode est appelée pour envoyer le texto
@@ -929,7 +995,7 @@ namespace TestAPP
         {
             var httpClient = new HttpClient();
 
-             var GitFolder = await httpClient.GetStringAsync("https://api.github.com/repos/Damien-OLLIER/AppPictures/contents");
+            var GitFolder = await httpClient.GetStringAsync("https://api.github.com/repos/Damien-OLLIER/AppPictures/contents");
            
             var contents = (JArray)JsonConvert.DeserializeObject(GitFolder);
 
