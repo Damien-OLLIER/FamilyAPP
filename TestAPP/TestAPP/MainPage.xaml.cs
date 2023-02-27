@@ -26,9 +26,6 @@ using MediaManager;
 
 namespace TestAPP
 {
-
-
-
     public partial class MainPage : Xamarin.Forms.TabbedPage
     {
         // ObservableCollection<Family> est une collection d'objet de la classe Family utilsé dans l'onglet family afin d'afficher l'expander (family  Tree)
@@ -40,6 +37,9 @@ namespace TestAPP
         public string numero { get; private set; }
         public int NumberOfItems { get; private set; }
         public string LocationJSON { get; private set; }
+        public List<string> EntréeCatégorieDistincte { get; private set; }
+        public List<string> PlatsCatégorieDistincte { get; private set; }
+        public List<string> DessertsCatégorieDistincte { get; private set; }
 
         //private string videoUrl = "https://sec.ch9.ms/ch9/e68c/690eebb1-797a-40ef-a841-c63dded4e68c/Cognitive-Services-Emotion_high.mp4";
         private string videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/TestVideo1.mp4";
@@ -114,11 +114,8 @@ namespace TestAPP
 
             HomeStackLayout.IsVisible= false;
 
-            //HomeVideoview.Play();
             await CrossMediaManager.Current.Play();
-
-           
-
+                     
             ////Ici, sont gérées les demandes de Permission à l'utilisateur pour pouvoir acceder à la caméra.
             //#region Permission
             //var permission = await Permissions.CheckStatusAsync<Permissions.Camera>();
@@ -636,7 +633,89 @@ namespace TestAPP
                     LabelDescription.Text = "Description : " + result.vicinity;
                 }
             }
-            MyMap.ItemsSource = MapsViewModel.placesList;            
+            MyMap.ItemsSource = MapsViewModel.placesList;
+
+
+            // Entrées 
+
+            using (WebClient wc = new WebClient())
+            {
+                Debug.WriteLine("");
+
+                var b = wc.Encoding;
+
+                var JsonFile = wc.DownloadString( @"https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Menu/Entrée.json");
+
+                var objet = JsonConvert.DeserializeObject<Recettes>(JsonFile);
+
+                var test = objet.Recette[0];
+
+                var CatégorieList = new List<string>();
+
+                foreach (var item in objet.Recette) 
+                {
+                    CatégorieList.Add(item.catégorie);
+                }
+
+                CatégorieList.Sort();
+
+                EntréeCatégorieDistincte = CatégorieList.Distinct().ToList();
+            }
+
+
+            // Plats
+
+            using (WebClient wc = new WebClient())
+            {
+                Debug.WriteLine("");
+
+                var b = wc.Encoding;
+
+                var JsonFile = wc.DownloadString("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Menu/Plat.json");
+
+                var objet = JsonConvert.DeserializeObject<Recettes>(JsonFile);
+
+                var test = objet.Recette[0];
+
+                var CatégorieList = new List<string>();
+
+                foreach (var item in objet.Recette)
+                {
+                    CatégorieList.Add(item.catégorie);
+                }
+
+                CatégorieList.Sort();
+
+                PlatsCatégorieDistincte = CatégorieList.Distinct().ToList();
+            }
+
+
+            // Desserts
+
+            using (WebClient wc = new WebClient())
+            {
+                Debug.WriteLine("");
+
+                var b = wc.Encoding;
+
+                var JsonFile = wc.DownloadString("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Menu/Dessert.json");
+
+                var objet = JsonConvert.DeserializeObject<Recettes>(JsonFile);
+
+                var test = objet.Recette[0];
+
+                var CatégorieList = new List<string>();
+
+                foreach (var item in objet.Recette)
+                {
+                    CatégorieList.Add(item.catégorie);
+                }
+
+                CatégorieList.Sort();
+
+                DessertsCatégorieDistincte = CatégorieList.Distinct().ToList();
+            }
+
         }
 
         // To do: a supprimer ? potentiellement pas utilisé
@@ -1060,39 +1139,92 @@ namespace TestAPP
         }
 
 
-        private async void PetitDejBtn_Clicked(object sender, EventArgs e)
+        private async void EntréeBtn_Clicked(object sender, EventArgs e)
         {
+            CatégorieStackLayout.Children.Clear();
+
             PetitDejBtn.IsEnabled = false;
             DejBtn.IsEnabled = true;
             DinerBtn.IsEnabled = true;
 
             gif.IsVisible = true;
-            await Task.Delay(1000);
+            await Task.Delay(500);
             gif.IsVisible = false;
-        }
-    
 
-        private async void DejBtn_Clicked(object sender, EventArgs e)
+            foreach(var TypeEntrée in EntréeCatégorieDistincte) 
             {
+                Button button = new Button()
+                {
+                    Text = TypeEntrée,
+                    //HorizontalOptions = LayoutOptions.Center,
+                    //VerticalOptions = LayoutOptions.CenterAndExpand
+                };
+
+                button.Clicked += OnButtonClicked;
+
+                CatégorieStackLayout.Children.Add(button);
+            }            
+        }
+
+        private void OnButtonClicked(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+
+            DisplayAlert("button cliked", "hey! I'am Button " + button.Text, "cancel");
+        }
+
+        private async void PlatBtn_Clicked(object sender, EventArgs e)
+        {
+            CatégorieStackLayout.Children.Clear();
 
             PetitDejBtn.IsEnabled = true;
             DejBtn.IsEnabled = false;
             DinerBtn.IsEnabled = true;
 
             gif.IsVisible = true;
-            await Task.Delay(1000);
+            await Task.Delay(500);
             gif.IsVisible = false;
+
+            foreach (var TypeEntrée in PlatsCatégorieDistincte)
+            {
+                Button button = new Button()
+                {
+                    Text = TypeEntrée,
+                    //HorizontalOptions = LayoutOptions.Center,
+                    //VerticalOptions = LayoutOptions.CenterAndExpand
+                };
+
+                button.Clicked += OnButtonClicked;
+
+                CatégorieStackLayout.Children.Add(button);
+            }
         }
 
-        private async void DinerBtn_Clicked(object sender, EventArgs e)
+        private async void DessertBtn_Clicked(object sender, EventArgs e)
         {
+            CatégorieStackLayout.Children.Clear();
+
             PetitDejBtn.IsEnabled = true;
             DejBtn.IsEnabled = true;
             DinerBtn.IsEnabled = false;
 
             gif.IsVisible = true;
-            await Task.Delay(1000);
+            await Task.Delay(500);
             gif.IsVisible = false;
+
+            foreach (var TypeEntrée in EntréeCatégorieDistincte)
+            {
+                Button button = new Button()
+                {
+                    Text = TypeEntrée,
+                    //HorizontalOptions = LayoutOptions.Center,
+                    //VerticalOptions = LayoutOptions.CenterAndExpand
+                };
+
+                button.Clicked += OnButtonClicked;
+
+                CatégorieStackLayout.Children.Add(button);
+            }
         }
 
         private void ContentPage_Appearing_4(object sender, EventArgs e)
@@ -1104,5 +1236,32 @@ namespace TestAPP
         {
             throw new NotImplementedException();
         }
-    }
+
+        // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
+        public class Recette
+        {
+            public string catégorie { get; set; }
+            public string Nom { get; set; }
+            public List<string> ingredients { get; set; }
+            public List<string> instructions { get; set; }
+        }
+
+        public class Recettes
+        {
+            public Recette[] Recette { get; set; }
+        }
+
+        private void ContentPage_Appearing_5(object sender, EventArgs e)
+        {
+            List<string> buttonLabels = new List<string> { "Button 1", "Button 2", "Button 3", "Button 4", "Button 5" };
+            //TestButton.ItemsSource = buttonLabels;
+        }
+
+        private void Button_Clicked_3(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+
+            DisplayAlert("button cliked", "hey button" + button.Text, "cancel");
+        }
+    }    
 }

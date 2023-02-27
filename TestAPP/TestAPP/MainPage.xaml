@@ -417,17 +417,22 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Text="Entrée"  x:Name="PetitDejBtn" FontSize="Small" Padding="0,0,0,0"  Margin="5,5,0,0" Clicked="PetitDejBtn_Clicked"/>
-                <Button Grid.Column="1" Text="Plat" x:Name="DejBtn" FontSize="Small" Margin="5,5,0,0" Padding="0,-1,0,0" IsEnabled="true" Clicked="DejBtn_Clicked"/>
-                <Button Grid.Column="2" Text="Dessert" x:Name="DinerBtn" FontSize="Small" Margin="5,5,5,0" Padding="0,-1,0,0" Clicked="DinerBtn_Clicked"/>
+                <Button Grid.Column="0" Text="Entrée"  x:Name="PetitDejBtn" FontSize="Small" Padding="0,0,0,0"  Margin="5,5,0,0" Clicked="EntréeBtn_Clicked"/>
+                <Button Grid.Column="1" Text="Plat" x:Name="DejBtn" FontSize="Small" Margin="5,5,0,0" Padding="0,-1,0,0" IsEnabled="true" Clicked="PlatBtn_Clicked"/>
+                <Button Grid.Column="2" Text="Dessert" x:Name="DinerBtn" FontSize="Small" Margin="5,5,5,0" Padding="0,-1,0,0" Clicked="DessertBtn_Clicked"/>
                 
-            </Grid>          
+            </Grid>
+
+            <ScrollView Orientation="Horizontal" Margin="15,0,0,0">
+                <StackLayout x:Name="CatégorieStackLayout" Orientation="Horizontal">
+                   
+                </StackLayout>
+            </ScrollView>
 
             <Image x:Name="gif" Source="Loading.gif" IsAnimationPlaying="True" IsVisible="false" Margin="0,250,0,0"/>          
 
         </StackLayout>
     </ContentPage>
-
 
     <ContentPage Title="WIP"  IconImageSource="WIP.PNG" Appearing="ContentPage_Appearing_3">      
         <StackLayout>
@@ -450,6 +455,32 @@
            
         </StackLayout>
     </ContentPage>
+
+    <ContentPage Title="Menu"  IconImageSource="Food.png" Appearing="ContentPage_Appearing_5"   >
+        <!--<CarouselView x:Name="TestButton" ItemsSource="{Binding CarouselView}" e>
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand" >
+                        <Button Text="{Binding .}" Clicked="Button_Clicked_3" WidthRequest="20"/>                        
+                    </StackLayout>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>-->
+        <ScrollView Orientation="Horizontal">
+            <StackLayout Orientation="Horizontal">
+                <Button Text="button1"/>
+                <Button Text="button2"/>
+                <Button Text="button3"/>
+                <Button Text="button4"/>
+                <Button Text="button5"/>
+                <Button Text="button"/>
+            </StackLayout>
+        </ScrollView>
+       
+
+
+    </ContentPage>
+
 
 </TabbedPage>
 
