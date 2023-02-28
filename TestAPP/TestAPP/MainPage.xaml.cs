@@ -23,6 +23,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using System.Linq;
 using MediaManager;
+using System.Linq.Expressions;
+using Xamarin.Forms.Xaml;
 
 namespace TestAPP
 {
@@ -40,6 +42,11 @@ namespace TestAPP
         public List<string> EntréeCatégorieDistincte { get; private set; }
         public List<string> PlatsCatégorieDistincte { get; private set; }
         public List<string> DessertsCatégorieDistincte { get; private set; }
+        public Recettes EntréeListObjet { get; private set; }
+        public Recettes PlatsListObjet { get; private set; }
+        public Recettes DessertsListObjet { get; private set; }
+        public List<string> MyList { get; set; }
+
 
         //private string videoUrl = "https://sec.ch9.ms/ch9/e68c/690eebb1-797a-40ef-a841-c63dded4e68c/Cognitive-Services-Emotion_high.mp4";
         private string videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/TestVideo1.mp4";
@@ -646,13 +653,11 @@ namespace TestAPP
 
                 var JsonFile = wc.DownloadString( @"https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Menu/Entrée.json");
 
-                var objet = JsonConvert.DeserializeObject<Recettes>(JsonFile);
-
-                var test = objet.Recette[0];
+                EntréeListObjet = JsonConvert.DeserializeObject<Recettes>(JsonFile);
 
                 var CatégorieList = new List<string>();
 
-                foreach (var item in objet.Recette) 
+                foreach (var item in EntréeListObjet.Recette) 
                 {
                     CatégorieList.Add(item.catégorie);
                 }
@@ -673,13 +678,11 @@ namespace TestAPP
 
                 var JsonFile = wc.DownloadString("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Menu/Plat.json");
 
-                var objet = JsonConvert.DeserializeObject<Recettes>(JsonFile);
-
-                var test = objet.Recette[0];
+                PlatsListObjet = JsonConvert.DeserializeObject<Recettes>(JsonFile);
 
                 var CatégorieList = new List<string>();
 
-                foreach (var item in objet.Recette)
+                foreach (var item in PlatsListObjet.Recette)
                 {
                     CatégorieList.Add(item.catégorie);
                 }
@@ -700,13 +703,10 @@ namespace TestAPP
 
                 var JsonFile = wc.DownloadString("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Menu/Dessert.json");
 
-                var objet = JsonConvert.DeserializeObject<Recettes>(JsonFile);
-
-                var test = objet.Recette[0];
-
+                DessertsListObjet = JsonConvert.DeserializeObject<Recettes>(JsonFile);
                 var CatégorieList = new List<string>();
 
-                foreach (var item in objet.Recette)
+                foreach (var item in DessertsListObjet.Recette)
                 {
                     CatégorieList.Add(item.catégorie);
                 }
@@ -715,7 +715,6 @@ namespace TestAPP
 
                 DessertsCatégorieDistincte = CatégorieList.Distinct().ToList();
             }
-
         }
 
         // To do: a supprimer ? potentiellement pas utilisé
@@ -1141,15 +1140,13 @@ namespace TestAPP
 
         private async void EntréeBtn_Clicked(object sender, EventArgs e)
         {
+            CarouselViewRecettes.IsVisible = false;
+
             CatégorieStackLayout.Children.Clear();
 
-            PetitDejBtn.IsEnabled = false;
-            DejBtn.IsEnabled = true;
-            DinerBtn.IsEnabled = true;
-
-            gif.IsVisible = true;
-            await Task.Delay(500);
-            gif.IsVisible = false;
+            EntréeBtn.IsEnabled = false;
+            PlatBtn.IsEnabled = true;
+            DessertBtn.IsEnabled = true;
 
             foreach(var TypeEntrée in EntréeCatégorieDistincte) 
             {
@@ -1168,22 +1165,94 @@ namespace TestAPP
 
         private void OnButtonClicked(object sender, EventArgs e)
         {
-            Button button = (Button)sender;
+            CarouselViewRecettes.IsVisible = true;
 
-            DisplayAlert("button cliked", "hey! I'am Button " + button.Text, "cancel");
+            foreach (var child in CatégorieStackLayout.Children)
+            {
+                if (child is Button Bouton)
+                {
+                    // Do something with the button
+                    // For example, set its text
+                    var test = Bouton.Text;
+                    Bouton.IsEnabled = true;
+                }
+            }
+
+            Button button = (Button)sender;
+            button.IsEnabled = false;
+
+            MyList = new List<string>();
+            MyList.Clear();
+
+            if (!EntréeBtn.IsEnabled) 
+            {
+                var EntreeNameListObjet = new List<Recette>();
+
+                foreach (var Entree in EntréeListObjet.Recette)
+                {
+                    if (Entree.catégorie == button.Text)
+                    {
+                        EntreeNameListObjet.Add(Entree);
+                        MyList.Add(Entree.Nom);
+                    }
+                }
+            }
+            else if (!PlatBtn.IsEnabled)
+            {
+                var PlatNameListObjet = new List<Recette>();
+
+                foreach (var Plat in PlatsListObjet.Recette)
+                {
+                    if (Plat.catégorie == button.Text)
+                    {
+                        PlatNameListObjet.Add(Plat);
+                        MyList.Add(Plat.Nom);
+                    }
+                }
+            }
+            else
+            {
+                var DessertNameListObjet = new List<Recette>();
+                
+                foreach (var Dessert in DessertsListObjet.Recette) 
+                {
+                    if(Dessert.catégorie == button.Text) 
+                    {
+                        DessertNameListObjet.Add(Dessert);
+                        MyList.Add(Dessert.Nom);
+                    }
+                }
+            }
+
+            CarouselViewRecettes.ItemsSource = MyList;
+            //switch (button.Text)
+            //{
+            //    case "Entrée":
+            //        DisplayAlert("button cliked", "Entrée", "cancel");
+            //        break;
+            //    case "Plat":
+            //        DisplayAlert("button cliked", "Plat", "cancel");
+            //        break;
+            //    case "Dessert":
+            //        DisplayAlert("button cliked", "Dessert", "cancel");
+            //        break;
+            //    default:
+            //        DisplayAlert("button cliked", "It is not working", "cancel");
+            //        break;
+            //}
+
+            //DessertsListObjet
         }
 
         private async void PlatBtn_Clicked(object sender, EventArgs e)
         {
+            CarouselViewRecettes.IsVisible = false;
+
             CatégorieStackLayout.Children.Clear();
 
-            PetitDejBtn.IsEnabled = true;
-            DejBtn.IsEnabled = false;
-            DinerBtn.IsEnabled = true;
-
-            gif.IsVisible = true;
-            await Task.Delay(500);
-            gif.IsVisible = false;
+            EntréeBtn.IsEnabled = true;
+            PlatBtn.IsEnabled = false;
+            DessertBtn.IsEnabled = true;
 
             foreach (var TypeEntrée in PlatsCatégorieDistincte)
             {
@@ -1202,17 +1271,15 @@ namespace TestAPP
 
         private async void DessertBtn_Clicked(object sender, EventArgs e)
         {
+            CarouselViewRecettes.IsVisible = false;
+
             CatégorieStackLayout.Children.Clear();
 
-            PetitDejBtn.IsEnabled = true;
-            DejBtn.IsEnabled = true;
-            DinerBtn.IsEnabled = false;
+            EntréeBtn.IsEnabled = true;
+            PlatBtn.IsEnabled = true;
+            DessertBtn.IsEnabled = false;
 
-            gif.IsVisible = true;
-            await Task.Delay(500);
-            gif.IsVisible = false;
-
-            foreach (var TypeEntrée in EntréeCatégorieDistincte)
+            foreach (var TypeEntrée in DessertsCatégorieDistincte)
             {
                 Button button = new Button()
                 {

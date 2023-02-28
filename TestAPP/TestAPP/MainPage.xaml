@@ -350,7 +350,6 @@
 
     <!--Debut du troisieme onglet, "Maps", qui appel la methode "ContentPage_Appearing" lorsqu'on clic dessus-->
     <ContentPage Title="Maps"  IconImageSource="MapsIcon.PNG" Appearing="ContentPage_Appearing" >
-
         <!--On organise tout ça dans une grid afin de mieux gerer l'espace dédié à chaque composant-->
         <!--Meme si Maps prend tout l'ecran car Maps.Grid.Row = 0 et Maps.Grid.Rowspan = 3 ce qui fait que maps est sur toutes les lignes dispo, le CarouselView prend aussi la derniere ligne, par dessus maps-->
         <Grid BackgroundColor="#F3F5F9">
@@ -417,20 +416,28 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Text="Entrée"  x:Name="PetitDejBtn" FontSize="Small" Padding="0,0,0,0"  Margin="5,5,0,0" Clicked="EntréeBtn_Clicked"/>
-                <Button Grid.Column="1" Text="Plat" x:Name="DejBtn" FontSize="Small" Margin="5,5,0,0" Padding="0,-1,0,0" IsEnabled="true" Clicked="PlatBtn_Clicked"/>
-                <Button Grid.Column="2" Text="Dessert" x:Name="DinerBtn" FontSize="Small" Margin="5,5,5,0" Padding="0,-1,0,0" Clicked="DessertBtn_Clicked"/>
+                <Button Grid.Column="0" Text="Entrée"  x:Name="EntréeBtn" FontSize="Small" Padding="0,0,0,0"  Margin="5,5,0,0" Clicked="EntréeBtn_Clicked"/>
+                <Button Grid.Column="1" Text="Plat" x:Name="PlatBtn" FontSize="Small" Margin="5,5,0,0" Padding="0,-1,0,0" IsEnabled="true" Clicked="PlatBtn_Clicked"/>
+                <Button Grid.Column="2" Text="Dessert" x:Name="DessertBtn" FontSize="Small" Margin="5,5,5,0" Padding="0,-1,0,0" Clicked="DessertBtn_Clicked"/>
                 
             </Grid>
 
-            <ScrollView Orientation="Horizontal" Margin="15,0,0,0">
+            <ScrollView x:Name="CatégorieScrollView" Orientation="Horizontal" Margin="15,0,0,0">
                 <StackLayout x:Name="CatégorieStackLayout" Orientation="Horizontal">
                    
                 </StackLayout>
             </ScrollView>
 
-            <Image x:Name="gif" Source="Loading.gif" IsAnimationPlaying="True" IsVisible="false" Margin="0,250,0,0"/>          
-
+            <CarouselView x:Name="CarouselViewRecettes"  ItemsSource="{Binding MyList}" >
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout>
+                            <Label Text="{Binding .}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Large" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+            
         </StackLayout>
     </ContentPage>
 
@@ -455,32 +462,6 @@
            
         </StackLayout>
     </ContentPage>
-
-    <ContentPage Title="Menu"  IconImageSource="Food.png" Appearing="ContentPage_Appearing_5"   >
-        <!--<CarouselView x:Name="TestButton" ItemsSource="{Binding CarouselView}" e>
-            <CarouselView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand" >
-                        <Button Text="{Binding .}" Clicked="Button_Clicked_3" WidthRequest="20"/>                        
-                    </StackLayout>
-                </DataTemplate>
-            </CarouselView.ItemTemplate>
-        </CarouselView>-->
-        <ScrollView Orientation="Horizontal">
-            <StackLayout Orientation="Horizontal">
-                <Button Text="button1"/>
-                <Button Text="button2"/>
-                <Button Text="button3"/>
-                <Button Text="button4"/>
-                <Button Text="button5"/>
-                <Button Text="button"/>
-            </StackLayout>
-        </ScrollView>
-       
-
-
-    </ContentPage>
-
 
 </TabbedPage>
 
