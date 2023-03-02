@@ -432,7 +432,9 @@
                 <CarouselView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout>
-                            <Label Text="{Binding .}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Large" />
+                            <Label Text="{Binding Text}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Large" TextColor="Red"/>
+                            <Image x:Name="PictureCarouselViewRecettes" Source="{Binding PictureUrl}" VerticalOptions="StartAndExpand"
+                                       HorizontalOptions="Start" Aspect="AspectFill"/>
                         </StackLayout>
                     </DataTemplate>
                 </CarouselView.ItemTemplate>

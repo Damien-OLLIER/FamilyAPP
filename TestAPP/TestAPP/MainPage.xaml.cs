@@ -1224,7 +1224,22 @@ namespace TestAPP
                 }
             }
 
-            CarouselViewRecettes.ItemsSource = MyList;
+            List<string> textList = new List<string>() { "Text 1", "Text 2", "Text 3" };
+            List<string> pictureList = new List<string>() { "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Autriche/Autriche1.JPG", "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Autriche/Autriche10.JPG", "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Autriche/Autriche22.JPG" };
+
+            List<object> dataList = new List<object>();
+
+            for (int i = 0; i < textList.Count; i++)
+            {
+                string TextRecipe = textList[i];
+                string pictureName = pictureList[i];
+
+                dataList.Add(new { Text = TextRecipe, PictureUrl = pictureName });
+            }
+
+            CarouselViewRecettes.ItemsSource = dataList;
+
+            //CarouselViewRecettes.ItemsSource = MyList;
             //switch (button.Text)
             //{
             //    case "Entrée":
