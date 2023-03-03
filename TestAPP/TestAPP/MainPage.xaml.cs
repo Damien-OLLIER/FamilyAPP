@@ -1184,6 +1184,9 @@ namespace TestAPP
             MyList = new List<string>();
             MyList.Clear();
 
+            List<string> textList = new List<string>();
+            List<string> pictureList = new List<string>();
+
             if (!EntréeBtn.IsEnabled) 
             {
                 var EntreeNameListObjet = new List<Recette>();
@@ -1218,15 +1221,15 @@ namespace TestAPP
                 {
                     if(Dessert.catégorie == button.Text) 
                     {
-                        DessertNameListObjet.Add(Dessert);
-                        MyList.Add(Dessert.Nom);
+                        pictureList.Add(Dessert.AdressePhoto);
+                        textList.Add(Dessert.Nom);
+
+                        //DessertNameListObjet.Add(Dessert);
                     }
                 }
             }
 
-            List<string> textList = new List<string>() { "Text 1", "Text 2", "Text 3" };
-            List<string> pictureList = new List<string>() { "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Autriche/Autriche1.JPG", "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Autriche/Autriche10.JPG", "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Autriche/Autriche22.JPG" };
-
+           
             List<object> dataList = new List<object>();
 
             for (int i = 0; i < textList.Count; i++)
@@ -1324,6 +1327,8 @@ namespace TestAPP
         {
             public string catégorie { get; set; }
             public string Nom { get; set; }
+            public string AdressePhoto { get; set; }
+
             public List<string> ingredients { get; set; }
             public List<string> instructions { get; set; }
         }
