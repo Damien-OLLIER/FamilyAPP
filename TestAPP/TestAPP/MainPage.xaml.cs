@@ -1195,8 +1195,8 @@ namespace TestAPP
                 {
                     if (Entree.catégorie == button.Text)
                     {
-                        EntreeNameListObjet.Add(Entree);
-                        MyList.Add(Entree.Nom);
+                        pictureList.Add(Entree.AdressePhoto);
+                        textList.Add(Entree.Nom);
                     }
                 }
             }
@@ -1208,8 +1208,8 @@ namespace TestAPP
                 {
                     if (Plat.catégorie == button.Text)
                     {
-                        PlatNameListObjet.Add(Plat);
-                        MyList.Add(Plat.Nom);
+                        pictureList.Add(Plat.AdressePhoto);
+                        textList.Add(Plat.Nom);
                     }
                 }
             }
@@ -1223,8 +1223,6 @@ namespace TestAPP
                     {
                         pictureList.Add(Dessert.AdressePhoto);
                         textList.Add(Dessert.Nom);
-
-                        //DessertNameListObjet.Add(Dessert);
                     }
                 }
             }
