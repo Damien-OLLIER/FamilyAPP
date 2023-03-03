@@ -1138,7 +1138,7 @@ namespace TestAPP
         }
 
 
-        private async void EntréeBtn_Clicked(object sender, EventArgs e)
+        private void EntréeBtn_Clicked(object sender, EventArgs e)
         {
             CarouselViewRecettes.IsVisible = false;
 
@@ -1189,8 +1189,6 @@ namespace TestAPP
 
             if (!EntréeBtn.IsEnabled) 
             {
-                var EntreeNameListObjet = new List<Recette>();
-
                 foreach (var Entree in EntréeListObjet.Recette)
                 {
                     if (Entree.catégorie == button.Text)
@@ -1202,8 +1200,6 @@ namespace TestAPP
             }
             else if (!PlatBtn.IsEnabled)
             {
-                var PlatNameListObjet = new List<Recette>();
-
                 foreach (var Plat in PlatsListObjet.Recette)
                 {
                     if (Plat.catégorie == button.Text)
@@ -1214,9 +1210,7 @@ namespace TestAPP
                 }
             }
             else
-            {
-                var DessertNameListObjet = new List<Recette>();
-                
+            {               
                 foreach (var Dessert in DessertsListObjet.Recette) 
                 {
                     if(Dessert.catégorie == button.Text) 
@@ -1347,6 +1341,17 @@ namespace TestAPP
             Button button = (Button)sender;
 
             DisplayAlert("button cliked", "hey button" + button.Text, "cancel");
+        }
+
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            DisplayAlert("Double Tapped", "Double Tapped", "OK");
+        }
+
+        private void TapGestureRecognizer_Tapped_1(object sender, EventArgs e)
+        {
+            var test = CarouselViewRecettes.CurrentItem;
+            DisplayAlert("Single Tapped", "Single Tapped", "OK");
         }
     }    
 }

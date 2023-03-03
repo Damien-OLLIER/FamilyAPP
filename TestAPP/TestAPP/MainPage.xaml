@@ -428,13 +428,21 @@
                 </StackLayout>
             </ScrollView>
 
-            <CarouselView x:Name="CarouselViewRecettes"  ItemsSource="{Binding MyList}" >
+            <CarouselView x:Name="CarouselViewRecettes"  ItemsSource="{Binding MyList}">
                 <CarouselView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout>
                             <Label Text="{Binding Text}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Padding="0,20,0,0" FontSize="Large"/>
                             <Image x:Name="PictureCarouselViewRecettes" Source="{Binding PictureUrl}" VerticalOptions="CenterAndExpand"
-                                       HorizontalOptions="CenterAndExpand" Aspect="AspectFill"/>
+                                       HorizontalOptions="CenterAndExpand" Aspect="AspectFill">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                            Tapped="TapGestureRecognizer_Tapped_1" 
+                                            NumberOfTapsRequired="1" />
+                                    <!--OnTapGestureRecognizerTapped est une methode-->
+
+                                </Image.GestureRecognizers>
+                            </Image>
                         </StackLayout>
                     </DataTemplate>
                 </CarouselView.ItemTemplate>
