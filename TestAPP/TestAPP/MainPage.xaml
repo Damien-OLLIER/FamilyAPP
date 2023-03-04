@@ -127,7 +127,7 @@
                                     <Image.GestureRecognizers>
                                         <TapGestureRecognizer
                                         Tapped="OnTapGestureRecognizerTapped" 
-                                        NumberOfTapsRequired="2" />
+                                        NumberOfTapsRequired="1" />
                                         <!--OnTapGestureRecognizerTapped est une methode-->
 
                                     </Image.GestureRecognizers>

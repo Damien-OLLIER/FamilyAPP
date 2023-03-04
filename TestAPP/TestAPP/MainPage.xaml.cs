@@ -25,6 +25,8 @@ using System.Linq;
 using MediaManager;
 using System.Linq.Expressions;
 using Xamarin.Forms.Xaml;
+using static System.Net.Mime.MediaTypeNames;
+using System.Collections;
 
 namespace TestAPP
 {
@@ -45,6 +47,7 @@ namespace TestAPP
         public Recettes EntréeListObjet { get; private set; }
         public Recettes PlatsListObjet { get; private set; }
         public Recettes DessertsListObjet { get; private set; }
+        public string CatégorieSélectionnée { get; private set; }
         public List<string> MyList { get; set; }
 
 
@@ -1171,9 +1174,6 @@ namespace TestAPP
             {
                 if (child is Button Bouton)
                 {
-                    // Do something with the button
-                    // For example, set its text
-                    var test = Bouton.Text;
                     Bouton.IsEnabled = true;
                 }
             }
@@ -1181,12 +1181,16 @@ namespace TestAPP
             Button button = (Button)sender;
             button.IsEnabled = false;
 
+
+            CatégorieSélectionnée = button.Text;
+
             MyList = new List<string>();
             MyList.Clear();
 
             List<string> textList = new List<string>();
             List<string> pictureList = new List<string>();
 
+            // Les entrées selectionnées
             if (!EntréeBtn.IsEnabled) 
             {
                 foreach (var Entree in EntréeListObjet.Recette)
@@ -1197,7 +1201,7 @@ namespace TestAPP
                         textList.Add(Entree.Nom);
                     }
                 }
-            }
+            }// Les Plats selectionnés
             else if (!PlatBtn.IsEnabled)
             {
                 foreach (var Plat in PlatsListObjet.Recette)
@@ -1210,7 +1214,7 @@ namespace TestAPP
                 }
             }
             else
-            {               
+            {// Les Desserts selectionnés       
                 foreach (var Dessert in DessertsListObjet.Recette) 
                 {
                     if(Dessert.catégorie == button.Text) 
@@ -1221,7 +1225,6 @@ namespace TestAPP
                 }
             }
 
-           
             List<object> dataList = new List<object>();
 
             for (int i = 0; i < textList.Count; i++)
@@ -1232,26 +1235,7 @@ namespace TestAPP
                 dataList.Add(new { Text = TextRecipe, PictureUrl = pictureName });
             }
 
-            CarouselViewRecettes.ItemsSource = dataList;
-
-            //CarouselViewRecettes.ItemsSource = MyList;
-            //switch (button.Text)
-            //{
-            //    case "Entrée":
-            //        DisplayAlert("button cliked", "Entrée", "cancel");
-            //        break;
-            //    case "Plat":
-            //        DisplayAlert("button cliked", "Plat", "cancel");
-            //        break;
-            //    case "Dessert":
-            //        DisplayAlert("button cliked", "Dessert", "cancel");
-            //        break;
-            //    default:
-            //        DisplayAlert("button cliked", "It is not working", "cancel");
-            //        break;
-            //}
-
-            //DessertsListObjet
+            CarouselViewRecettes.ItemsSource = dataList;            
         }
 
         private async void PlatBtn_Clicked(object sender, EventArgs e)
@@ -1343,15 +1327,61 @@ namespace TestAPP
             DisplayAlert("button cliked", "hey button" + button.Text, "cancel");
         }
 
-        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
-        {
-            DisplayAlert("Double Tapped", "Double Tapped", "OK");
-        }
-
         private void TapGestureRecognizer_Tapped_1(object sender, EventArgs e)
         {
-            var test = CarouselViewRecettes.CurrentItem;
-            DisplayAlert("Single Tapped", "Single Tapped", "OK");
+            var JSONText = CarouselViewRecettes.CurrentItem.ToString(); 
+
+            int Pos1 = JSONText.IndexOf("=") + 2;
+
+            int Pos2 = JSONText.IndexOf(",");
+
+            var SelectedRecipe = JSONText.Substring(Pos1, Pos2 - Pos1);
+
+            var Instructions = new List<string>();
+            var Ingrédients = new List<string>();
+
+            // Les entrées selectionnées
+            if (!EntréeBtn.IsEnabled)
+            {
+                foreach (var Entree in EntréeListObjet.Recette)
+                {
+                    if (Entree.catégorie == CatégorieSélectionnée)
+                    {
+
+                    }
+                }
+            }// Les Plats selectionnés
+            else if (!PlatBtn.IsEnabled)
+            {
+                foreach (var Plat in PlatsListObjet.Recette)
+                {
+                    if (Plat.catégorie == CatégorieSélectionnée)
+                    {
+                        
+                    }
+                }
+            }
+            else
+            {// Les Desserts selectionnés       
+                foreach (var Dessert in DessertsListObjet.Recette)
+                {
+                    if (Dessert.catégorie == CatégorieSélectionnée)
+                    {
+                        if (SelectedRecipe == Dessert.Nom) 
+                        {
+                            Instructions = Dessert.instructions;
+                            Ingrédients = Dessert.ingredients;
+                        }
+                        
+                    }
+                }
+            }
+
+            string result1 = String.Join(Environment.NewLine , Instructions);
+            string result2 = String.Join(Environment.NewLine, Ingrédients);
+
+
+            DisplayAlert(SelectedRecipe, result1 + Environment.NewLine + Environment.NewLine + result2, "OK");
         }
     }    
 }
