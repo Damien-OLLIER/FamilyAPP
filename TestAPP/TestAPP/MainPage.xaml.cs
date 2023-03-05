@@ -27,6 +27,7 @@ using System.Linq.Expressions;
 using Xamarin.Forms.Xaml;
 using static System.Net.Mime.MediaTypeNames;
 using System.Collections;
+using MediaManager.Forms;
 
 namespace TestAPP
 {
@@ -115,7 +116,9 @@ namespace TestAPP
 
             int RandNumber = rnd.Next(0, VideoNameList.Count);
 
-            HomeVideoview.Source = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+            //HomeVideoview.Source = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+
+            HomeVideoview.Source = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[0];
 
             HomeVideoview.IsVisible= true;
             Carousel.IsVisible = false;
@@ -1114,11 +1117,28 @@ namespace TestAPP
 
             int RandNumber = rnd.Next(0, VideoNameList.Count);
 
+            Videoview.PropertyChanging += Videoview_PropertyChanging;
+
             //videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
             Videoview.Source = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
             EntryVideoName.Text = Videoview.Source.ToString();
 
+
             await CrossMediaManager.Current.Play();
+
+            // Button_Clicked_4(null, EventArgs.Empty);
+
+            //var test = Videoview.Duration;
+        }
+
+        private void Videoview_PropertyChanging(object sender, Xamarin.Forms.PropertyChangingEventArgs e)
+        {
+            var test = Videoview.Duration;
+            
+            if(test != TimeSpan.Zero)
+            { 
+                // variable global de la durée de la vidéo
+            }
         }
 
         // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
@@ -1382,6 +1402,11 @@ namespace TestAPP
 
 
             DisplayAlert(SelectedRecipe, result1 + Environment.NewLine + Environment.NewLine + result2, "OK");
+        }
+
+        private void Button_Clicked_4(object sender, EventArgs e)
+        {
+            var test = Videoview.Duration;
         }
     }    
 }

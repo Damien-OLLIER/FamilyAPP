@@ -107,6 +107,7 @@
                                               HorizontalOptions="FillAndExpand"
                                               ShowsPlaybackControls="False"/>
 
+                
                 <!-- CarouselView qui sert de galerie d'image au centre du premier onglet -->
                 <!-- Importat de set ItemsSource pour le Binding d'image 8 lignes plus bas-->
                 <!--IndicatorView="IndicatorView"-->
@@ -469,6 +470,8 @@
                           HeightRequest="202"  
                           WidthRequest="202" 
                           ShowControls="False"  />
+
+            <Button Text="Duration" x:Name="DurationButton" Clicked="Button_Clicked_4"></Button>
            
         </StackLayout>
     </ContentPage>
