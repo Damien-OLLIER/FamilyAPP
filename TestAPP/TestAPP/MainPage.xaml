@@ -469,10 +469,16 @@
             <mm:VideoView x:Name="Videoview" 
                           HeightRequest="202"  
                           WidthRequest="202" 
-                          ShowControls="False"  />
+                          ShowControls="False"   />
 
             <Button Text="Duration" x:Name="DurationButton" Clicked="Button_Clicked_4"></Button>
-           
+
+            <xct:MediaElement Source = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/TestVideo1.mp4" AutoPlay="True" ShowsPlaybackControls="True"  SeekCompleted="MyMediaElement_SeekCompleted" x:Name="MyMediaElement" HorizontalOptions="Fill" VerticalOptions="CenterAndExpand"/>
+
+            <Button Text="Play" x:Name="PlayButton" Clicked="PlayButton_Clicked"></Button>
+            
+            <Button Text="Modify Doc" x:Name="ModifyDoc" Clicked="PlayButton_Clicked_1"></Button>
+
         </StackLayout>
     </ContentPage>
 

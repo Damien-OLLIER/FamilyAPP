@@ -65,7 +65,7 @@ namespace TestAPP
                 {
                     var downloadurl = (string)file["download_url"];
 
-                    if (downloadurl.Contains("TestVideo1.mp4") || downloadurl.Contains("Video") || downloadurl.Contains(".vs") || downloadurl.Contains("Menu"))
+                    if (downloadurl.Contains("TestVideo1.mp4") || downloadurl.Contains("Video") || downloadurl.Contains(".vs") || downloadurl.Contains("Menu") || downloadurl.Contains("Test"))
                     {
 
                     }

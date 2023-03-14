@@ -28,6 +28,7 @@ using Xamarin.Forms.Xaml;
 using static System.Net.Mime.MediaTypeNames;
 using System.Collections;
 using MediaManager.Forms;
+using System.Text.RegularExpressions;
 
 namespace TestAPP
 {
@@ -118,7 +119,7 @@ namespace TestAPP
 
             //HomeVideoview.Source = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
 
-            HomeVideoview.Source = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[0];
+            HomeVideoview.Source = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[1];
 
             HomeVideoview.IsVisible= true;
             Carousel.IsVisible = false;
@@ -1134,9 +1135,9 @@ namespace TestAPP
         private void Videoview_PropertyChanging(object sender, Xamarin.Forms.PropertyChangingEventArgs e)
         {
             var test = Videoview.Duration;
-            
+                        
             if(test != TimeSpan.Zero)
-            { 
+            {
                 // variable global de la durée de la vidéo
             }
         }
@@ -1407,6 +1408,107 @@ namespace TestAPP
         private void Button_Clicked_4(object sender, EventArgs e)
         {
             var test = Videoview.Duration;
+        }
+
+        private async void PlayButton_Clicked(object sender, EventArgs e)
+        {
+            MyMediaElement.Play();
+            await CrossMediaManager.Current.Play();
+        }
+
+        private void MyMediaElement_SeekCompleted(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void PlayButton_Clicked_1(object sender, EventArgs e)
+        {
+            try
+            {
+                string accessToken = "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";
+
+                string apiUrl = "https://api.github.com/repos/Damien-OLLIER/AppPictures/contents/Test.JSON";
+                HttpClient httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+                HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+
+                string responseJson = await response.Content.ReadAsStringAsync();
+                JObject responseObject = JObject.Parse(responseJson);
+                string fileContents = (string)responseObject["content"];
+                byte[] data = Convert.FromBase64String(fileContents);
+                string decodedContents = Encoding.UTF8.GetString(data);
+
+
+                string sha = (string)responseObject["sha"];
+
+                var device = DeviceInfo.Model;
+
+                // Manufacturer (Samsung)
+                var manufacturer = DeviceInfo.Manufacturer;
+
+                // Device Name (Motz's iPhone)
+                var deviceName = DeviceInfo.Name;
+
+                // Operating System Version Number (7.0)
+                var version = DeviceInfo.VersionString;
+
+                // Platform (Android)
+                var platform = DeviceInfo.Platform;
+
+                // Idiom (Phone)
+                var idiom = DeviceInfo.Idiom;
+
+                // Device Type (Physical)
+                var deviceType = DeviceInfo.DeviceType;
+
+                string newFileContents = "";
+                string pattern = @"\d+";
+
+                Match match = Regex.Match(decodedContents, pattern);
+                if (match.Success)
+                {
+                    string value = match.Value;
+                    int number = int.Parse(value);
+
+                    newFileContents = String.Join(Environment.NewLine, "Number of connection: " + (number+1).ToString(), "Device: " + device, "Device Type: " + deviceType, "Version: " + version, "Platform: " + platform.ToString(), "Idiom: " + idiom.ToString(), "Device Type: " + deviceType.ToString());
+                }
+
+                //newFileContents = String.Join(Environment.NewLine, "Number of connection: 0", "Device: " + device, "Device Type: " + deviceType, "Version: " + version, "Platform: " + platform.ToString(), "Idiom: " + idiom.ToString(), "Device Type: " + deviceType.ToString());
+                //string newFileContents = "new contents of the file 4";
+
+
+
+                string encodedContents = Convert.ToBase64String(Encoding.UTF8.GetBytes(newFileContents));
+                string updateUrl = "https://api.github.com/repos/Damien-OLLIER/AppPictures/contents/Test.JSON";
+                JObject updateObject = new JObject
+                {
+                    ["message"] = "Update file",
+                    ["content"] = encodedContents,
+                    ["sha"] = sha
+                };
+
+                StringContent content = new StringContent(updateObject.ToString(), Encoding.UTF8, "application/json");
+                HttpResponseMessage updateResponse = await httpClient.PutAsync(updateUrl, content);
+
+                string updateResponseJson = await updateResponse.Content.ReadAsStringAsync();
+                JObject updateResponseObject = JObject.Parse(updateResponseJson);
+                string newCommitSha = (string)updateResponseObject["content"]["sha"];
+                           
+                //string accessToken = "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";
+                //string apiUrl = "https://api.github.com/repos/Damien-OLLIER/AppPictures/contents/Test.JSON";
+                //HttpClient httpClient = new HttpClient();
+                //httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+                //HttpResponseMessage response2 = await httpClient.GetAsync(apiUrl);
+                //string responseJson2 = await response2.Content.ReadAsStringAsync();
+                //JObject responseObject2 = JObject.Parse(responseJson2);
+                //string fileContents2 = (string)responseObject2["content"];
+                //byte[] data2 = Convert.FromBase64String(fileContents2);
+                //string decodedContents = Encoding.UTF8.GetString(data2);
+            }
+            catch (Exception ex) 
+            {
+            
+            }
         }
     }    
 }
