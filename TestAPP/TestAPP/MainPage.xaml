@@ -477,7 +477,6 @@
 
             <Button Text="Play" x:Name="PlayButton" Clicked="PlayButton_Clicked"></Button>
             
-            <Button Text="Modify Doc" x:Name="ModifyDoc" Clicked="PlayButton_Clicked_1"></Button>
 
         </StackLayout>
     </ContentPage>
