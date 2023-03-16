@@ -29,6 +29,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Collections;
 using MediaManager.Forms;
 using System.Text.RegularExpressions;
+using Syncfusion.Licensing;
 
 namespace TestAPP
 {
@@ -596,68 +597,154 @@ namespace TestAPP
             {
                 string accessToken = APIKeys.accessToken;
 
+                // GitHub repository API URL and file path
                 string apiUrl = "https://api.github.com/repos/Damien-OLLIER/AppPictures/contents/Test.JSON";
-                httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-                HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
 
+                // Create a new HTTP client with required headers
+                httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // Retrieve the existing file content and metadata from GitHub
+                HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
                 string responseJson = await response.Content.ReadAsStringAsync();
                 JObject responseObject = JObject.Parse(responseJson);
                 string fileContents = (string)responseObject["content"];
                 byte[] data = Convert.FromBase64String(fileContents);
                 string decodedContents = Encoding.UTF8.GetString(data);
-
                 string sha = (string)responseObject["sha"];
 
-                var device = DeviceInfo.Model;
+                // Parse the JSON file into a JObject and update the connection count for the "Mi 9T Pro" device
+                JObject jsonContent = JObject.Parse(decodedContents);
+                JArray connectionsArray = (JArray)jsonContent["connections"];
 
-                // Manufacturer (Samsung)
-                var manufacturer = DeviceInfo.Manufacturer;
+                bool PhoneFound = false;
 
-                // Device Name (Motz's iPhone)
-                var deviceName = DeviceInfo.Name;
-
-                // Operating System Version Number (7.0)
-                var version = DeviceInfo.VersionString;
-
-                // Platform (Android)
-                var platform = DeviceInfo.Platform;
-
-                // Idiom (Phone)
-                var idiom = DeviceInfo.Idiom;
-
-                // Device Type (Physical)
-                var deviceType = DeviceInfo.DeviceType;
-
-                string newFileContents = "";
-                string pattern = @"\d+";
-
-                Match match = Regex.Match(decodedContents, pattern);
-                if (match.Success)
+                foreach (JObject connection in connectionsArray)
                 {
-                    string value = match.Value;
-                    int number = int.Parse(value);
-
-                    newFileContents = String.Join(Environment.NewLine, "Number of connection: " + (number + 1).ToString(), "Device: " + device, "Device Type: " + deviceType, "Version: " + version, "Platform: " + platform.ToString(), "Idiom: " + idiom.ToString(), "Device Type: " + deviceType.ToString());
+                    string device = (string)connection["device"];
+                    if (device == DeviceInfo.Model)
+                    {
+                        int numberOfConnections = (int)connection["NumberOfConnection"];
+                        connection["NumberOfConnection"] = numberOfConnections + 1;
+                        PhoneFound = true;
+                    }
                 }
 
-                //newFileContents = String.Join(Environment.NewLine, "Number of connection: 0", "Device: " + device, "Device Type: " + deviceType, "Version: " + version, "Platform: " + platform.ToString(), "Idiom: " + idiom.ToString(), "Device Type: " + deviceType.ToString());
-                //string newFileContents = "new contents of the file 4";
-
-                string encodedContents = Convert.ToBase64String(Encoding.UTF8.GetBytes(newFileContents));
-                string updateUrl = "https://api.github.com/repos/Damien-OLLIER/AppPictures/contents/Test.JSON";
-                JObject updateObject = new JObject
+                if (PhoneFound == false) 
                 {
-                    ["message"] = "Update file",
-                    ["content"] = encodedContents,
-                    ["sha"] = sha
-                };
+                    JObject newDevice = new JObject(
+                       new JProperty("device", DeviceInfo.Model),
+                       new JProperty("NumberOfConnection", 1),
+                       new JProperty("deviceType", DeviceInfo.DeviceType.ToString()),
+                       new JProperty("version", DeviceInfo.Version.ToString()),
+                       new JProperty("platform", DeviceInfo.Platform.ToString()),
+                       new JProperty("idiom", DeviceInfo.Idiom.ToString())
+                   );
 
-                StringContent content = new StringContent(updateObject.ToString(), Encoding.UTF8, "application/json");
-                HttpResponseMessage updateResponse = await httpClient.PutAsync(updateUrl, content);
+                    connectionsArray.Add(newDevice);
+                    //json["connections"].Add(newDevice);
+                    string updatedContents = jsonContent.ToString();
+                    byte[] updatedData = Encoding.UTF8.GetBytes(updatedContents);
+                    string encodedContents = Convert.ToBase64String(updatedData);
 
-                string updateResponseJson = await updateResponse.Content.ReadAsStringAsync();
-                JObject updateResponseObject = JObject.Parse(updateResponseJson);
-                string newCommitSha = (string)updateResponseObject["content"]["sha"];
+                    // Build the update object and send the updated file to GitHub
+                    string updateUrl = "https://api.github.com/repos/Damien-OLLIER/AppPictures/contents/Test.JSON";
+                    JObject updateObject = new JObject
+                    {
+                        ["message"] = "Update file",
+                        ["content"] = encodedContents,
+                        ["sha"] = sha
+                    };
+                    StringContent content = new StringContent(updateObject.ToString(), Encoding.UTF8, "application/json");
+                    HttpResponseMessage updateResponse = await httpClient.PutAsync(updateUrl, content);
+                    string updateResponseJson = await updateResponse.Content.ReadAsStringAsync();
+                    Debug.WriteLine(updateResponseJson);
+                }
+                else 
+                {
+                    // Convert the updated JSON content back to a string and encode as Base64
+                    string updatedContents = jsonContent.ToString();
+                    byte[] updatedData = Encoding.UTF8.GetBytes(updatedContents);
+                    string encodedContents = Convert.ToBase64String(updatedData);
+
+                    // Build the update object and send the updated file to GitHub
+                    string updateUrl = "https://api.github.com/repos/Damien-OLLIER/AppPictures/contents/Test.JSON";
+                    JObject updateObject = new JObject
+                    {
+                        ["message"] = "Update file",
+                        ["content"] = encodedContents,
+                        ["sha"] = sha
+                    };
+                    StringContent content = new StringContent(updateObject.ToString(), Encoding.UTF8, "application/json");
+                    HttpResponseMessage updateResponse = await httpClient.PutAsync(updateUrl, content);
+                    string updateResponseJson = await updateResponse.Content.ReadAsStringAsync();
+                    Debug.WriteLine(updateResponseJson);
+                }
+
+                
+
+                //string apiUrl = "https://api.github.com/repos/Damien-OLLIER/AppPictures/contents/Test.JSON";
+                //httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+                //HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+
+                //string responseJson = await response.Content.ReadAsStringAsync();
+                //JObject responseObject = JObject.Parse(responseJson);
+                //string fileContents = (string)responseObject["content"];
+                //byte[] data = Convert.FromBase64String(fileContents);
+                //string decodedContents = Encoding.UTF8.GetString(data);
+
+                //string sha = (string)responseObject["sha"];
+
+                //var device = DeviceInfo.Model;
+
+                //// Manufacturer (Samsung)
+                //var manufacturer = DeviceInfo.Manufacturer;
+
+                //// Device Name (Motz's iPhone)
+                //var deviceName = DeviceInfo.Name;
+
+                //// Operating System Version Number (7.0)
+                //var version = DeviceInfo.VersionString;
+
+                //// Platform (Android)
+                //var platform = DeviceInfo.Platform;
+
+                //// Idiom (Phone)
+                //var idiom = DeviceInfo.Idiom;
+
+                //// Device Type (Physical)
+                //var deviceType = DeviceInfo.DeviceType;
+
+                //string newFileContents = "";
+                //string pattern = @"\d+";
+
+                //Match match = Regex.Match(decodedContents, pattern);
+                //if (match.Success)
+                //{
+                //    string value = match.Value;
+                //    int number = int.Parse(value);
+
+                //    newFileContents = String.Join(Environment.NewLine, "Number of connection: " + (number + 1).ToString(), "Device: " + device, "Device Type: " + deviceType, "Version: " + version, "Platform: " + platform.ToString(), "Idiom: " + idiom.ToString(), "Device Type: " + deviceType.ToString());
+                //}
+
+                ////newFileContents = String.Join(Environment.NewLine, "Number of connection: 0", "Device: " + device, "Device Type: " + deviceType, "Version: " + version, "Platform: " + platform.ToString(), "Idiom: " + idiom.ToString(), "Device Type: " + deviceType.ToString());
+                ////string newFileContents = "new contents of the file 4";
+
+                //string encodedContents = Convert.ToBase64String(Encoding.UTF8.GetBytes(newFileContents));
+                //string updateUrl = "https://api.github.com/repos/Damien-OLLIER/AppPictures/contents/Test.JSON";
+                //JObject updateObject = new JObject
+                //{
+                //    ["message"] = "Update file",
+                //    ["content"] = encodedContents,
+                //    ["sha"] = sha
+                //};
+
+                //StringContent content = new StringContent(updateObject.ToString(), Encoding.UTF8, "application/json");
+                //HttpResponseMessage updateResponse = await httpClient.PutAsync(updateUrl, content);
+
+                //string updateResponseJson = await updateResponse.Content.ReadAsStringAsync();
+                //JObject updateResponseObject = JObject.Parse(updateResponseJson);
+                //string newCommitSha = (string)updateResponseObject["content"]["sha"];
 
             }
             catch (Exception ex)
