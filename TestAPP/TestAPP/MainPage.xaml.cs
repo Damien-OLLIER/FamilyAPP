@@ -30,6 +30,7 @@ using System.Collections;
 using MediaManager.Forms;
 using System.Text.RegularExpressions;
 using Syncfusion.Licensing;
+using System.Security.Cryptography;
 
 namespace TestAPP
 {
@@ -595,26 +596,12 @@ namespace TestAPP
             // pour compter le nombre d'ouverture d'application
             try
             {
-                string accessToken = APIKeys.accessToken;
+                (JObject, string, HttpClient) Response = await GetjsonContent();
 
-                // GitHub repository API URL and file path
-                string apiUrl = "https://api.github.com/repos/Damien-OLLIER/AppPictures/contents/Test.JSON";
+                JObject jsonContent = Response.Item1;
+                string sha = Response.Item2;
+                HttpClient httpClient1 = Response.Item3;
 
-                // Create a new HTTP client with required headers
-                httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // Retrieve the existing file content and metadata from GitHub
-                HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
-                string responseJson = await response.Content.ReadAsStringAsync();
-                JObject responseObject = JObject.Parse(responseJson);
-                string fileContents = (string)responseObject["content"];
-                byte[] data = Convert.FromBase64String(fileContents);
-                string decodedContents = Encoding.UTF8.GetString(data);
-                string sha = (string)responseObject["sha"];
-
-                // Parse the JSON file into a JObject and update the connection count for the "Mi 9T Pro" device
-                JObject jsonContent = JObject.Parse(decodedContents);
                 JArray connectionsArray = (JArray)jsonContent["connections"];
 
                 bool PhoneFound = false;
@@ -642,110 +629,13 @@ namespace TestAPP
                    );
 
                     connectionsArray.Add(newDevice);
-                    //json["connections"].Add(newDevice);
-                    string updatedContents = jsonContent.ToString();
-                    byte[] updatedData = Encoding.UTF8.GetBytes(updatedContents);
-                    string encodedContents = Convert.ToBase64String(updatedData);
 
-                    // Build the update object and send the updated file to GitHub
-                    string updateUrl = "https://api.github.com/repos/Damien-OLLIER/AppPictures/contents/Test.JSON";
-                    JObject updateObject = new JObject
-                    {
-                        ["message"] = "Update file",
-                        ["content"] = encodedContents,
-                        ["sha"] = sha
-                    };
-                    StringContent content = new StringContent(updateObject.ToString(), Encoding.UTF8, "application/json");
-                    HttpResponseMessage updateResponse = await httpClient.PutAsync(updateUrl, content);
-                    string updateResponseJson = await updateResponse.Content.ReadAsStringAsync();
-                    Debug.WriteLine(updateResponseJson);
+                    SendjsonContent(jsonContent, sha, httpClient1);
                 }
                 else 
                 {
-                    // Convert the updated JSON content back to a string and encode as Base64
-                    string updatedContents = jsonContent.ToString();
-                    byte[] updatedData = Encoding.UTF8.GetBytes(updatedContents);
-                    string encodedContents = Convert.ToBase64String(updatedData);
-
-                    // Build the update object and send the updated file to GitHub
-                    string updateUrl = "https://api.github.com/repos/Damien-OLLIER/AppPictures/contents/Test.JSON";
-                    JObject updateObject = new JObject
-                    {
-                        ["message"] = "Update file",
-                        ["content"] = encodedContents,
-                        ["sha"] = sha
-                    };
-                    StringContent content = new StringContent(updateObject.ToString(), Encoding.UTF8, "application/json");
-                    HttpResponseMessage updateResponse = await httpClient.PutAsync(updateUrl, content);
-                    string updateResponseJson = await updateResponse.Content.ReadAsStringAsync();
-                    Debug.WriteLine(updateResponseJson);
+                    SendjsonContent(jsonContent, sha, httpClient1);
                 }
-
-                
-
-                //string apiUrl = "https://api.github.com/repos/Damien-OLLIER/AppPictures/contents/Test.JSON";
-                //httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-                //HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
-
-                //string responseJson = await response.Content.ReadAsStringAsync();
-                //JObject responseObject = JObject.Parse(responseJson);
-                //string fileContents = (string)responseObject["content"];
-                //byte[] data = Convert.FromBase64String(fileContents);
-                //string decodedContents = Encoding.UTF8.GetString(data);
-
-                //string sha = (string)responseObject["sha"];
-
-                //var device = DeviceInfo.Model;
-
-                //// Manufacturer (Samsung)
-                //var manufacturer = DeviceInfo.Manufacturer;
-
-                //// Device Name (Motz's iPhone)
-                //var deviceName = DeviceInfo.Name;
-
-                //// Operating System Version Number (7.0)
-                //var version = DeviceInfo.VersionString;
-
-                //// Platform (Android)
-                //var platform = DeviceInfo.Platform;
-
-                //// Idiom (Phone)
-                //var idiom = DeviceInfo.Idiom;
-
-                //// Device Type (Physical)
-                //var deviceType = DeviceInfo.DeviceType;
-
-                //string newFileContents = "";
-                //string pattern = @"\d+";
-
-                //Match match = Regex.Match(decodedContents, pattern);
-                //if (match.Success)
-                //{
-                //    string value = match.Value;
-                //    int number = int.Parse(value);
-
-                //    newFileContents = String.Join(Environment.NewLine, "Number of connection: " + (number + 1).ToString(), "Device: " + device, "Device Type: " + deviceType, "Version: " + version, "Platform: " + platform.ToString(), "Idiom: " + idiom.ToString(), "Device Type: " + deviceType.ToString());
-                //}
-
-                ////newFileContents = String.Join(Environment.NewLine, "Number of connection: 0", "Device: " + device, "Device Type: " + deviceType, "Version: " + version, "Platform: " + platform.ToString(), "Idiom: " + idiom.ToString(), "Device Type: " + deviceType.ToString());
-                ////string newFileContents = "new contents of the file 4";
-
-                //string encodedContents = Convert.ToBase64String(Encoding.UTF8.GetBytes(newFileContents));
-                //string updateUrl = "https://api.github.com/repos/Damien-OLLIER/AppPictures/contents/Test.JSON";
-                //JObject updateObject = new JObject
-                //{
-                //    ["message"] = "Update file",
-                //    ["content"] = encodedContents,
-                //    ["sha"] = sha
-                //};
-
-                //StringContent content = new StringContent(updateObject.ToString(), Encoding.UTF8, "application/json");
-                //HttpResponseMessage updateResponse = await httpClient.PutAsync(updateUrl, content);
-
-                //string updateResponseJson = await updateResponse.Content.ReadAsStringAsync();
-                //JObject updateResponseObject = JObject.Parse(updateResponseJson);
-                //string newCommitSha = (string)updateResponseObject["content"]["sha"];
-
             }
             catch (Exception ex)
             {
@@ -1582,5 +1472,52 @@ namespace TestAPP
 
         }
 
+        private async Task<(JObject, string, HttpClient)> GetjsonContent() 
+        {
+            string accessToken = APIKeys.accessToken;
+            var httpClient = new HttpClient();
+
+            // GitHub repository API URL and file path
+            string apiUrl = "https://api.github.com/repos/Damien-OLLIER/AppPictures/contents/Test.JSON";
+
+            // Create a new HTTP client with required headers
+            httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // Retrieve the existing file content and metadata from GitHub
+            HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+            string responseJson = await response.Content.ReadAsStringAsync();
+            JObject responseObject = JObject.Parse(responseJson);
+            string fileContents = (string)responseObject["content"];
+            byte[] data = Convert.FromBase64String(fileContents);
+            string decodedContents = Encoding.UTF8.GetString(data);
+            string sha = (string)responseObject["sha"];
+
+            // Parse the JSON file into a JObject and update the connection count for the "Mi 9T Pro" device
+            JObject jsonContent = JObject.Parse(decodedContents);
+            
+            return (jsonContent,sha, httpClient);
+        }
+
+        private async void SendjsonContent(JObject jsonContent, string sha, HttpClient httpClient)
+        {
+            // Convert the updated JSON content back to a string and encode as Base64
+            string updatedContents = jsonContent.ToString();
+            byte[] updatedData = Encoding.UTF8.GetBytes(updatedContents);
+            string encodedContents = Convert.ToBase64String(updatedData);
+
+            // Build the update object and send the updated file to GitHub
+            string updateUrl = "https://api.github.com/repos/Damien-OLLIER/AppPictures/contents/Test.JSON";
+            JObject updateObject = new JObject
+            {
+                ["message"] = "Update file",
+                ["content"] = encodedContents,
+                ["sha"] = sha
+            };
+            StringContent content = new StringContent(updateObject.ToString(), Encoding.UTF8, "application/json");
+            HttpResponseMessage updateResponse = await httpClient.PutAsync(updateUrl, content);
+            string updateResponseJson = await updateResponse.Content.ReadAsStringAsync();
+            Debug.WriteLine(updateResponseJson);
+        }            
     }    
 }
