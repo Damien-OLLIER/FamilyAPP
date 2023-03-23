@@ -1150,46 +1150,6 @@ namespace TestAPP
 
         }
 
-        //private async void PlayStop_Clicked(object sender, EventArgs e)
-        //{
-
-        //    if (PlayPauseButton.Text == "Play")
-        //    {
-        //        await CrossMediaManager.Current.Play(VideoEntry.Text);
-
-        //        PlayPauseButton.Text = "Stop";
-        //    }
-
-        //    else if (PlayPauseButton.Text == "Stop")
-        //    {
-        //        await CrossMediaManager.Current.Stop();
-
-        //        PlayPauseButton.Text = "Play";
-        //    }
-        //}
-
-        private void PlayStopButton(object sender, EventArgs e)
-        {
-            if (PlayStopButtonText.Text == "Play")
-            {
-                CrossMediaManager.Current.PlayPause();
-
-                PlayStopButtonText.Text = "Stop";
-            }
-            else if (PlayStopButtonText.Text == "Stop")
-            {
-                CrossMediaManager.Current.Pause();
-
-                PlayStopButtonText.Text = "Play";
-            }
-            else if (PlayStopButtonText.Text == "Start")
-            {
-                CrossMediaManager.Current.Play(videoUrl);
-
-                PlayStopButtonText.Text = "Stop";
-            }
-        }
-
         private async void TestButton_Clicked(object sender, EventArgs e)
         {
             var httpClient = new HttpClient();
@@ -1232,11 +1192,11 @@ namespace TestAPP
 
             int RandNumber = rnd.Next(0, VideoNameList.Count);
 
-            Videoview.PropertyChanging += Videoview_PropertyChanging;
+            //Videoview.PropertyChanging += Videoview_PropertyChanging;
 
-            //videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
-            Videoview.Source = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
-            EntryVideoName.Text = Videoview.Source.ToString();
+            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+            //Videoview.Source = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+            //EntryVideoName.Text = Videoview.Source.ToString();
 
 
             await CrossMediaManager.Current.Play();
@@ -1248,12 +1208,12 @@ namespace TestAPP
 
         private void Videoview_PropertyChanging(object sender, Xamarin.Forms.PropertyChangingEventArgs e)
         {
-            var test = Videoview.Duration;
+            //var test = Videoview.Duration;
                         
-            if(test != TimeSpan.Zero)
-            {
-                // variable global de la durée de la vidéo
-            }
+            //if(test != TimeSpan.Zero)
+            //{
+            //    // variable global de la durée de la vidéo
+            //}
         }
 
         // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
@@ -1422,7 +1382,7 @@ namespace TestAPP
                 CatégorieStackLayout.Children.Add(button);
             }
         }
-
+                
         private void ContentPage_Appearing_4(object sender, EventArgs e)
         {
 
@@ -1539,20 +1499,22 @@ namespace TestAPP
             SendjsonContent(jsonContent, sha, httpClient1);
         }
 
+        
+
         private void Button_Clicked_4(object sender, EventArgs e)
         {
-            var test = Videoview.Duration;
+            // var test = Videoview.Duration;
         }
 
         private async void PlayButton_Clicked(object sender, EventArgs e)
         {
-            MyMediaElement.Play();
+            // MyMediaElement.Play();
             await CrossMediaManager.Current.Play();
         }
 
         private void MyMediaElement_SeekCompleted(object sender, EventArgs e)
         {
-
+            VideoIndicator.Text = "Video completed";
         }
 
         private async Task<(JObject, string, HttpClient)> GetjsonContent() 
@@ -1601,6 +1563,66 @@ namespace TestAPP
             HttpResponseMessage updateResponse = await httpClient.PutAsync(updateUrl, content);
             string updateResponseJson = await updateResponse.Content.ReadAsStringAsync();
             Debug.WriteLine(updateResponseJson);
-        }            
-    }    
+        }
+
+        private void DurationButton_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void WorkingVideoButton_Clicked(object sender, EventArgs e)
+        {
+            //string VideoURL = "http://vjs.zencdn.net/v/oceans.mp4";
+
+            VideoIndicator.Text = "Video Started";
+
+            var httpClient = new HttpClient();
+
+            var GitFolder = await httpClient.GetStringAsync("https://api.github.com/repos/Damien-OLLIER/AppPictures/contents");
+
+            var contents = (JArray)JsonConvert.DeserializeObject(GitFolder);
+
+            var git_url = "";
+
+            foreach (var file in contents)
+            {
+                var filetype = (string)file["type"];
+
+                if (filetype == "dir")
+                {
+                    if ((string)file["name"] == "Video")
+                    {
+                        git_url = (string)file["git_url"];
+                    }
+                }
+            }
+
+            var VideoFolder = "";
+
+            VideoFolder = await httpClient.GetStringAsync(git_url);
+
+            var ob = JsonConvert.DeserializeObject<VideoFolderObject>(VideoFolder);
+
+            var TreeObject = ob.tree;
+
+            List<string> VideoNameList = new List<string>();
+
+            foreach (var VideoFile in ob.tree)
+            {
+                VideoNameList.Add(VideoFile.path);
+            }
+
+            Random rnd = new Random();
+
+            int RandNumber = rnd.Next(0, VideoNameList.Count);
+
+            //Videoview.PropertyChanging += Videoview_PropertyChanging;
+
+            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+
+            WorkingVideo.Source = videoUrl;
+            WorkingVideo.Play();
+            VideoDuration.Text = WorkingVideo.Duration.ToString();
+        }
+    }
 }

@@ -454,29 +454,14 @@
 
     <ContentPage Title="WIP"  IconImageSource="WIP.PNG" Appearing="ContentPage_Appearing_3">      
         <StackLayout>
+                        
+            <Button Text="Play WorkingVideo" x:Name="WorkingVideoButton" Clicked="WorkingVideoButton_Clicked"></Button>
 
-            <Button x:Name="PlayStopButtonText"  
-                    Text="Start"   
-                    Clicked="PlayStopButton"  
-                    TextColor="Black"/>
-            
-            <Button x:Name="Surprise" 
-                    Clicked="TestButton_Clicked"
-                    Text="Test Button"/>
+            <Label  x:Name="VideoDuration" Text="Video Duration here"/>
 
-            <Entry x:Name="EntryVideoName" Text="Hello" />
-            
-            <mm:VideoView x:Name="Videoview" 
-                          HeightRequest="202"  
-                          WidthRequest="202" 
-                          ShowControls="False"   />
+            <xct:MediaElement x:Name="WorkingVideo" ShowsPlaybackControls="True"  SeekCompleted="MyMediaElement_SeekCompleted" VerticalOptions="FillAndExpand"/>
 
-            <Button Text="Duration" x:Name="DurationButton" Clicked="Button_Clicked_4"></Button>
-
-            <xct:MediaElement Source = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/TestVideo1.mp4" AutoPlay="True" ShowsPlaybackControls="True"  SeekCompleted="MyMediaElement_SeekCompleted" x:Name="MyMediaElement" HorizontalOptions="Fill" VerticalOptions="CenterAndExpand"/>
-
-            <Button Text="Play" x:Name="PlayButton" Clicked="PlayButton_Clicked"></Button>
-            
+            <Label  x:Name="VideoIndicator" Text="Start The video"/>
 
         </StackLayout>
     </ContentPage>
