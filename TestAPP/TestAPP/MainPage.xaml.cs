@@ -77,6 +77,26 @@ namespace TestAPP
         //Méthode est appelée pour ouvrir la caméra frontale
         private async void Button_Clicked_1(object sender, EventArgs e)
         {
+            (JObject, string, HttpClient) Response = await GetjsonContent();
+
+            JObject jsonContent = Response.Item1;
+            string sha = Response.Item2;
+            HttpClient httpClient1 = Response.Item3;
+
+            JArray connectionsArray = (JArray)jsonContent["connections"];
+
+            foreach (JObject connection in connectionsArray)
+            {
+                string device = (string)connection["device"];
+                if (device == DeviceInfo.Model)
+                {
+                    int numberOfVideoViewed = (int)connection["VideoViewed"];
+                    connection["VideoViewed"] = numberOfVideoViewed + 1;
+                }
+            }
+
+            SendjsonContent(jsonContent, sha, httpClient1);
+
             HomeVideoview.MediaEnded += HomeVideoview_MediaEnded;
 
             var httpClient = new HttpClient();
@@ -214,6 +234,26 @@ namespace TestAPP
                 if (smsMessenger.CanSendSms)
                 {
                     smsMessenger.SendSmsInBackground(numero, message);
+
+                    (JObject, string, HttpClient) Response = await GetjsonContent();
+
+                    JObject jsonContent = Response.Item1;
+                    string sha = Response.Item2;
+                    HttpClient httpClient1 = Response.Item3;
+
+                    JArray connectionsArray = (JArray)jsonContent["connections"];
+
+                    foreach (JObject connection in connectionsArray)
+                    {
+                        string device = (string)connection["device"];
+                        if (device == DeviceInfo.Model)
+                        {
+                            int numberOfSMS_Send = (int)connection["SMS_Send"];
+                            connection["SMS_Send"] = numberOfSMS_Send + 1;
+                        }
+                    }
+
+                    SendjsonContent(jsonContent, sha, httpClient1);
                 }
             }
             catch (Exception ex)
@@ -369,7 +409,6 @@ namespace TestAPP
 
                     JObject json = JObject.Parse(contentsJson1);
 
-                    var sha = (string)json["sha"];
                     var tree = json["tree"];
 
                     var TestList = new List<string>
@@ -381,6 +420,26 @@ namespace TestAPP
                         TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/" + result.GitName + "/" + Path);
                     }
                     CardImage.ItemsSource = TestList;
+
+                    (JObject, string, HttpClient) Response = await GetjsonContent();
+
+                    JObject jsonContent = Response.Item1;
+                    string sha = Response.Item2;
+                    HttpClient httpClient1 = Response.Item3;
+
+                    JArray connectionsArray = (JArray)jsonContent["connections"];
+
+                    foreach (JObject connection in connectionsArray)
+                    {
+                        string device = (string)connection["device"];
+                        if (device == DeviceInfo.Model)
+                        {
+                            int numberOfTripSelected = (int)connection["TripSelected"];
+                            connection["TripSelected"] = numberOfTripSelected + 1;
+                        }
+                    }
+
+                    SendjsonContent(jsonContent, sha, httpClient1);
                 }
             }
         }
@@ -622,6 +681,10 @@ namespace TestAPP
                     JObject newDevice = new JObject(
                        new JProperty("device", DeviceInfo.Model),
                        new JProperty("NumberOfConnection", 1),
+                       new JProperty("SMS_Send", 0),
+                       new JProperty("VideoViewed", 0),
+                       new JProperty("TripSelected", 0),
+                       new JProperty("RecipeSelected", 0),
                        new JProperty("deviceType", DeviceInfo.DeviceType.ToString()),
                        new JProperty("version", DeviceInfo.Version.ToString()),
                        new JProperty("platform", DeviceInfo.Platform.ToString()),
@@ -1399,7 +1462,7 @@ namespace TestAPP
             DisplayAlert("button cliked", "hey button" + button.Text, "cancel");
         }
 
-        private void TapGestureRecognizer_Tapped_1(object sender, EventArgs e)
+        private async void TapGestureRecognizer_Tapped_1(object sender, EventArgs e)
         {
             var JSONText = CarouselViewRecettes.CurrentItem.ToString(); 
 
@@ -1454,6 +1517,26 @@ namespace TestAPP
 
 
             DisplayAlert(SelectedRecipe, result1 + Environment.NewLine + Environment.NewLine + result2, "OK");
+
+            (JObject, string, HttpClient) Response = await GetjsonContent();
+
+            JObject jsonContent = Response.Item1;
+            string sha = Response.Item2;
+            HttpClient httpClient1 = Response.Item3;
+
+            JArray connectionsArray = (JArray)jsonContent["connections"];
+
+            foreach (JObject connection in connectionsArray)
+            {
+                string device = (string)connection["device"];
+                if (device == DeviceInfo.Model)
+                {
+                    int numberOfRecipeSelected = (int)connection["RecipeSelected"];
+                    connection["RecipeSelected"] = numberOfRecipeSelected + 1;
+                }
+            }
+
+            SendjsonContent(jsonContent, sha, httpClient1);
         }
 
         private void Button_Clicked_4(object sender, EventArgs e)
