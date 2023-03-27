@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using static TestAPP.MainPage;
@@ -26,7 +27,7 @@ namespace TestAPP
         static public JArray RespoJSON { get; set; }
 
         public ObservableCollection<Maps> Items { get; set; }
-        List<Place> placesList = new List<Place>();
+        static public List<Place> placesList { get; set; }
 
         #endregion
 
@@ -42,18 +43,29 @@ namespace TestAPP
         {
             RespoJSON = contents;
 
+            JArray items = new JArray();
+
             foreach (var file in contents)
             {
                 var filetype = (string)file["type"];
                 if (filetype == "dir")
                 {
+                    var Name = (string)file["name"];
 
+                    if (Name.Contains("Video") || Name.Contains(".vs") || Name.Contains("Video") || Name.Contains("Menu"))
+                    {
+                        // RespoJSON.Remove(file);
+                    }
+                    else
+                    {
+                        items.Add(file);
+                    }
                 }
                 else if (filetype == "file")
                 {
                     var downloadurl = (string)file["download_url"];
 
-                    if (downloadurl.Contains("TestVideo1.mp4"))
+                    if (downloadurl.Contains("TestVideo1.mp4") || downloadurl.Contains("Video") || downloadurl.Contains(".vs") || downloadurl.Contains("Menu") || downloadurl.Contains("Test"))
                     {
 
                     }
@@ -68,6 +80,8 @@ namespace TestAPP
                             var json = wc.DownloadString(downloadurl);
 
                             var ob = JsonConvert.DeserializeObject<Places>(json);
+
+                            placesList = new List<Place>();
 
                             foreach (var place in ob.results)
                             {
@@ -92,10 +106,13 @@ namespace TestAPP
                         }
                     }
                 }
-            }            
+            }
+
+            RespoJSON = items;
         }
 
-       
+
+
         #endregion
 
         #region Fields
