@@ -641,13 +641,6 @@ namespace TestAPP
             }
             catch (System.Net.Http.HttpRequestException ex)
             {
-                Debug.WriteLine(ex.ToString());
-                await DisplayAlert("Internet Error", "You have made too many HTTP requests. Please wait a few hours before using the app again.", "OK");
-                System.Diagnostics.Process.GetCurrentProcess().Kill();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.ToString());
                 await DisplayAlert("Internet Error", "Please restart the App with Internet", "OK");
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
