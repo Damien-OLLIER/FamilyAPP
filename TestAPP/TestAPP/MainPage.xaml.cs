@@ -153,7 +153,7 @@ namespace TestAPP
             await CrossMediaManager.Current.Play();
                      
             ////Ici, sont gérées les demandes de Permission à l'utilisateur pour pouvoir acceder à la caméra.
-            //#region Permission
+            //#region Permission    
             //var permission = await Permissions.CheckStatusAsync<Permissions.Camera>();
 
             ////si la permission n'a pas encore été accordé, on la demande
@@ -1468,9 +1468,6 @@ namespace TestAPP
             string result1 = String.Join(Environment.NewLine , Instructions);
             string result2 = String.Join(Environment.NewLine, Ingrédients);
 
-
-            DisplayAlert(SelectedRecipe, result1 + Environment.NewLine + Environment.NewLine + result2, "OK");
-
             (JObject, string, HttpClient) Response = await GetjsonContent();
 
             JObject jsonContent = Response.Item1;
@@ -1490,9 +1487,10 @@ namespace TestAPP
             }
 
             SendjsonContent(jsonContent, sha, httpClient1);
+
+            DisplayAlert(SelectedRecipe, result1 + Environment.NewLine + Environment.NewLine + result2, "OK");
         }
 
-        
 
         private void Button_Clicked_4(object sender, EventArgs e)
         {
