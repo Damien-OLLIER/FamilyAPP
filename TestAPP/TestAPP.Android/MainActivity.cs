@@ -45,6 +45,7 @@ namespace TestAPP.Droid
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+                
     }
 }
 

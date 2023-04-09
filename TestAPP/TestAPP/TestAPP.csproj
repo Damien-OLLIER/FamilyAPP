@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Plugin.LocalNotification" Version="9.2.0" />
     <PackageReference Include="Plugin.MediaManager" Version="1.1.1" />
     <PackageReference Include="Plugin.MediaManager.Forms" Version="1.1.1" />
     <PackageReference Include="Syncfusion.Licensing" Version="19.4.0.55" />

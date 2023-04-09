@@ -31,7 +31,7 @@ namespace TestAPP
 
     #endregion
 
-    #region Fields
+        #region Fields
 
     Random random = new Random(123456789);
 
