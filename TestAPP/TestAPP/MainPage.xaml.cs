@@ -27,7 +27,6 @@ using System.Linq.Expressions;
 using Xamarin.Forms.Xaml;
 using static System.Net.Mime.MediaTypeNames;
 using System.Collections;
-using MediaManager.Forms;
 using System.Text.RegularExpressions;
 using Syncfusion.Licensing;
 using System.Security.Cryptography;
