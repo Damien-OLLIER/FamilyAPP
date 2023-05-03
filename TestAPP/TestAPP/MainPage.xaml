@@ -1,16 +1,13 @@
-﻿<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"            
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"            
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-            xmlns:map="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps" 
-            xmlns:local="clr-namespace:TestAPP" 
-            xmlns:sfPopup="clr-namespace:Syncfusion.XForms.PopupLayout;assembly=Syncfusion.SfPopupLayout.XForms" 
-            xmlns:carousel="clr-namespace:Syncfusion.SfCarousel.XForms;assembly=Syncfusion.SfCarousel.XForms" 
-            xmlns:cards="clr-namespace:Syncfusion.XForms.Cards;assembly=Syncfusion.Cards.XForms" 
-            xmlns:border="clr-namespace:Syncfusion.XForms.Border;assembly=Syncfusion.Core.XForms" 
-            xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" 
-            xmlns:syncfusion="http://schemas.syncfusion.com/xamarin" 
-            xmlns:sfListView="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms" xmlns:mm="clr-namespace:MediaManager.Forms;assembly=MediaManager.Forms"
+            xmlns:map="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+            xmlns:sfPopup="clr-namespace:Syncfusion.XForms.PopupLayout;assembly=Syncfusion.SfPopupLayout.XForms"
+            xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+            xmlns:syncfusion="http://schemas.syncfusion.com/xamarin"
+            xmlns:sfListView="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
             x:Class="TestAPP.MainPage" Appearing="TabbedPage_Appearing">
 
     <!--"TabbedPage_Appearing" est la method appelé quand l'application s'ouvre. Cela permet de remplir le carousel view de la premiere page. La collection de photo est chosie aleatoirement-->
@@ -392,10 +389,11 @@
                         <StackLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand" >                            
                             <Image x:Name="CarouselPicture" 
                                        Source="{Binding .}"                                      
-                                       Aspect="AspectFit"   
+                                       Aspect="AspectFill"   
                                        Margin="0,0,0,-130"
                                        VerticalOptions="CenterAndExpand"
-                            >
+                                       HorizontalOptions="CenterAndExpand"
+                            >                                
                             </Image>
                         </StackLayout>
                     </DataTemplate>
