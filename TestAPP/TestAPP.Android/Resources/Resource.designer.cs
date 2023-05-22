@@ -355,8 +355,8 @@ namespace TestAPP.Droid
 			global::Com.Syncfusion.SfPicker.Resource.Attribute.pickerIsOpen = global::TestAPP.Droid.Resource.Attribute.pickerIsOpen;
 			global::Com.Syncfusion.SfPicker.Resource.Attribute.pickerItemHeight = global::TestAPP.Droid.Resource.Attribute.pickerItemHeight;
 			global::Com.Syncfusion.SfPicker.Resource.Attribute.pickerMode = global::TestAPP.Droid.Resource.Attribute.pickerMode;
-			global::Com.Syncfusion.SfPicker.Resource.Attribute.pickerSelectedItemTextSize = global::TestAPP.Droid.Resource.Attribute.pickerSelectedItemTextSize;
 			global::Com.Syncfusion.SfPicker.Resource.Attribute.pickerSelectedItemTextcolor = global::TestAPP.Droid.Resource.Attribute.pickerSelectedItemTextcolor;
+			global::Com.Syncfusion.SfPicker.Resource.Attribute.pickerSelectedItemTextSize = global::TestAPP.Droid.Resource.Attribute.pickerSelectedItemTextSize;
 			global::Com.Syncfusion.SfPicker.Resource.Attribute.pickerSelectionBorderColor = global::TestAPP.Droid.Resource.Attribute.pickerSelectionBorderColor;
 			global::Com.Syncfusion.SfPicker.Resource.Attribute.pickerShowColumnHeader = global::TestAPP.Droid.Resource.Attribute.pickerShowColumnHeader;
 			global::Com.Syncfusion.SfPicker.Resource.Attribute.pickerShowFooter = global::TestAPP.Droid.Resource.Attribute.pickerShowFooter;
@@ -384,8 +384,8 @@ namespace TestAPP.Droid
 			global::Com.Syncfusion.SfPicker.Resource.Styleable.SfPicker_pickerIsOpen = global::TestAPP.Droid.Resource.Styleable.SfPicker_pickerIsOpen;
 			global::Com.Syncfusion.SfPicker.Resource.Styleable.SfPicker_pickerItemHeight = global::TestAPP.Droid.Resource.Styleable.SfPicker_pickerItemHeight;
 			global::Com.Syncfusion.SfPicker.Resource.Styleable.SfPicker_pickerMode = global::TestAPP.Droid.Resource.Styleable.SfPicker_pickerMode;
-			global::Com.Syncfusion.SfPicker.Resource.Styleable.SfPicker_pickerSelectedItemTextSize = global::TestAPP.Droid.Resource.Styleable.SfPicker_pickerSelectedItemTextSize;
 			global::Com.Syncfusion.SfPicker.Resource.Styleable.SfPicker_pickerSelectedItemTextcolor = global::TestAPP.Droid.Resource.Styleable.SfPicker_pickerSelectedItemTextcolor;
+			global::Com.Syncfusion.SfPicker.Resource.Styleable.SfPicker_pickerSelectedItemTextSize = global::TestAPP.Droid.Resource.Styleable.SfPicker_pickerSelectedItemTextSize;
 			global::Com.Syncfusion.SfPicker.Resource.Styleable.SfPicker_pickerSelectionBorderColor = global::TestAPP.Droid.Resource.Styleable.SfPicker_pickerSelectionBorderColor;
 			global::Com.Syncfusion.SfPicker.Resource.Styleable.SfPicker_pickerShowColumnHeader = global::TestAPP.Droid.Resource.Styleable.SfPicker_pickerShowColumnHeader;
 			global::Com.Syncfusion.SfPicker.Resource.Styleable.SfPicker_pickerShowFooter = global::TestAPP.Droid.Resource.Styleable.SfPicker_pickerShowFooter;
