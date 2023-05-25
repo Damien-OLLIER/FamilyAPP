@@ -30,6 +30,9 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using Syncfusion.Licensing;
 using System.Security.Cryptography;
+using static System.Net.WebRequestMethods;
+using System.Diagnostics.Contracts;
+using Xamarin.Forms.PlatformConfiguration.TizenSpecific;
 
 namespace TestAPP
 {
@@ -343,6 +346,8 @@ namespace TestAPP
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.UserAgent.Add(
                 new ProductInfoHeaderValue("MyApplication", "1"));
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", APIKeys.accessToken);
             var repo = "Damien-OLLIER/AppPictures";
             var contentsUrl = $"https://api.github.com/repos/{repo}/contents";
             var contentsJson = await httpClient.GetStringAsync(contentsUrl);
@@ -382,6 +387,8 @@ namespace TestAPP
             var GitNamePicture = PinAddress;
 
             var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("MyApplication", "1"));
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", APIKeys.accessToken);
 
             LocationJSON = await httpClient.GetStringAsync("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Places.json");
 
@@ -410,8 +417,7 @@ namespace TestAPP
 
                     var tree = json["tree"];
 
-                    var TestList = new List<string>
-                    { };
+                    var TestList = new List<string>{ };
 
                     foreach (var Tree in tree)
                     {
@@ -569,8 +575,7 @@ namespace TestAPP
 
         // La méthode est appelée apres que l'utilisateur ai choisi un nouveau voyage à afficher dans la PopUp (quand elle se ferme)
         private async void listView_SelectionChanged(object sender, ItemSelectionChangedEventArgs e)
-        {
-            //On recupere l'info sur la destination choisi
+        { //On recupere l'info sur la destination choisi
             var SelectedItem = e.AddedItems;
             var SelectedItem0 = SelectedItem[0];
 
@@ -618,17 +623,22 @@ namespace TestAPP
             }
         }
 
-        // La méthode est appelée lorsque l'app apparait à l'écran
-        private async void TabbedPage_Appearing(object sender, EventArgs e)
-        {
-            // genère un nombre aléatoire afin d'afficher une destination au hasard lors de la premiere ouverture de l'app (ou apres l'avoir fermé complétement)
+    // La méthode est appelée lorsque l'app apparait à l'écran
+    private async void TabbedPage_Appearing(object sender, EventArgs e)
+    {
+        // genère un nombre aléatoire afin d'afficher une destination au hasard lors de la premiere ouverture de l'app (ou apres l'avoir fermé complétement)
             Random rnd = new Random();
-                        
+
+
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.UserAgent.Add(
                 new ProductInfoHeaderValue("MyApplication", "1"));
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", APIKeys.accessToken);
+
             var repo = "Damien-OLLIER/AppPictures";
             var contentsUrl = $"https://api.github.com/repos/{repo}/contents";
+
 
             try 
             {
@@ -762,22 +772,33 @@ namespace TestAPP
             {
                 Debug.WriteLine("");
 
-                var b = wc.Encoding;
+                wc.Headers.Add("User-Agent", "MyApplication/1");
+                wc.Headers.Add("Authorization", "Bearer " + APIKeys.accessToken);
 
-                var JsonFile = wc.DownloadString( @"https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Menu/Entrée.json");
+                var jsonFileUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Menu/Entrée.json";
 
-                EntréeListObjet = JsonConvert.DeserializeObject<Recettes>(JsonFile);
-
-                var CatégorieList = new List<string>();
-
-                foreach (var item in EntréeListObjet.Recette) 
+                try
                 {
-                    CatégorieList.Add(item.catégorie);
+                    var jsonFile = wc.DownloadString(jsonFileUrl);
+
+                    EntréeListObjet = JsonConvert.DeserializeObject<Recettes>(jsonFile);
+
+                    var catégorieList = new List<string>();
+
+                    foreach (var item in EntréeListObjet.Recette)
+                    {
+                        catégorieList.Add(item.catégorie);
+                    }
+
+                    catégorieList.Sort();
+
+                    EntréeCatégorieDistincte = catégorieList.Distinct().ToList();
                 }
-
-                CatégorieList.Sort();
-
-                EntréeCatégorieDistincte = CatégorieList.Distinct().ToList();
+                catch (WebException ex)
+                {
+                    await DisplayAlert("Internet Error", "Please restart the App with Internet", "OK");
+                    System.Diagnostics.Process.GetCurrentProcess().Kill();
+                }
             }
 
 
@@ -787,22 +808,33 @@ namespace TestAPP
             {
                 Debug.WriteLine("");
 
-                var b = wc.Encoding;
+                wc.Headers.Add("User-Agent", "MyApplication/1");
+                wc.Headers.Add("Authorization", "Bearer " + APIKeys.accessToken);
 
-                var JsonFile = wc.DownloadString("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Menu/Plat.json");
+                var jsonFileUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Menu/Plat.json";
 
-                PlatsListObjet = JsonConvert.DeserializeObject<Recettes>(JsonFile);
-
-                var CatégorieList = new List<string>();
-
-                foreach (var item in PlatsListObjet.Recette)
+                try
                 {
-                    CatégorieList.Add(item.catégorie);
+                    var jsonFile = wc.DownloadString(jsonFileUrl);
+
+                    PlatsListObjet = JsonConvert.DeserializeObject<Recettes>(jsonFile);
+
+                    var catégorieList = new List<string>();
+
+                    foreach (var item in PlatsListObjet.Recette)
+                    {
+                        catégorieList.Add(item.catégorie);
+                    }
+
+                    catégorieList.Sort();
+
+                    PlatsCatégorieDistincte = catégorieList.Distinct().ToList();
                 }
-
-                CatégorieList.Sort();
-
-                PlatsCatégorieDistincte = CatégorieList.Distinct().ToList();
+                catch (WebException ex)
+                {
+                    await DisplayAlert("Internet Error", "Please restart the App with Internet", "OK");
+                    System.Diagnostics.Process.GetCurrentProcess().Kill();
+                }
             }
 
 
@@ -812,21 +844,33 @@ namespace TestAPP
             {
                 Debug.WriteLine("");
 
-                var b = wc.Encoding;
+                wc.Headers.Add("User-Agent", "MyApplication/1");
+                wc.Headers.Add("Authorization", "Bearer " + APIKeys.accessToken);
 
-                var JsonFile = wc.DownloadString("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Menu/Dessert.json");
+                var jsonFileUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Menu/Dessert.json";
 
-                DessertsListObjet = JsonConvert.DeserializeObject<Recettes>(JsonFile);
-                var CatégorieList = new List<string>();
-
-                foreach (var item in DessertsListObjet.Recette)
+                try
                 {
-                    CatégorieList.Add(item.catégorie);
+                    var jsonFile = wc.DownloadString(jsonFileUrl);
+
+                    DessertsListObjet = JsonConvert.DeserializeObject<Recettes>(jsonFile);
+
+                    var catégorieList = new List<string>();
+
+                    foreach (var item in DessertsListObjet.Recette)
+                    {
+                        catégorieList.Add(item.catégorie);
+                    }
+
+                    catégorieList.Sort();
+
+                    DessertsCatégorieDistincte = catégorieList.Distinct().ToList();
                 }
-
-                CatégorieList.Sort();
-
-                DessertsCatégorieDistincte = CatégorieList.Distinct().ToList();
+                catch (WebException ex)
+                {
+                    await DisplayAlert("Internet Error", "Please restart the App with Internet", "OK");
+                    System.Diagnostics.Process.GetCurrentProcess().Kill();
+                }
             }
         }
 
@@ -1003,7 +1047,10 @@ namespace TestAPP
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.UserAgent.Add(
                 new ProductInfoHeaderValue("MyApplication", "1"));
-             var repo = "Damien-OLLIER/AppPictures";
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", APIKeys.accessToken);
+
+            var repo = "Damien-OLLIER/AppPictures";
             var contentsUrl = $"https://api.github.com/repos/{repo}/contents";
             var contentsJson = await httpClient.GetStringAsync(contentsUrl);
             var contents = (JArray)JsonConvert.DeserializeObject(contentsJson);
@@ -1145,7 +1192,10 @@ namespace TestAPP
         private async void TestButton_Clicked(object sender, EventArgs e)
         {
             var httpClient = new HttpClient();
-
+            httpClient.DefaultRequestHeaders.UserAgent.Add(
+                new ProductInfoHeaderValue("MyApplication", "1"));
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", APIKeys.accessToken);
             var GitFolder = await httpClient.GetStringAsync("https://api.github.com/repos/Damien-OLLIER/AppPictures/contents");
            
             var contents = (JArray)JsonConvert.DeserializeObject(GitFolder);
@@ -1513,12 +1563,14 @@ namespace TestAPP
         {
             string accessToken = APIKeys.accessToken;
             var httpClient = new HttpClient();
-
+            httpClient.DefaultRequestHeaders.UserAgent.Add(
+                new ProductInfoHeaderValue("MyApplication", "1"));
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", APIKeys.accessToken);
             // GitHub repository API URL and file path
             string apiUrl = "https://api.github.com/repos/Damien-OLLIER/AppPictures/contents/Test.JSON";
 
-            // Create a new HTTP client with required headers
-            httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             // Retrieve the existing file content and metadata from GitHub
@@ -1569,7 +1621,10 @@ namespace TestAPP
             VideoIndicator.Text = "Video Started";
 
             var httpClient = new HttpClient();
-
+            httpClient.DefaultRequestHeaders.UserAgent.Add(
+                new ProductInfoHeaderValue("MyApplication", "1"));
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", APIKeys.accessToken);
             var GitFolder = await httpClient.GetStringAsync("https://api.github.com/repos/Damien-OLLIER/AppPictures/contents");
 
             var contents = (JArray)JsonConvert.DeserializeObject(GitFolder);
