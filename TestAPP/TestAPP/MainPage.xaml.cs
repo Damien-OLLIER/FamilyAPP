@@ -1554,10 +1554,7 @@ namespace TestAPP
             await CrossMediaManager.Current.Play();
         }
 
-        private void MyMediaElement_SeekCompleted(object sender, EventArgs e)
-        {
-            VideoIndicator.Text = "Video completed";
-        }
+
 
         private async Task<(JObject, string, HttpClient)> GetjsonContent() 
         {
@@ -1617,6 +1614,7 @@ namespace TestAPP
         private async void WorkingVideoButton_Clicked(object sender, EventArgs e)
         {
             //string VideoURL = "http://vjs.zencdn.net/v/oceans.mp4";
+            VideoDuration.Text = "";
 
             VideoIndicator.Text = "Video Started";
 
@@ -1670,6 +1668,11 @@ namespace TestAPP
             WorkingVideo.Source = videoUrl;
             WorkingVideo.Play();
             VideoDuration.Text = WorkingVideo.Duration.ToString();
+        }
+
+        private void WorkingVideo_MediaEnded(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -459,14 +459,14 @@
 
     <ContentPage Title="WIP"  IconImageSource="WIP.PNG" Appearing="ContentPage_Appearing_3">      
         <StackLayout>
-                        
-            <Button Text="Play WorkingVideo" x:Name="WorkingVideoButton" Clicked="WorkingVideoButton_Clicked"></Button>
+
+            <Button Text="Play WorkingVideo" Margin="20" x:Name="WorkingVideoButton" Clicked="WorkingVideoButton_Clicked"></Button>
 
             <Label  x:Name="VideoDuration" Text="Video Duration here"/>
 
-            <xct:MediaElement x:Name="WorkingVideo" ShowsPlaybackControls="True"  SeekCompleted="MyMediaElement_SeekCompleted" VerticalOptions="FillAndExpand"/>
+            <xct:MediaElement x:Name="WorkingVideo" ShowsPlaybackControls="True"  MediaEnded="WorkingVideo_MediaEnded" VerticalOptions="FillAndExpand"/>
 
-            <Label  x:Name="VideoIndicator" Text="Start The video"/>
+            <Label  x:Name="VideoIndicator" Text="Start The video" Margin="20"/>
 
         </StackLayout>
     </ContentPage>
