@@ -18,7 +18,7 @@
     <!--Appearing est une fonction executé à chaque fois que la premiere page apparait-->
     <ContentPage Title="Home" IconImageSource="HomeIcon.PNG" Appearing="ContentPage_Appearing_1" >
         <!--On organise tout les visuels dans un StackLayout afin de pouvoir mettre plusieurs button, carousels view, etc...-->
-        <StackLayout x:Name="HomeStackLayout" IsVisible="true">
+        <StackLayout x:Name="HomeStackLayout" IsVisible="true" BackgroundColor="Yellow" VerticalOptions="StartAndExpand">
 
             <!--On organise tout ça dans une grid afin de mieux gerer l'espace dédié à chaque composant-->
             <Grid BackgroundColor="#1a1a1c" x:Name="HomeGrid">
@@ -26,7 +26,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="20" />
-                    <RowDefinition Height="40" />
+                    <RowDefinition Height="52" />
                     <RowDefinition Height="50" />
                     <RowDefinition Height="5" />
                     <RowDefinition Height="50" />
@@ -105,13 +105,9 @@
 
                 </sfPopup:SfPopupLayout>
 
-                <xct:MediaElement x:Name="HomeVideoview" 
-                                              IsVisible="true"
-                                              VerticalOptions="FillAndExpand"
-                                              HorizontalOptions="FillAndExpand"
-                                              ShowsPlaybackControls="False"/>
+                <xct:MediaElement x:Name="VideoHomePage" ShowsPlaybackControls="False" IsVisible="false"  MediaEnded="VideoHomePage_MediaEnded" Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="0" Grid.RowSpan="7" VerticalOptions="FillAndExpand"/>
 
-                
+                <buttons:SfButton x:Name="TestBtn" Clicked="TestBtn_Clicked" Text="Video Pause" FontAttributes="Bold" HorizontalTextAlignment="Center"   Grid.Row="6"  Grid.Column="1" Grid.ColumnSpan="3" BackgroundColor="Gray" IsVisible="false" />
                 <!-- CarouselView qui sert de galerie d'image au centre du premier onglet -->
                 <!-- Importat de set ItemsSource pour le Binding d'image 8 lignes plus bas-->
                 <!--IndicatorView="IndicatorView"-->
@@ -162,7 +158,7 @@
 
                 <!--Boutton qui est censé ouvrir la camera Frontal-->
                 <!--To modify: *RENAME Clicked="Button_Clicked_1"* et Trouver un moyen de forcer l'ouverture de la camera frontal surtout sur le Télephone de camille-->
-                <buttons:SfButton Text="Vidéo Surprise"  FontAttributes="Bold" Clicked="Button_Clicked_1" Grid.Row="3" Grid.Column="1"  Grid.ColumnSpan="3" HorizontalTextAlignment="Center"  CornerRadius="10,10,10,10" BackgroundColor="Gray"  />
+                <buttons:SfButton x:Name="VideoHomePageBtn" Text="Vidéo Surprise"  FontAttributes="Bold" Clicked="Button_Clicked_1" Grid.Row="3" Grid.Column="1"  Grid.ColumnSpan="3" HorizontalTextAlignment="Center"  CornerRadius="10,10,10,10" BackgroundColor="Gray"  />
 
                 <!--Les trois prochains boutons forment enfaite qu'un seul est unique button, celui en dessous du boutton "Qui est la plus belle ?" le boutton est juste scindé en trois parties clickable -->
                 <!--Partie centrale du button qui permet d'envoyer le message prédéfini au destinataire prédéfini. Cela active le petit gif en forme de coeur et le gros gif qui prend la moitié du telephone-->

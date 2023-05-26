@@ -33,6 +33,7 @@ using System.Security.Cryptography;
 using static System.Net.WebRequestMethods;
 using System.Diagnostics.Contracts;
 using Xamarin.Forms.PlatformConfiguration.TizenSpecific;
+using Syncfusion.XForms.Buttons;
 
 namespace TestAPP
 {
@@ -79,30 +80,25 @@ namespace TestAPP
         //Méthode est appelée pour ouvrir la caméra frontale
         private async void Button_Clicked_1(object sender, EventArgs e)
         {
-            (JObject, string, HttpClient) Response = await GetjsonContent();
+            //VideoDuration.Text = "";
 
-            JObject jsonContent = Response.Item1;
-            string sha = Response.Item2;
-            HttpClient httpClient1 = Response.Item3;
-
-            JArray connectionsArray = (JArray)jsonContent["connections"];
-
-            foreach (JObject connection in connectionsArray)
-            {
-                string device = (string)connection["device"];
-                if (device == DeviceInfo.Model)
-                {
-                    int numberOfVideoViewed = (int)connection["VideoViewed"];
-                    connection["VideoViewed"] = numberOfVideoViewed + 1;
-                }
-            }
-
-            SendjsonContent(jsonContent, sha, httpClient1);
-
-            HomeVideoview.MediaEnded += HomeVideoview_MediaEnded;
+            //VideoIndicator.Text = "Video Started";
+            Carousel.IsVisible = false;
+            LabelIndicatorView.IsVisible = false;
+            LabelDescription.IsVisible= false;
+            VideoHomePageBtn.IsVisible= false;
+            SfButton.IsVisible= false;
+            SfButton2.IsVisible= false;
+            SfButton3.IsVisible= false;
+            
+            TestBtn.IsVisible = true;
+            VideoHomePage.IsVisible = true;
 
             var httpClient = new HttpClient();
-
+            httpClient.DefaultRequestHeaders.UserAgent.Add(
+                new ProductInfoHeaderValue("MyApplication", "1"));
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", APIKeys.accessToken);
             var GitFolder = await httpClient.GetStringAsync("https://api.github.com/repos/Damien-OLLIER/AppPictures/contents");
 
             var contents = (JArray)JsonConvert.DeserializeObject(GitFolder);
@@ -122,13 +118,10 @@ namespace TestAPP
                 }
             }
 
-            var VideoFolder = "";
 
-            VideoFolder = await httpClient.GetStringAsync(git_url);
+            var VideoFolder = await httpClient.GetStringAsync(git_url);
 
             var ob = JsonConvert.DeserializeObject<VideoFolderObject>(VideoFolder);
-
-            var TreeObject = ob.tree;
 
             List<string> VideoNameList = new List<string>();
 
@@ -141,52 +134,21 @@ namespace TestAPP
 
             int RandNumber = rnd.Next(0, VideoNameList.Count);
 
-            //HomeVideoview.Source = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+            //Videoview.PropertyChanging += Videoview_PropertyChanging;
 
-            HomeVideoview.Source = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[1];
+            //videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
 
-            HomeVideoview.IsVisible= true;
-            Carousel.IsVisible = false;
-            LabelIndicatorView.IsVisible= false;
-            LabelDescription.IsVisible= false;
+            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/TestVideo1.mp4";
+            //WorkingVideo.Source = videoUrl;
+            //WorkingVideo.Play();
+            //VideoDuration.Text = WorkingVideo.Duration.ToString();
+            VideoHomePage.Source = videoUrl;
+            VideoHomePage.Play();
 
-            HomeStackLayout.IsVisible= false;
-
-            await CrossMediaManager.Current.Play();
-                     
-            ////Ici, sont gérées les demandes de Permission à l'utilisateur pour pouvoir acceder à la caméra.
-            //#region Permission
-            //var permission = await Permissions.CheckStatusAsync<Permissions.Camera>();
-
-            ////si la permission n'a pas encore été accordé, on la demande
-            //if (permission != PermissionStatus.Granted)
-            //{
-            //    permission = await Permissions.RequestAsync<Permissions.Camera>();
-            //}
-
-            //if (permission != PermissionStatus.Granted)
-            //{
-            //    // rien ne se passe si la permission n'est pas accordé
-            //    return;
-            //}
-            //#endregion
-
-            //var opts = new MediaPickerOptions
-            //{
-            //    Title = "Tu es la plus belle",
-            //};
-
-            ////To do: obliger la caméra frontale à s'ouvrir
-            //await MediaPicker.CapturePhotoAsync(opts);
+            
         }
 
-        private void HomeVideoview_MediaEnded(object sender, EventArgs e)
-        {
-            HomeVideoview.IsVisible = false;
-            Carousel.IsVisible = true;
-            LabelIndicatorView.IsVisible = true;
-            LabelDescription.IsVisible = true;
-        }
+
 
         //Méthode est appelée pour envoyer le texto
         private async void Button_Clicked(object sender, EventArgs e)
@@ -1673,6 +1635,35 @@ namespace TestAPP
         private void WorkingVideo_MediaEnded(object sender, EventArgs e)
         {
 
+        }
+
+        private void VideoHomePage_MediaEnded(object sender, EventArgs e)
+        {
+            Carousel.IsVisible = true;
+            LabelIndicatorView.IsVisible = true;
+            LabelDescription.IsVisible = true;
+            VideoHomePageBtn.IsVisible = true;
+            SfButton.IsVisible = true;
+            SfButton2.IsVisible = true;
+            SfButton3.IsVisible = true;
+            TestBtn.IsVisible = false;
+
+            VideoHomePage.IsVisible = false;
+            VideoHomePageBtn.Text = "Video terminé";
+        }
+
+        private void TestBtn_Clicked(object sender, EventArgs e)
+        {
+            if(TestBtn.Text == "Play video")
+            {
+                VideoHomePage.Play();
+                TestBtn.Text = "Stop video";
+            }
+            else
+            {
+                VideoHomePage.Stop();
+                TestBtn.Text = "Play video";
+            }
         }
     }
 }
