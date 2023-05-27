@@ -34,6 +34,7 @@ using static System.Net.WebRequestMethods;
 using System.Diagnostics.Contracts;
 using Xamarin.Forms.PlatformConfiguration.TizenSpecific;
 using Syncfusion.XForms.Buttons;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace TestAPP
 {
@@ -80,9 +81,11 @@ namespace TestAPP
         //Méthode est appelée pour ouvrir la caméra frontale
         private async void Button_Clicked_1(object sender, EventArgs e)
         {
-            //VideoDuration.Text = "";
+            
+            TestBtn.IsVisible = true;
+            VideoHomePage.IsVisible = true;
+            Hello.IsVisible = true;
 
-            //VideoIndicator.Text = "Video Started";
             Carousel.IsVisible = false;
             LabelIndicatorView.IsVisible = false;
             LabelDescription.IsVisible= false;
@@ -90,9 +93,8 @@ namespace TestAPP
             SfButton.IsVisible= false;
             SfButton2.IsVisible= false;
             SfButton3.IsVisible= false;
+
             
-            TestBtn.IsVisible = true;
-            VideoHomePage.IsVisible = true;
 
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.UserAgent.Add(
@@ -136,9 +138,9 @@ namespace TestAPP
 
             //Videoview.PropertyChanging += Videoview_PropertyChanging;
 
-            //videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
 
-            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/TestVideo1.mp4";
+            //videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/TestVideo1.mp4";
             //WorkingVideo.Source = videoUrl;
             //WorkingVideo.Play();
             //VideoDuration.Text = WorkingVideo.Duration.ToString();
@@ -436,9 +438,12 @@ namespace TestAPP
         // La méthode est appelée a chaque fois que les deux autres onglets sont sélectionnées
         private void ContentPage_Appearing_1(object sender, EventArgs e)
         {
+            HomeGrid.HeightRequest = DeviceDisplay.MainDisplayInfo.Height;
+
             //Je sais que si on ne met pas ça, ça ne marche pas (rien ne s'affiche dans le caroussel)
             //To Do: à re tester
             this.BindingContext = this;
+
         }
 
         //Quand l'utilisateur appui sur l'engrenage, cela ouvre un menu déroulant où la selection de differents message est possible
@@ -1646,15 +1651,15 @@ namespace TestAPP
             SfButton.IsVisible = true;
             SfButton2.IsVisible = true;
             SfButton3.IsVisible = true;
-            TestBtn.IsVisible = false;
 
+            TestBtn.IsVisible = false;
             VideoHomePage.IsVisible = false;
-            VideoHomePageBtn.Text = "Video terminé";
+            Hello.IsVisible = true;
         }
 
         private void TestBtn_Clicked(object sender, EventArgs e)
         {
-            if(TestBtn.Text == "Play video")
+            if (TestBtn.Text == "Play video")
             {
                 VideoHomePage.Play();
                 TestBtn.Text = "Stop video";

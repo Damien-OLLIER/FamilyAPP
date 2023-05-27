@@ -18,10 +18,10 @@
     <!--Appearing est une fonction executé à chaque fois que la premiere page apparait-->
     <ContentPage Title="Home" IconImageSource="HomeIcon.PNG" Appearing="ContentPage_Appearing_1" >
         <!--On organise tout les visuels dans un StackLayout afin de pouvoir mettre plusieurs button, carousels view, etc...-->
-        <StackLayout x:Name="HomeStackLayout" IsVisible="true" BackgroundColor="Yellow" VerticalOptions="StartAndExpand">
+        <StackLayout x:Name="HomeStackLayout" IsVisible="true" VerticalOptions="StartAndExpand">
 
             <!--On organise tout ça dans une grid afin de mieux gerer l'espace dédié à chaque composant-->
-            <Grid BackgroundColor="#1a1a1c" x:Name="HomeGrid">
+            <Grid BackgroundColor="#1a1a1c" x:Name="HomeGrid" >
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -41,6 +41,7 @@
                     <ColumnDefinition Width="20"/>
                 </Grid.ColumnDefinitions>
                 
+
                 <!--Implémentation du menu defilant qui s'ouvre quand tu double click sur l'image du carousel view-->
                 <!--Dans un premier temps, on implémente seulement la fenetre popup "SfPopupLayout" qui s'ouvre afin d'organiser le contenu plus tard-->
                 <sfPopup:SfPopupLayout x:Name="popupLayout" Closed="popupLayout_Closed" >
@@ -105,9 +106,10 @@
 
                 </sfPopup:SfPopupLayout>
 
-                <xct:MediaElement x:Name="VideoHomePage" ShowsPlaybackControls="False" IsVisible="false"  MediaEnded="VideoHomePage_MediaEnded" Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="0" Grid.RowSpan="7" VerticalOptions="FillAndExpand"/>
+                <buttons:SfButton x:Name="TestBtn" Clicked="TestBtn_Clicked" Text="Video Pause" FontAttributes="Bold" HorizontalTextAlignment="Center"   Grid.Row="5"  Grid.Column="1" Grid.ColumnSpan="3" BackgroundColor="Gray" IsVisible="false" />
+                <Label x:Name="Hello" Text="Vidéo en cours"  Grid.Column="2" Grid.Row="0" TextColor="White" HorizontalOptions="Center" IsVisible="false"/>
 
-                <buttons:SfButton x:Name="TestBtn" Clicked="TestBtn_Clicked" Text="Video Pause" FontAttributes="Bold" HorizontalTextAlignment="Center"   Grid.Row="6"  Grid.Column="1" Grid.ColumnSpan="3" BackgroundColor="Gray" IsVisible="false" />
+
                 <!-- CarouselView qui sert de galerie d'image au centre du premier onglet -->
                 <!-- Importat de set ItemsSource pour le Binding d'image 8 lignes plus bas-->
                 <!--IndicatorView="IndicatorView"-->
@@ -193,6 +195,9 @@
                 <!--Image qui permet d'accueillir le gif animé lorsque l'utilisateur envoie un Message. Animation is false and gif IsVisible = false. 
                 Position en fin du Stack layout importante car le gif doit passer au dessus du carousel view et des autres boutons.-->
                 <Image x:Name="GifTest" Source="abstract1.gif" IsVisible="false" IsAnimationPlaying="False" Grid.Row="0" Grid.RowSpan="7" />
+                <xct:MediaElement x:Name="VideoHomePage" ShowsPlaybackControls="False" IsVisible="false" MediaEnded="VideoHomePage_MediaEnded" Grid.Column="0" Grid.ColumnSpan="5" 
+                                  Aspect="AspectFit"/>
+
             </Grid>
         </StackLayout>
 
