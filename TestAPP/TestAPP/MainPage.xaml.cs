@@ -57,6 +57,9 @@ namespace TestAPP
         public Recettes DessertsListObjet { get; private set; }
         public string CatégorieSélectionnée { get; private set; }
         public List<string> MyList { get; set; }
+        public string VideoFolder { get; private set; }
+        public string CurrentVideo { get; private set; }
+        public string PreviousVideo { get; private set; }
 
 
         //private string videoUrl = "https://sec.ch9.ms/ch9/e68c/690eebb1-797a-40ef-a841-c63dded4e68c/Cognitive-Services-Emotion_high.mp4";
@@ -81,8 +84,10 @@ namespace TestAPP
         //Méthode est appelée pour ouvrir la caméra frontale
         private async void Button_Clicked_1(object sender, EventArgs e)
         {
-            
-            TestBtn.IsVisible = true;
+            Previousbtn.IsVisible = true;
+            Nextbtn.IsVisible = true;
+            QuitBtn.IsVisible = true;
+            PlayPausebtn.IsVisible = true;
             VideoHomePage.IsVisible = true;
             Hello.IsVisible = true;
 
@@ -94,35 +99,11 @@ namespace TestAPP
             SfButton2.IsVisible= false;
             SfButton3.IsVisible= false;
 
-            
+            HomeVideoPlay(Video.Random);
+        }
 
-            var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.UserAgent.Add(
-                new ProductInfoHeaderValue("MyApplication", "1"));
-            httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", APIKeys.accessToken);
-            var GitFolder = await httpClient.GetStringAsync("https://api.github.com/repos/Damien-OLLIER/AppPictures/contents");
-
-            var contents = (JArray)JsonConvert.DeserializeObject(GitFolder);
-
-            var git_url = "";
-
-            foreach (var file in contents)
-            {
-                var filetype = (string)file["type"];
-
-                if (filetype == "dir")
-                {
-                    if ((string)file["name"] == "Video")
-                    {
-                        git_url = (string)file["git_url"];
-                    }
-                }
-            }
-
-
-            var VideoFolder = await httpClient.GetStringAsync(git_url);
-
+        private void HomeVideoPlay(Video Video)
+        {
             var ob = JsonConvert.DeserializeObject<VideoFolderObject>(VideoFolder);
 
             List<string> VideoNameList = new List<string>();
@@ -133,21 +114,85 @@ namespace TestAPP
             }
 
             Random rnd = new Random();
-
             int RandNumber = rnd.Next(0, VideoNameList.Count);
 
-            //Videoview.PropertyChanging += Videoview_PropertyChanging;
+            if (CurrentVideo != null)
+            {
+                PreviousVideo = CurrentVideo;
+            }
 
-            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+            switch (Video)
+            {
+                case Video.Random:                    
+                    videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+                    break;
+
+                case Video.Previous:
+                    if (PreviousVideo != null)
+                    {
+                        int index = CurrentVideo.IndexOf("/Video/") + "/Video/".Length;
+                        string extractedPart = videoUrl.Substring(index);
+
+                        int position = VideoNameList.IndexOf(extractedPart);
+
+                        if (position == 0)
+                        {
+                            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[VideoNameList.Count - 1];
+
+                        }
+                        else
+                        {
+                            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[position - 1];
+                        }
+                    }
+                    else 
+                    {
+                        rnd = new Random();
+                        RandNumber = rnd.Next(0, VideoNameList.Count);
+                        videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+                    }
+                    break;
+
+                case Video.Next:
+                    if (CurrentVideo != null)
+                    {
+                        int index = CurrentVideo.IndexOf("/Video/") + "/Video/".Length;
+                        string extractedPart = videoUrl.Substring(index);
+
+                        int position = VideoNameList.IndexOf(extractedPart);
+
+                        if (position == VideoNameList.Count - 1)
+                        {
+                            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[0];
+
+                        }
+                        else
+                        {
+                            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[position+1];
+                        }
+                    }
+                    else 
+                    {
+                        rnd = new Random();
+                        RandNumber = rnd.Next(0, VideoNameList.Count);
+                        videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+                    }
+
+                    break;
+
+                default:
+                    rnd = new Random();
+                    RandNumber = rnd.Next(0, VideoNameList.Count);
+                    videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+                    break; 
+            }
 
             //videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/TestVideo1.mp4";
-            //WorkingVideo.Source = videoUrl;
-            //WorkingVideo.Play();
-            //VideoDuration.Text = WorkingVideo.Duration.ToString();
+
             VideoHomePage.Source = videoUrl;
             VideoHomePage.Play();
 
-            
+            CurrentVideo = videoUrl;
         }
 
 
@@ -614,6 +659,28 @@ namespace TestAPP
 
                 // On creer une intsance de "MapsViewModel" afin d'avoir acces a la liste des pays possible
                 this.BindingContext = new MapsViewModel(contents);
+
+                var GitVideoFolder = await httpClient.GetStringAsync("https://api.github.com/repos/Damien-OLLIER/AppPictures/contents");
+
+                var Videocontents = (JArray)JsonConvert.DeserializeObject(GitVideoFolder);
+
+                var git_url = "";
+
+                foreach (var file in Videocontents)
+                {
+                    var filetype = (string)file["type"];
+
+                    if (filetype == "dir")
+                    {
+                        if ((string)file["name"] == "Video")
+                        {
+                            git_url = (string)file["git_url"];
+                        }
+                    }
+                }
+
+
+                VideoFolder = await httpClient.GetStringAsync(git_url);
             }
             catch (System.Net.Http.HttpRequestException ex)
             {
@@ -1158,34 +1225,6 @@ namespace TestAPP
 
         private async void TestButton_Clicked(object sender, EventArgs e)
         {
-            var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.UserAgent.Add(
-                new ProductInfoHeaderValue("MyApplication", "1"));
-            httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", APIKeys.accessToken);
-            var GitFolder = await httpClient.GetStringAsync("https://api.github.com/repos/Damien-OLLIER/AppPictures/contents");
-           
-            var contents = (JArray)JsonConvert.DeserializeObject(GitFolder);
-
-            var git_url = "";
-
-            foreach (var file in contents)
-            {
-                var filetype = (string)file["type"];
-
-                if(filetype == "dir") 
-                {
-                    if( (string)file["name"] == "Video") 
-                    {
-                        git_url = (string)file["git_url"];
-                    }
-                }
-            }
-            
-            var VideoFolder = "";
-
-            VideoFolder = await httpClient.GetStringAsync(git_url);
-
             var ob = JsonConvert.DeserializeObject<VideoFolderObject>(VideoFolder);
 
             var TreeObject = ob.tree;
@@ -1644,6 +1683,35 @@ namespace TestAPP
 
         private void VideoHomePage_MediaEnded(object sender, EventArgs e)
         {
+            HomeVideoPlay(Video.Next);
+        }
+
+        private void PlayPausebtn_Clicked(object sender, EventArgs e)
+        {
+            if (PlayPausebtn.Text == "Play video")
+            {
+                VideoHomePage.Play();
+                PlayPausebtn.Text = "Pause video";
+            }
+            else
+            {
+                VideoHomePage.Pause();
+                PlayPausebtn.Text = "Play video";                
+            }
+        }
+
+        private void Previousbtn_Clicked(object sender, EventArgs e)
+        {
+            HomeVideoPlay(Video.Previous);
+        }
+
+        private void Nextbtn_Clicked(object sender, EventArgs e)
+        {
+            HomeVideoPlay(Video.Next);
+        }
+
+        private void QuitBtn_Clicked(object sender, EventArgs e)
+        {
             Carousel.IsVisible = true;
             LabelIndicatorView.IsVisible = true;
             LabelDescription.IsVisible = true;
@@ -1652,23 +1720,20 @@ namespace TestAPP
             SfButton2.IsVisible = true;
             SfButton3.IsVisible = true;
 
-            TestBtn.IsVisible = false;
+            Previousbtn.IsVisible = false;
+            Nextbtn.IsVisible = false;
+            QuitBtn.IsVisible = false;
+            PlayPausebtn.IsVisible = false;
             VideoHomePage.IsVisible = false;
-            Hello.IsVisible = true;
-        }
-
-        private void TestBtn_Clicked(object sender, EventArgs e)
-        {
-            if (TestBtn.Text == "Play video")
-            {
-                VideoHomePage.Play();
-                TestBtn.Text = "Stop video";
-            }
-            else
-            {
-                VideoHomePage.Stop();
-                TestBtn.Text = "Play video";
-            }
+            Hello.IsVisible = false;
         }
     }
+
+    public enum Video
+    {
+        Random,
+        Previous,
+        Next
+    }
+
 }
