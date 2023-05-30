@@ -1298,9 +1298,7 @@ namespace TestAPP
             {
                 Button button = new Button()
                 {
-                    Text = TypeEntrée,
-                    //HorizontalOptions = LayoutOptions.Center,
-                    //VerticalOptions = LayoutOptions.CenterAndExpand
+                    Text = TypeEntrée
                 };
 
                 button.Clicked += OnButtonClicked;
@@ -1312,6 +1310,8 @@ namespace TestAPP
         private void OnButtonClicked(object sender, EventArgs e)
         {
             CarouselViewRecettes.IsVisible = true;
+            Ingredients_Instruction_ScrollView.IsVisible = false;
+            Ingredients_Instruction_Image.IsVisible = false;
 
             foreach (var child in CatégorieStackLayout.Children)
             {
@@ -1447,9 +1447,7 @@ namespace TestAPP
             public string catégorie { get; set; }
             public string Nom { get; set; }
             public string AdressePhoto { get; set; }
-
-            public List<string> ingredients { get; set; }
-            public List<string> instructions { get; set; }
+            public string Ingredients_Instruction { get; set; }
         }
 
         public class Recettes
@@ -1480,8 +1478,7 @@ namespace TestAPP
 
             var SelectedRecipe = JSONText.Substring(Pos1, Pos2 - Pos1);
 
-            var Instructions = new List<string>();
-            var Ingrédients = new List<string>();
+            var Ingredients_Instruction = "";
 
             // Les entrées selectionnées
             if (!EntréeBtn.IsEnabled)
@@ -1512,19 +1509,18 @@ namespace TestAPP
                     {
                         if (SelectedRecipe == Dessert.Nom) 
                         {
-                            Instructions = Dessert.instructions;
-                            Ingrédients = Dessert.ingredients;
+                            Ingredients_Instruction = Dessert.Ingredients_Instruction;
                         }
                         
                     }
                 }
             }
 
-            string result1 = String.Join(Environment.NewLine , Instructions);
-            string result2 = String.Join(Environment.NewLine, Ingrédients);
+            CarouselViewRecettes.IsVisible = false;
+            Ingredients_Instruction_ScrollView.IsVisible = true;
+            Ingredients_Instruction_Image.IsVisible = true;
 
-
-            DisplayAlert(SelectedRecipe, result1 + Environment.NewLine + Environment.NewLine + result2, "OK");
+            Ingredients_Instruction_Image.Source = Ingredients_Instruction;
 
             (JObject, string, HttpClient) Response = await GetjsonContent();
 
@@ -1726,6 +1722,13 @@ namespace TestAPP
             PlayPausebtn.IsVisible = false;
             VideoHomePage.IsVisible = false;
             Hello.IsVisible = false;
+        }
+
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            CarouselViewRecettes.IsVisible = true;
+            Ingredients_Instruction_ScrollView.IsVisible = false;
+            Ingredients_Instruction_Image.IsVisible = false;
         }
     }
 

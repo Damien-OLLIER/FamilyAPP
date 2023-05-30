@@ -421,8 +421,7 @@
     </ContentPage>
 
     <ContentPage Title="Menu"  IconImageSource="Food.png" Appearing="ContentPage_Appearing_4"   >
-        <StackLayout>
-            
+        <StackLayout>            
             <Grid>
                 
                 <Grid.ColumnDefinitions>
@@ -462,7 +461,19 @@
                     </DataTemplate>
                 </CarouselView.ItemTemplate>
             </CarouselView>
-            
+
+            <ScrollView x:Name="Ingredients_Instruction_ScrollView" Orientation="Vertical" IsVisible="false" BackgroundColor="Cyan">
+                <Image x:Name="Ingredients_Instruction_Image" IsVisible="false" HeightRequest="700">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer
+                                            Tapped="TapGestureRecognizer_Tapped" 
+                                            NumberOfTapsRequired="1" />
+                        <!--OnTapGestureRecognizerTapped est une methode-->
+
+                    </Image.GestureRecognizers>
+                </Image>
+            </ScrollView>
+
         </StackLayout>
     </ContentPage>
 
