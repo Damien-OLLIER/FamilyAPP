@@ -1684,15 +1684,17 @@ namespace TestAPP
 
         private void PlayPausebtn_Clicked(object sender, EventArgs e)
         {
-            if (PlayPausebtn.Text == "Play video")
+            string PlayPauseImgStr = PlayPauseImg.Source.ToString();
+
+            if (PlayPauseImgStr.Contains("Lecture.png"))
             {
                 VideoHomePage.Play();
-                PlayPausebtn.Text = "Pause video";
+                PlayPauseImg.Source = "Pause.png";
             }
             else
             {
                 VideoHomePage.Pause();
-                PlayPausebtn.Text = "Play video";                
+                PlayPauseImg.Source = "Lecture.png";
             }
         }
 
@@ -1722,6 +1724,7 @@ namespace TestAPP
             PlayPausebtn.IsVisible = false;
             VideoHomePage.IsVisible = false;
             Hello.IsVisible = false;
+            VideoHomePage.Pause();
         }
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)

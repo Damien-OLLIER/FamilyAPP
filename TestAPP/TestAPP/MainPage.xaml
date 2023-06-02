@@ -106,16 +106,24 @@
 
                 </sfPopup:SfPopupLayout>
 
-                <buttons:SfButton x:Name="Previousbtn" CornerRadius="10,0,0,10" Margin="0,0,-48,0" Clicked="Previousbtn_Clicked" Text="Previous" FontAttributes="Bold" HorizontalTextAlignment="Center"   Grid.Row="3"  Grid.Column="1"  BackgroundColor="Gray" IsVisible="false" />
-
-                <buttons:SfButton x:Name="PlayPausebtn" Margin="40,0,40,0" Clicked="PlayPausebtn_Clicked" Text="Video Pause" FontAttributes="Bold" HorizontalTextAlignment="Center"   Grid.Row="3"  Grid.Column="2"  BackgroundColor="Gray" IsVisible="false" />
-
-                <buttons:SfButton x:Name="Nextbtn" Clicked="Nextbtn_Clicked" Margin="-48,0,0,0" Text="Next" FontAttributes="Bold"  HorizontalTextAlignment="Center" CornerRadius="0,10,10,0"  Grid.Row="3"  Grid.Column="3"  BackgroundColor="Gray" IsVisible="false" />
-
-                <buttons:SfButton x:Name="QuitBtn" Clicked="QuitBtn_Clicked" Text="Exit" FontAttributes="Bold" HorizontalTextAlignment="Center"   Grid.Row="5"  Grid.Column="1" CornerRadius="10,10,10,10" Grid.ColumnSpan="3" BackgroundColor="Gray" IsVisible="false" />
+                <buttons:SfButton x:Name="Previousbtn" CornerRadius="10,0,0,10" Margin="0,0,0,0" Clicked="Previousbtn_Clicked" FontAttributes="Bold" HorizontalTextAlignment="Start"   Grid.Row="3"  Grid.Column="1"  BackgroundColor="Gray" IsVisible="false" >
+                    <Image Source="Previous.png" HeightRequest="30" WidthRequest="30" />
+                </buttons:SfButton>
 
 
-                <Label x:Name="Hello" Text="Vidéo en cours"  Grid.Column="2" Grid.Row="0" TextColor="White" HorizontalOptions="Center" IsVisible="false"/>
+                <buttons:SfButton x:Name="PlayPausebtn" Margin="55,0,55,0" Clicked="PlayPausebtn_Clicked" FontAttributes="Bold" HorizontalTextAlignment="Center"   Grid.Row="3"  Grid.Column="2"  BackgroundColor="Gray" IsVisible="false" >
+                    <Image x:Name="PlayPauseImg" Source="Lecture.png" HeightRequest="30" WidthRequest="30" />
+                </buttons:SfButton>
+
+                <buttons:SfButton x:Name="Nextbtn" Clicked="Nextbtn_Clicked" Margin="0,0,0,0"  FontAttributes="Bold"  HorizontalTextAlignment="End"  CornerRadius="0,10,10,0"  Grid.Row="3"  Grid.Column="3"  BackgroundColor="Gray" IsVisible="false" >
+                    <Image x:Name="NextbtnImg" Source="Next.png" HeightRequest="30" WidthRequest="30" />
+                </buttons:SfButton>
+
+                <buttons:SfButton x:Name="QuitBtn" Clicked="QuitBtn_Clicked"  FontAttributes="Bold" HorizontalTextAlignment="Center"  Margin="40,-5,40,-10"  Grid.Row="5"  Grid.Column="2" CornerRadius="10,10,10,10"  BackgroundColor="Gray" IsVisible="false" >
+                    <Image x:Name="QuitBtnImg" Source="Exit.png" HeightRequest="20" WidthRequest="20" />
+                </buttons:SfButton>
+                
+                <Label x:Name="Hello" Text="Vidéo en cours de chargement"  Grid.Column="2" Grid.Row="0" TextColor="White" HorizontalOptions="Center" IsVisible="false"/>
 
 
                 <!-- CarouselView qui sert de galerie d'image au centre du premier onglet -->
