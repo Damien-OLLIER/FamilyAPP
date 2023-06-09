@@ -102,7 +102,7 @@ namespace TestAPP
             HomeVideoPlay(Video.Random);
         }
 
-        private void HomeVideoPlay(Video Video)
+        private async void HomeVideoPlay(Video Video)
         {
             var ob = JsonConvert.DeserializeObject<VideoFolderObject>(VideoFolder);
 
@@ -193,6 +193,26 @@ namespace TestAPP
             VideoHomePage.Play();
 
             CurrentVideo = videoUrl;
+
+            (JObject, string, HttpClient) Response = await GetjsonContent();
+
+            JObject jsonContent = Response.Item1;
+            string sha = Response.Item2;
+            HttpClient httpClient1 = Response.Item3;
+
+            JArray connectionsArray = (JArray)jsonContent["connections"];
+
+            foreach (JObject connection in connectionsArray)
+            {
+                string device = (string)connection["device"];
+                if (device == DeviceInfo.Model)
+                {
+                    int numberOfSMS_Send = (int)connection["VideoViewed"];
+                    connection["VideoViewed"] = numberOfSMS_Send + 1;
+                }
+            }
+
+            SendjsonContent(jsonContent, sha, httpClient1);
         }
 
 

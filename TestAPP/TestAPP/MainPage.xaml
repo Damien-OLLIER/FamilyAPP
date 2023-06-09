@@ -106,21 +106,21 @@
 
                 </sfPopup:SfPopupLayout>
 
-                <buttons:SfButton x:Name="Previousbtn" CornerRadius="10,0,0,10" Margin="0,0,0,0" Clicked="Previousbtn_Clicked" FontAttributes="Bold" HorizontalTextAlignment="Start"   Grid.Row="3"  Grid.Column="1"  BackgroundColor="Gray" IsVisible="false" >
+                <buttons:SfButton x:Name="Previousbtn" CornerRadius="10,0,0,10" Margin="60,0,-80,0" Clicked="Previousbtn_Clicked" FontAttributes="Bold" HorizontalTextAlignment="Start"   Grid.Row="3"  Grid.Column="1"  BackgroundColor="Gray" IsVisible="false" >
                     <Image Source="Previous.png" HeightRequest="30" WidthRequest="30" />
                 </buttons:SfButton>
 
 
-                <buttons:SfButton x:Name="PlayPausebtn" Margin="55,0,55,0" Clicked="PlayPausebtn_Clicked" FontAttributes="Bold" HorizontalTextAlignment="Center"   Grid.Row="3"  Grid.Column="2"  BackgroundColor="Gray" IsVisible="false" >
-                    <Image x:Name="PlayPauseImg" Source="Lecture.png" HeightRequest="30" WidthRequest="30" />
+                <buttons:SfButton x:Name="PlayPausebtn" Margin="72,0,72,0" Clicked="PlayPausebtn_Clicked" FontAttributes="Bold" HorizontalTextAlignment="Center"   Grid.Row="3"  Grid.Column="2"  BackgroundColor="Gray" IsVisible="false" >
+                    <Image x:Name="PlayPauseImg" Source="Pause.png" HeightRequest="30" WidthRequest="30" />
                 </buttons:SfButton>
 
-                <buttons:SfButton x:Name="Nextbtn" Clicked="Nextbtn_Clicked" Margin="0,0,0,0"  FontAttributes="Bold"  HorizontalTextAlignment="End"  CornerRadius="0,10,10,0"  Grid.Row="3"  Grid.Column="3"  BackgroundColor="Gray" IsVisible="false" >
+                <buttons:SfButton x:Name="Nextbtn" Clicked="Nextbtn_Clicked" Margin="-80,0,60,0"  FontAttributes="Bold"  HorizontalTextAlignment="End"  CornerRadius="0,10,10,0"  Grid.Row="3"  Grid.Column="3"  BackgroundColor="Gray" IsVisible="false" >
                     <Image x:Name="NextbtnImg" Source="Next.png" HeightRequest="30" WidthRequest="30" />
                 </buttons:SfButton>
 
-                <buttons:SfButton x:Name="QuitBtn" Clicked="QuitBtn_Clicked"  FontAttributes="Bold" HorizontalTextAlignment="Center"  Margin="40,-5,40,-10"  Grid.Row="5"  Grid.Column="2" CornerRadius="10,10,10,10"  BackgroundColor="Gray" IsVisible="false" >
-                    <Image x:Name="QuitBtnImg" Source="Exit.png" HeightRequest="20" WidthRequest="20" />
+                <buttons:SfButton x:Name="QuitBtn" Clicked="QuitBtn_Clicked"  FontAttributes="Bold" HorizontalTextAlignment="Center"  Margin="70,-5,60,-10"  Grid.Row="5"  Grid.Column="2" CornerRadius="10,10,10,10" BackgroundColor="Transparent" IsVisible="false" >
+                    <Image x:Name="QuitBtnImg" Source="Exit.png" BackgroundColor="Transparent"  Margin="-50,0,-50,0"/>
                 </buttons:SfButton>
                 
                 <Label x:Name="Hello" Text="Vidéo en cours de chargement"  Grid.Column="2" Grid.Row="0" TextColor="White" HorizontalOptions="Center" IsVisible="false"/>
@@ -211,7 +211,7 @@
                 <!--Image qui permet d'accueillir le gif animé lorsque l'utilisateur envoie un Message. Animation is false and gif IsVisible = false. 
                 Position en fin du Stack layout importante car le gif doit passer au dessus du carousel view et des autres boutons.-->
                 <Image x:Name="GifTest" Source="abstract1.gif" IsVisible="false" IsAnimationPlaying="False" Grid.Row="0" Grid.RowSpan="7" />
-                <xct:MediaElement x:Name="VideoHomePage" ShowsPlaybackControls="False" IsVisible="false" MediaEnded="VideoHomePage_MediaEnded" Grid.Column="0" Grid.ColumnSpan="5" 
+                <xct:MediaElement x:Name="VideoHomePage" ShowsPlaybackControls="True" IsVisible="false" MediaEnded="VideoHomePage_MediaEnded" Grid.Column="0" Grid.ColumnSpan="5" 
                                   Aspect="AspectFit"/>
 
             </Grid>
