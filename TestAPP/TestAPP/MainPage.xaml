@@ -211,7 +211,7 @@
                 <!--Image qui permet d'accueillir le gif animé lorsque l'utilisateur envoie un Message. Animation is false and gif IsVisible = false. 
                 Position en fin du Stack layout importante car le gif doit passer au dessus du carousel view et des autres boutons.-->
                 <Image x:Name="GifTest" Source="abstract1.gif" IsVisible="false" IsAnimationPlaying="False" Grid.Row="0" Grid.RowSpan="7" />
-                <xct:MediaElement x:Name="VideoHomePage" ShowsPlaybackControls="True" IsVisible="false" MediaEnded="VideoHomePage_MediaEnded" Grid.Column="0" Grid.ColumnSpan="5" 
+                <xct:MediaElement x:Name="VideoHomePage" ShowsPlaybackControls="False" IsVisible="false" MediaEnded="VideoHomePage_MediaEnded" Grid.Column="0" Grid.ColumnSpan="5" 
                                   Aspect="AspectFit"/>
 
             </Grid>
