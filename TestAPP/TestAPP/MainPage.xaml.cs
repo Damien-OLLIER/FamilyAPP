@@ -127,7 +127,7 @@ namespace TestAPP
 
             switch (Video)
             {
-                case Video.Random:                    
+                case Video.Random:
                     videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
                     break;
 
@@ -149,7 +149,7 @@ namespace TestAPP
                             videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[position - 1];
                         }
                     }
-                    else 
+                    else
                     {
                         rnd = new Random();
                         RandNumber = rnd.Next(0, VideoNameList.Count);
@@ -172,10 +172,10 @@ namespace TestAPP
                         }
                         else
                         {
-                            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[position+1];
+                            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[position + 1];
                         }
                     }
-                    else 
+                    else
                     {
                         rnd = new Random();
                         RandNumber = rnd.Next(0, VideoNameList.Count);
@@ -188,13 +188,25 @@ namespace TestAPP
                     rnd = new Random();
                     RandNumber = rnd.Next(0, VideoNameList.Count);
                     videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
-                    break; 
+                    break;
             }
 
             //videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/TestVideo1.mp4";
 
             VideoHomePage.Source = videoUrl;
-            VideoHomePage.Play();
+
+            string PlayPauseImgStr = PlayPauseImg.Source.ToString();
+
+            if (PlayPauseImgStr.Contains("Lecture.png"))
+            {
+                PlayPauseImg.Source = "Pause.png";
+            }
+
+            
+            if(VideoHomePage.IsVisible == true) 
+            {
+                VideoHomePage.Play();
+            }
 
             CurrentVideo = videoUrl;
 
@@ -217,6 +229,8 @@ namespace TestAPP
             }
 
             SendjsonContent(jsonContent, sha, httpClient1);
+        
+          
         }
 
 
@@ -513,21 +527,34 @@ namespace TestAPP
             //To Do: à re tester
             this.BindingContext = this;
 
-            if (VideoHomePage.IsVisible) 
-            {
-                string PlayPauseImgStr = PlayPauseImg.Source.ToString();
+            var contentPage = sender as ContentPage;
 
-                if (PlayPauseImgStr.Contains("Lecture.png"))
+            string pageName = contentPage.Title.ToString();
+
+            if (pageName == "Home")
+            {
+                if (VideoHomePage.IsVisible)
                 {
-                    VideoHomePage.Play();
-                    PlayPauseImg.Source = "Pause.png";
+                    string PlayPauseImgStr = PlayPauseImg.Source.ToString();
+
+                    if (PlayPauseImgStr.Contains("Lecture.png"))
+                    {
+                        VideoHomePage.Play();
+                        PlayPauseImg.Source = "Pause.png";
+                    }
+                    else
+                    {
+                        VideoHomePage.Pause();
+                        PlayPauseImg.Source = "Lecture.png";
+                    }
                 }
-                else
-                {
-                    VideoHomePage.Pause();
-                    PlayPauseImg.Source = "Lecture.png";
-                }
-            }       
+            }
+            else 
+            {
+                VideoHomePage.Pause();
+                PlayPauseImg.Source = "Lecture.png";
+            }
+
         }
 
         //Quand l'utilisateur appui sur l'engrenage, cela ouvre un menu déroulant où la selection de differents message est possible
@@ -720,6 +747,7 @@ namespace TestAPP
 
 
                 VideoFolder = await httpClient.GetStringAsync(git_url);
+                VideoHomePageBtn.IsEnabled= true;
             }
             catch (System.Net.Http.HttpRequestException ex)
             {
@@ -866,6 +894,7 @@ namespace TestAPP
                     catégorieList.Sort();
 
                     EntréeCatégorieDistincte = catégorieList.Distinct().ToList();
+                    EntréeBtn.IsEnabled = true;
                 }
                 catch (WebException ex)
                 {
@@ -902,6 +931,8 @@ namespace TestAPP
                     catégorieList.Sort();
 
                     PlatsCatégorieDistincte = catégorieList.Distinct().ToList();
+
+                    PlatBtn.IsEnabled = true;
                 }
                 catch (WebException ex)
                 {
@@ -938,6 +969,7 @@ namespace TestAPP
                     catégorieList.Sort();
 
                     DessertsCatégorieDistincte = catégorieList.Distinct().ToList();
+                    DessertBtn.IsEnabled = true;
                 }
                 catch (WebException ex)
                 {
@@ -1266,36 +1298,6 @@ namespace TestAPP
 
         }
 
-        private async void TestButton_Clicked(object sender, EventArgs e)
-        {
-            var ob = JsonConvert.DeserializeObject<VideoFolderObject>(VideoFolder);
-
-            var TreeObject = ob.tree;
-
-            List<string> VideoNameList = new List<string>();
-
-            foreach (var VideoFile in ob.tree)
-            {
-                VideoNameList.Add(VideoFile.path);
-            }
-
-            Random rnd = new Random();
-
-            int RandNumber = rnd.Next(0, VideoNameList.Count);
-
-            //Videoview.PropertyChanging += Videoview_PropertyChanging;
-
-            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
-            //Videoview.Source = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
-            //EntryVideoName.Text = Videoview.Source.ToString();
-
-
-            await CrossMediaManager.Current.Play();
-
-            // Button_Clicked_4(null, EventArgs.Empty);
-
-            //var test = Videoview.Duration;
-        }
 
         private void Videoview_PropertyChanging(object sender, Xamarin.Forms.PropertyChangingEventArgs e)
         {
@@ -1586,21 +1588,7 @@ namespace TestAPP
             SendjsonContent(jsonContent, sha, httpClient1);
         }
 
-
-        
-
-        private void Button_Clicked_4(object sender, EventArgs e)
-        {
-            // var test = Videoview.Duration;
-        }
-
-        private async void PlayButton_Clicked(object sender, EventArgs e)
-        {
-            // MyMediaElement.Play();
-            await CrossMediaManager.Current.Play();
-        }
-
-
+     
 
         private async Task<(JObject, string, HttpClient)> GetjsonContent() 
         {
@@ -1723,6 +1711,15 @@ namespace TestAPP
         {           
             VideoHomePage.Pause();
             PlayPauseImg.Source = "Lecture.png";
+        }
+
+        private void ContentPage_Appearing_family(object sender, EventArgs e)
+        {
+            HomeGrid.HeightRequest = DeviceDisplay.MainDisplayInfo.Height;
+
+            //Je sais que si on ne met pas ça, ça ne marche pas (rien ne s'affiche dans le caroussel)
+            //To Do: à re tester
+            this.BindingContext = this;
         }
     }
 

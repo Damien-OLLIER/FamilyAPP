@@ -16,7 +16,7 @@
     <!-- L'application est séparé en trois parties, "Home", "Family" ,"Maps"  avec une page "ContentPage" dédié à chaque fois, rajouter un page content = ajouter un onglet -->
 
     <!--Appearing est une fonction executé à chaque fois que la premiere page apparait-->
-    <ContentPage Title="Home" IconImageSource="HomeIcon.PNG" Appearing="ContentPage_Appearing_1" Disappearing="ContentPage_Disappearing" >
+    <ContentPage x:Name="Home" Title="Home" IconImageSource="HomeIcon.PNG" Appearing="ContentPage_Appearing_1" Disappearing="ContentPage_Disappearing" >
         <!--On organise tout les visuels dans un StackLayout afin de pouvoir mettre plusieurs button, carousels view, etc...-->
         <StackLayout x:Name="HomeStackLayout" IsVisible="true" VerticalOptions="StartAndExpand">
 
@@ -176,7 +176,7 @@
 
                 <!--Boutton qui est censé ouvrir la camera Frontal-->
                 <!--To modify: *RENAME Clicked="Button_Clicked_1"* et Trouver un moyen de forcer l'ouverture de la camera frontal surtout sur le Télephone de camille-->
-                <buttons:SfButton x:Name="VideoHomePageBtn" Text="Vidéo Surprise"  FontAttributes="Bold" Clicked="Button_Clicked_1" Grid.Row="3" Grid.Column="1"  Grid.ColumnSpan="3" HorizontalTextAlignment="Center"  CornerRadius="10,10,10,10" BackgroundColor="Gray"  />
+                <buttons:SfButton x:Name="VideoHomePageBtn" Text="Vidéo Surprise"  FontAttributes="Bold" Clicked="Button_Clicked_1" Grid.Row="3" Grid.Column="1"  Grid.ColumnSpan="3" HorizontalTextAlignment="Center"  CornerRadius="10,10,10,10" BackgroundColor="Gray" IsEnabled="False" />
 
                 <!--Les trois prochains boutons forment enfaite qu'un seul est unique button, celui en dessous du boutton "Qui est la plus belle ?" le boutton est juste scindé en trois parties clickable -->
                 <!--Partie centrale du button qui permet d'envoyer le message prédéfini au destinataire prédéfini. Cela active le petit gif en forme de coeur et le gros gif qui prend la moitié du telephone-->
@@ -220,7 +220,7 @@
     </ContentPage>
 
     <!--Debut du second onglet, "Family", qui appel la methode "ContentPage_Appearing_1" lorsqu'on clic dessus-->
-    <ContentPage Title="Family" IconImageSource="FamilyIcon.PNG" Appearing="ContentPage_Appearing_1" >
+    <ContentPage Title="Family" IconImageSource="FamilyIcon.PNG" Appearing="ContentPage_Appearing_family" >
         <!--On organise tout les visuels dans un StackLayout afin de pouvoir mettre plusieurs button, carousels view, etc...-->
         <StackLayout>
             <!--On organise tout ça dans une grid afin de mieux gerer l'espace dédié à chaque composant-->
@@ -438,9 +438,9 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Text="Entrée"  x:Name="EntréeBtn" FontSize="Small" Padding="0,0,0,0"  Margin="5,5,0,0" Clicked="EntréeBtn_Clicked"/>
-                <Button Grid.Column="1" Text="Plat" x:Name="PlatBtn" FontSize="Small" Margin="5,5,0,0" Padding="0,-1,0,0" IsEnabled="true" Clicked="PlatBtn_Clicked"/>
-                <Button Grid.Column="2" Text="Dessert" x:Name="DessertBtn" FontSize="Small" Margin="5,5,5,0" Padding="0,-1,0,0" Clicked="DessertBtn_Clicked"/>
+                <Button Grid.Column="0" Text="Entrée"  x:Name="EntréeBtn" FontSize="Small" Padding="0,0,0,0"  Margin="5,5,0,0" Clicked="EntréeBtn_Clicked" IsEnabled="False"/>
+                <Button Grid.Column="1" Text="Plat" x:Name="PlatBtn" FontSize="Small" Margin="5,5,0,0" Padding="0,-1,0,0" IsEnabled="False" Clicked="PlatBtn_Clicked"/>
+                <Button Grid.Column="2" Text="Dessert" x:Name="DessertBtn" FontSize="Small" Margin="5,5,5,0" Padding="0,-1,0,0" Clicked="DessertBtn_Clicked" />
                 
             </Grid>
 
