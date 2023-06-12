@@ -71,9 +71,11 @@ namespace TestAPP
         //Method called when the APP is started
         public MainPage()
         {
+
             //clef/license pour les fonctionalites de syncfusion (Methodes et bouttons,etc ...)
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mgo+DSMBaFt+QHFqVk9rXVNbdV5dVGpAd0N3RGlcdlR1fUUmHVdTRHRcQlliTH9UckxjWHddc3M=;Mgo+DSMBPh8sVXJ1S0d+X1hPd11dXmJWd1p/THNYflR1fV9DaUwxOX1dQl9gSXpSc0RkXXZecXxRQGc=;ORg4AjUWIQA/Gnt2VFhhQlJNfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hSn5Xd0BiXntXcHVdQGBb;MTczNjY4MEAzMjMxMmUzMTJlMzMzOVJVN3hIUjBQVzF2eXE4LzcyS2l3dEpQSXhTdnJaOFpFdi83N1lwKzlaZVU9;MTczNjY4MUAzMjMxMmUzMTJlMzMzOWIxVXVNZEhLR1pRL21kckZtYytIb01xR1IyRjVKNWFxOEhNTzc4ZWZCbHM9;NRAiBiAaIQQuGjN/V0d+XU9Hf1RDX3xKf0x/TGpQb19xflBPallYVBYiSV9jS31TckRmWHhaeXRUT2JUVg==;MTczNjY4M0AzMjMxMmUzMTJlMzMzOWV1cDVmVEE4b3VwMmxRbXdxNDVBQzUyYWcrT1FmZWdJay93MmpGMzUyRGM9;MTczNjY4NEAzMjMxMmUzMTJlMzMzOWNHcXdWNzNDQmVuZ0ppZ00xMVdFUDFWcThPdDhVTXNXL3dkNmJYV2dUMVU9;Mgo+DSMBMAY9C3t2VFhhQlJNfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hSn5Xd0BiXntXcHVcT2Jb;MTczNjY4NkAzMjMxMmUzMTJlMzMzOWh0RUc5L3p1ZmpQZGhJaEVBV2lLSzZSSDNuekkwY0lkWCs1a1ZHTkZWK1U9;MTczNjY4N0AzMjMxMmUzMTJlMzMzOWx1dW5TT2hqVmRhSTJIUGJWVkxQc0NGRlVteVF5K3BSMkplbVQzZUlpZEE9;MTczNjY4OEAzMjMxMmUzMTJlMzMzOWV1cDVmVEE4b3VwMmxRbXdxNDVBQzUyYWcrT1FmZWdJay93MmpGMzUyRGM9");
             InitializeComponent();
+
 
             message = "je t'aime !"; // Message de base affiché et envoyé au Num
             numero = "+33632183163"; // Numero selectionne de base            
@@ -1096,6 +1098,7 @@ namespace TestAPP
             //CardImageCounter.Text = (e.CurrentPosition + 1).ToString() + "/" + (NumberOfItemsMaps - 1).ToString();
         }
 
+
         private async void Button_Clicked_2(object sender, EventArgs e)
         {
             var httpClient = new HttpClient();
@@ -1137,7 +1140,9 @@ namespace TestAPP
                             JSONList.Add(contentsJson1);                            
                         }
                     }
+
                     else if (fileType == "file")
+
                     {
                         var downloadUrl = (string)file["download_url"];
                         Debug.WriteLine($"DOWNLOAD: {downloadUrl}");
@@ -1213,6 +1218,7 @@ namespace TestAPP
             public string type { get; set; }
             public Links _links { get; set; }
         }
+
         private void Carousel_CurrentItemChanged_1(object sender, CurrentItemChangedEventArgs e)
         {
             var Items = sender as Xamarin.Forms.ItemsView;
@@ -1562,6 +1568,7 @@ namespace TestAPP
 
             SendjsonContent(jsonContent, sha, httpClient1);
         }
+
 
         
 

@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Plugin.MediaManager" Version="1.1.1" />
     <PackageReference Include="Syncfusion.Licensing" Version="21.1.39" />
@@ -18,6 +19,7 @@
     <PackageReference Include="Syncfusion.Xamarin.SfListView" Version="21.1.39" />
     <PackageReference Include="Syncfusion.Xamarin.SfPicker" Version="21.1.39" />
     <PackageReference Include="Syncfusion.Xamarin.SfPopupLayout" Version="21.1.39" />
+
     <PackageReference Include="Xam.Plugin.Media" Version="5.0.1" />
     <PackageReference Include="Xam.Plugins.Messaging" Version="5.2.0" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.5" />

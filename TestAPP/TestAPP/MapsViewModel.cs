@@ -83,6 +83,7 @@ namespace TestAPP
 
                             placesList = new List<Place>();  
 
+
                             foreach (var place in ob.results)
                             {
                                 placesList.Add(new Place
