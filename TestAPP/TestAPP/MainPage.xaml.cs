@@ -101,6 +101,8 @@ namespace TestAPP
             SfButton2.IsVisible= false;
             SfButton3.IsVisible= false;
 
+            PlayPauseImg.Source = "Pause.png";
+
             HomeVideoPlay(Video.Random);
         }
 
@@ -511,6 +513,21 @@ namespace TestAPP
             //To Do: à re tester
             this.BindingContext = this;
 
+            if (VideoHomePage.IsVisible) 
+            {
+                string PlayPauseImgStr = PlayPauseImg.Source.ToString();
+
+                if (PlayPauseImgStr.Contains("Lecture.png"))
+                {
+                    VideoHomePage.Play();
+                    PlayPauseImg.Source = "Pause.png";
+                }
+                else
+                {
+                    VideoHomePage.Pause();
+                    PlayPauseImg.Source = "Lecture.png";
+                }
+            }       
         }
 
         //Quand l'utilisateur appui sur l'engrenage, cela ouvre un menu déroulant où la selection de differents message est possible
@@ -1640,65 +1657,6 @@ namespace TestAPP
 
         }
 
-        private async void WorkingVideoButton_Clicked(object sender, EventArgs e)
-        {
-            //string VideoURL = "http://vjs.zencdn.net/v/oceans.mp4";
-            VideoDuration.Text = "";
-
-            VideoIndicator.Text = "Video Started";
-
-            var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.UserAgent.Add(
-                new ProductInfoHeaderValue("MyApplication", "1"));
-            httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", APIKeys.accessToken);
-            var GitFolder = await httpClient.GetStringAsync("https://api.github.com/repos/Damien-OLLIER/AppPictures/contents");
-
-            var contents = (JArray)JsonConvert.DeserializeObject(GitFolder);
-
-            var git_url = "";
-
-            foreach (var file in contents)
-            {
-                var filetype = (string)file["type"];
-
-                if (filetype == "dir")
-                {
-                    if ((string)file["name"] == "Video")
-                    {
-                        git_url = (string)file["git_url"];
-                    }
-                }
-            }
-
-            var VideoFolder = "";
-
-            VideoFolder = await httpClient.GetStringAsync(git_url);
-
-            var ob = JsonConvert.DeserializeObject<VideoFolderObject>(VideoFolder);
-
-            var TreeObject = ob.tree;
-
-            List<string> VideoNameList = new List<string>();
-
-            foreach (var VideoFile in ob.tree)
-            {
-                VideoNameList.Add(VideoFile.path);
-            }
-
-            Random rnd = new Random();
-
-            int RandNumber = rnd.Next(0, VideoNameList.Count);
-
-            //Videoview.PropertyChanging += Videoview_PropertyChanging;
-
-            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
-
-            WorkingVideo.Source = videoUrl;
-            WorkingVideo.Play();
-            VideoDuration.Text = WorkingVideo.Duration.ToString();
-        }
-
         private void WorkingVideo_MediaEnded(object sender, EventArgs e)
         {
 
@@ -1759,6 +1717,12 @@ namespace TestAPP
             CarouselViewRecettes.IsVisible = true;
             Ingredients_Instruction_ScrollView.IsVisible = false;
             Ingredients_Instruction_Image.IsVisible = false;
+        }
+
+        private void ContentPage_Disappearing(object sender, EventArgs e)
+        {           
+            VideoHomePage.Pause();
+            PlayPauseImg.Source = "Lecture.png";
         }
     }
 

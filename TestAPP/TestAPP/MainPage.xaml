@@ -16,7 +16,7 @@
     <!-- L'application est séparé en trois parties, "Home", "Family" ,"Maps"  avec une page "ContentPage" dédié à chaque fois, rajouter un page content = ajouter un onglet -->
 
     <!--Appearing est une fonction executé à chaque fois que la premiere page apparait-->
-    <ContentPage Title="Home" IconImageSource="HomeIcon.PNG" Appearing="ContentPage_Appearing_1" >
+    <ContentPage Title="Home" IconImageSource="HomeIcon.PNG" Appearing="ContentPage_Appearing_1" Disappearing="ContentPage_Disappearing" >
         <!--On organise tout les visuels dans un StackLayout afin de pouvoir mettre plusieurs button, carousels view, etc...-->
         <StackLayout x:Name="HomeStackLayout" IsVisible="true" VerticalOptions="StartAndExpand">
 
@@ -487,21 +487,7 @@
         </StackLayout>
     </ContentPage>
 
-    <ContentPage Title="WIP"  IconImageSource="WIP.PNG" Appearing="ContentPage_Appearing_3">      
-        <StackLayout>
-
-            <Button Text="Play WorkingVideo" Margin="20" x:Name="WorkingVideoButton" Clicked="WorkingVideoButton_Clicked"></Button>
-
-            <Label  x:Name="VideoDuration" Text="Video Duration here"/>
-
-            <xct:MediaElement x:Name="WorkingVideo" ShowsPlaybackControls="True"  MediaEnded="WorkingVideo_MediaEnded" VerticalOptions="FillAndExpand"/>
-
-            <Label  x:Name="VideoIndicator" Text="Start The video" Margin="20"/>
-
-        </StackLayout>
-    </ContentPage>
-
-
+ 
 </TabbedPage>
 
     
