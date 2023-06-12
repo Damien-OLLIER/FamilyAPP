@@ -29,11 +29,11 @@ namespace TestAPP
         public ObservableCollection<Maps> Items { get; set; }
         static public List<Place> placesList { get; set; }
 
-        #endregion
+    #endregion
 
         #region Fields
 
-        Random random = new Random(123456789);
+    Random random = new Random(123456789);
 
         #endregion
 
@@ -52,11 +52,11 @@ namespace TestAPP
                 {
                     var Name = (string)file["name"];
 
-                    if (Name.Contains("Video") || Name.Contains(".vs") || Name.Contains("Video") || Name.Contains("Menu"))
+                    if (Name.Contains("Video") || Name.Contains(".vs") || Name.Contains("Video") || Name.Contains("Menu")) 
                     {
-                        // RespoJSON.Remove(file);
+                       // RespoJSON.Remove(file);
                     }
-                    else
+                    else 
                     {
                         items.Add(file);
                     }
@@ -81,7 +81,8 @@ namespace TestAPP
 
                             var ob = JsonConvert.DeserializeObject<Places>(json);
 
-                            placesList = new List<Place>();
+                            placesList = new List<Place>();  
+
 
                             foreach (var place in ob.results)
                             {

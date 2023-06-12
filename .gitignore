@@ -73,7 +73,7 @@ StyleCopReport.xml
 *_i.c
 *_p.c
 *_h.h
-*.ilk
+*.ilkf
 *.meta
 *.obj
 *.iobj
@@ -361,4 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/TestAPP/TestAPP/APIKeys.cs
+
+/TestAPP/TestAPP/APIKeysLocal.cs
+/TestAPP/TestAPP/APIKeysLocal.cs
+

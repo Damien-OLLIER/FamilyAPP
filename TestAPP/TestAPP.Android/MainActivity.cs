@@ -7,6 +7,7 @@ using Android.OS;
 using Android.Widget;
 using Android.Views;
 using Xamarin.Forms;
+using MediaManager;
 
 namespace TestAPP.Droid
 {
@@ -24,6 +25,7 @@ namespace TestAPP.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             Xamarin.FormsMaps.Init(this, savedInstanceState);
             LoadApplication(new App());
+            CrossMediaManager.Current.Init();
 
             if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
             {
@@ -43,6 +45,7 @@ namespace TestAPP.Droid
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+                
     }
 }
 

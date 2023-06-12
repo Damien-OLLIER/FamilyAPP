@@ -22,10 +22,22 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using System.Linq;
+using MediaManager;
+using System.Linq.Expressions;
+using Xamarin.Forms.Xaml;
+using static System.Net.Mime.MediaTypeNames;
+using System.Collections;
+using System.Text.RegularExpressions;
+using Syncfusion.Licensing;
+using System.Security.Cryptography;
+using static System.Net.WebRequestMethods;
+using System.Diagnostics.Contracts;
+using Xamarin.Forms.PlatformConfiguration.TizenSpecific;
+using Syncfusion.XForms.Buttons;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace TestAPP
 {
-
     public partial class MainPage : Xamarin.Forms.TabbedPage
     {
         // ObservableCollection<Family> est une collection d'objet de la classe Family utilsé dans l'onglet family afin d'afficher l'expander (family  Tree)
@@ -36,101 +48,176 @@ namespace TestAPP
         //Accesseur et mutateur pour Le numero de telephone envoyé de base avec le texto
         public string numero { get; private set; }
         public int NumberOfItems { get; private set; }
-        public int NumberOfItemsMaps { get; private set; }
         public string LocationJSON { get; private set; }
+        public List<string> EntréeCatégorieDistincte { get; private set; }
+        public List<string> PlatsCatégorieDistincte { get; private set; }
+        public List<string> DessertsCatégorieDistincte { get; private set; }
+        public Recettes EntréeListObjet { get; private set; }
+        public Recettes PlatsListObjet { get; private set; }
+        public Recettes DessertsListObjet { get; private set; }
+        public string CatégorieSélectionnée { get; private set; }
+        public List<string> MyList { get; set; }
+        public string VideoFolder { get; private set; }
+        public string CurrentVideo { get; private set; }
+        public string PreviousVideo { get; private set; }
 
+
+        //private string videoUrl = "https://sec.ch9.ms/ch9/e68c/690eebb1-797a-40ef-a841-c63dded4e68c/Cognitive-Services-Emotion_high.mp4";
+        private string videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/TestVideo1.mp4";
+        //https://api.github.com/repos/Damien-OLLIER/AppPictures/contents
         //List contenant des objets de la classe Place afin de creer les Pin Maps
         List<Place> placesList = new List<Place>();
 
         //Method called when the APP is started
         public MainPage()
         {
-            
+
+            //clef/license pour les fonctionalites de syncfusion (Methodes et bouttons,etc ...)
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mgo+DSMBaFt+QHFqVk9rXVNbdV5dVGpAd0N3RGlcdlR1fUUmHVdTRHRcQlliTH9UckxjWHddc3M=;Mgo+DSMBPh8sVXJ1S0d+X1hPd11dXmJWd1p/THNYflR1fV9DaUwxOX1dQl9gSXpSc0RkXXZecXxRQGc=;ORg4AjUWIQA/Gnt2VFhhQlJNfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hSn5Xd0BiXntXcHVdQGBb;MTczNjY4MEAzMjMxMmUzMTJlMzMzOVJVN3hIUjBQVzF2eXE4LzcyS2l3dEpQSXhTdnJaOFpFdi83N1lwKzlaZVU9;MTczNjY4MUAzMjMxMmUzMTJlMzMzOWIxVXVNZEhLR1pRL21kckZtYytIb01xR1IyRjVKNWFxOEhNTzc4ZWZCbHM9;NRAiBiAaIQQuGjN/V0d+XU9Hf1RDX3xKf0x/TGpQb19xflBPallYVBYiSV9jS31TckRmWHhaeXRUT2JUVg==;MTczNjY4M0AzMjMxMmUzMTJlMzMzOWV1cDVmVEE4b3VwMmxRbXdxNDVBQzUyYWcrT1FmZWdJay93MmpGMzUyRGM9;MTczNjY4NEAzMjMxMmUzMTJlMzMzOWNHcXdWNzNDQmVuZ0ppZ00xMVdFUDFWcThPdDhVTXNXL3dkNmJYV2dUMVU9;Mgo+DSMBMAY9C3t2VFhhQlJNfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hSn5Xd0BiXntXcHVcT2Jb;MTczNjY4NkAzMjMxMmUzMTJlMzMzOWh0RUc5L3p1ZmpQZGhJaEVBV2lLSzZSSDNuekkwY0lkWCs1a1ZHTkZWK1U9;MTczNjY4N0AzMjMxMmUzMTJlMzMzOWx1dW5TT2hqVmRhSTJIUGJWVkxQc0NGRlVteVF5K3BSMkplbVQzZUlpZEE9;MTczNjY4OEAzMjMxMmUzMTJlMzMzOWV1cDVmVEE4b3VwMmxRbXdxNDVBQzUyYWcrT1FmZWdJay93MmpGMzUyRGM9");
             InitializeComponent();
-            //var test = HomeGrid.RowDefinitions;
+
 
             message = "je t'aime !"; // Message de base affiché et envoyé au Num
-            numero = "+33632183163"; // Numero selectionne de base
-
-            UpdateMap();
-
+            numero = "+33632183163"; // Numero selectionne de base            
         }
 
-        //Methode qui permet d'initialiser le visuel de l'onglet Maps
-        private async void UpdateMap()
-        {
-            try
-            {// Pour eviter que l'app crash
 
-                // On recupere les Infos du Fichier JSON (Longitude, Latitude, etc...)
-                var assembly = IntrospectionExtensions.GetTypeInfo(typeof(MainPage)).Assembly;
-                Stream stream = assembly.GetManifestResourceStream("TestAPP.Places.json");
-
-                // On met tout ça en format text 
-                string text = string.Empty;
-                using (var reader = new StreamReader(stream, Encoding.UTF7))
-                {
-                    text = reader.ReadToEnd();
-                }
-
-                // On creer l'objet  "resultObject" qui contient toutes les infos
-                var resultObject = JsonConvert.DeserializeObject<Places>(text);
-
-                // Pour chaque iteration de "resultObject", on a acces à ses parametres tels que l'adressem la position, etc...
-                foreach (var place in resultObject.results)
-                {
-                    placesList.Add(new Place
-                    {
-                        PlaceName = place.name,
-                        Address = place.vicinity,
-                        Location = place.geometry.location,
-                        Position = new Position(place.geometry.location.lat, place.geometry.location.lng),
-                    });
-                }
-
-                //On met tout ça dans une liste que l'on Fourni a "MyMap" comme item Source
-                MyMap.ItemsSource = placesList;
-
-                //De base, map nous affiche les etats-unis. On bouge donc au milieu de l'europe à chaque demarrage
-                //TO DO: le commentaire du haut est faux, il faut changer la ligne du dessous car je suis con. Depuis le debut je mou fou au etats unis pour me mettre en europe, j'avais oublie l'existance de cette ligne 
-                MyMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(47.6370891183, -122.123736172), Distance.FromKilometers(100)));
-            }
-            catch (Exception ex)
-            {
-                //affichage de l'error dans la console (Output)
-                Debug.WriteLine(ex);
-            }
-        }
-
+        
         //Méthode est appelée pour ouvrir la caméra frontale
         private async void Button_Clicked_1(object sender, EventArgs e)
         {
-            //Ici, sont gérées les demandes de Permission à l'utilisateur pour pouvoir acceder à la caméra.
-            #region Permission
-            var permission = await Permissions.CheckStatusAsync<Permissions.Camera>();
+            Previousbtn.IsVisible = true;
+            Nextbtn.IsVisible = true;
+            QuitBtn.IsVisible = true;
+            PlayPausebtn.IsVisible = true;
+            VideoHomePage.IsVisible = true;
+            Hello.IsVisible = true;
 
-            //si la permission n'a pas encore été accordé, on la demande
-            if (permission != PermissionStatus.Granted)
-            {
-                permission = await Permissions.RequestAsync<Permissions.Camera>();
-            }
+            Carousel.IsVisible = false;
+            LabelIndicatorView.IsVisible = false;
+            LabelDescription.IsVisible= false;
+            VideoHomePageBtn.IsVisible= false;
+            SfButton.IsVisible= false;
+            SfButton2.IsVisible= false;
+            SfButton3.IsVisible= false;
 
-            if (permission != PermissionStatus.Granted)
-            {
-                // rien ne se passe si la permission n'est pas accordé
-                return;
-            }
-            #endregion
-
-            var opts = new MediaPickerOptions
-            {
-                Title = "Tu es la plus belle",
-            };
-
-            //To do: obliger la caméra frontale à s'ouvrir
-            await MediaPicker.CapturePhotoAsync(opts);
+            HomeVideoPlay(Video.Random);
         }
+
+        private async void HomeVideoPlay(Video Video)
+        {
+            var ob = JsonConvert.DeserializeObject<VideoFolderObject>(VideoFolder);
+
+            List<string> VideoNameList = new List<string>();
+
+            foreach (var VideoFile in ob.tree)
+            {
+                VideoNameList.Add(VideoFile.path);
+            }
+
+            Random rnd = new Random();
+            int RandNumber = rnd.Next(0, VideoNameList.Count);
+
+            if (CurrentVideo != null)
+            {
+                PreviousVideo = CurrentVideo;
+            }
+
+            switch (Video)
+            {
+                case Video.Random:                    
+                    videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+                    break;
+
+                case Video.Previous:
+                    if (PreviousVideo != null)
+                    {
+                        int index = CurrentVideo.IndexOf("/Video/") + "/Video/".Length;
+                        string extractedPart = videoUrl.Substring(index);
+
+                        int position = VideoNameList.IndexOf(extractedPart);
+
+                        if (position == 0)
+                        {
+                            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[VideoNameList.Count - 1];
+
+                        }
+                        else
+                        {
+                            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[position - 1];
+                        }
+                    }
+                    else 
+                    {
+                        rnd = new Random();
+                        RandNumber = rnd.Next(0, VideoNameList.Count);
+                        videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+                    }
+                    break;
+
+                case Video.Next:
+                    if (CurrentVideo != null)
+                    {
+                        int index = CurrentVideo.IndexOf("/Video/") + "/Video/".Length;
+                        string extractedPart = videoUrl.Substring(index);
+
+                        int position = VideoNameList.IndexOf(extractedPart);
+
+                        if (position == VideoNameList.Count - 1)
+                        {
+                            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[0];
+
+                        }
+                        else
+                        {
+                            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[position+1];
+                        }
+                    }
+                    else 
+                    {
+                        rnd = new Random();
+                        RandNumber = rnd.Next(0, VideoNameList.Count);
+                        videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+                    }
+
+                    break;
+
+                default:
+                    rnd = new Random();
+                    RandNumber = rnd.Next(0, VideoNameList.Count);
+                    videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+                    break; 
+            }
+
+            //videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/TestVideo1.mp4";
+
+            VideoHomePage.Source = videoUrl;
+            VideoHomePage.Play();
+
+            CurrentVideo = videoUrl;
+
+            (JObject, string, HttpClient) Response = await GetjsonContent();
+
+            JObject jsonContent = Response.Item1;
+            string sha = Response.Item2;
+            HttpClient httpClient1 = Response.Item3;
+
+            JArray connectionsArray = (JArray)jsonContent["connections"];
+
+            foreach (JObject connection in connectionsArray)
+            {
+                string device = (string)connection["device"];
+                if (device == DeviceInfo.Model)
+                {
+                    int numberOfSMS_Send = (int)connection["VideoViewed"];
+                    connection["VideoViewed"] = numberOfSMS_Send + 1;
+                }
+            }
+
+            SendjsonContent(jsonContent, sha, httpClient1);
+        }
+
+
 
         //Méthode est appelée pour envoyer le texto
         private async void Button_Clicked(object sender, EventArgs e)
@@ -180,6 +267,26 @@ namespace TestAPP
                 if (smsMessenger.CanSendSms)
                 {
                     smsMessenger.SendSmsInBackground(numero, message);
+
+                    (JObject, string, HttpClient) Response = await GetjsonContent();
+
+                    JObject jsonContent = Response.Item1;
+                    string sha = Response.Item2;
+                    HttpClient httpClient1 = Response.Item3;
+
+                    JArray connectionsArray = (JArray)jsonContent["connections"];
+
+                    foreach (JObject connection in connectionsArray)
+                    {
+                        string device = (string)connection["device"];
+                        if (device == DeviceInfo.Model)
+                        {
+                            int numberOfSMS_Send = (int)connection["SMS_Send"];
+                            connection["SMS_Send"] = numberOfSMS_Send + 1;
+                        }
+                    }
+
+                    SendjsonContent(jsonContent, sha, httpClient1);
                 }
             }
             catch (Exception ex)
@@ -217,7 +324,7 @@ namespace TestAPP
 
                 new Family { Name = "Bounty",  Color = "#F75355",  Icon = "DogIcon.PNG", IsExpanded = false, familyMember = new ObservableCollection<FamilyMember>{ new FamilyMember { BirthDate = "Prochainement", Picture = "DogPicture.jpg", NegatifPoint = "Ramasser son caca", PositifPoint = "Il peut sauver des vies en mer", Description = "Gros loulou aussi débile que son maitre" } } },
 
-                new Family { Name = "Wasabi",  Color = "#00C6AE", Icon = "CatIcon.PNG", IsExpanded = false, familyMember = new ObservableCollection<FamilyMember>{ new FamilyMember { BirthDate = "Prochainement", Picture = "CatPicture.jpg", NegatifPoint = "Il faut des câlins seulement quand il le souhaite", PositifPoint = "Son ronronnement vous réconfortera", Description = "Petit chat de la famille OLLIER. Très calin, il adorera reveiller camille à 4h du matin" } } },
+                new Family { Name = "Wasabi",  Color = "#00C6AE", Icon = "CatIcon.PNG", IsExpanded = false, familyMember = new ObservableCollection<FamilyMember>{ new FamilyMember { BirthDate = "Prochainement", Picture = "Cat.jpeg", NegatifPoint = "Il faut des câlins seulement quand il le souhaite", PositifPoint = "Son ronronnement vous réconfortera", Description = "Petit chat de la famille OLLIER. Très calin, il adorera reveiller camille à 4h du matin" } } },
 
             };
         }
@@ -270,6 +377,8 @@ namespace TestAPP
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.UserAgent.Add(
                 new ProductInfoHeaderValue("MyApplication", "1"));
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", APIKeys.accessToken);
             var repo = "Damien-OLLIER/AppPictures";
             var contentsUrl = $"https://api.github.com/repos/{repo}/contents";
             var contentsJson = await httpClient.GetStringAsync(contentsUrl);
@@ -309,6 +418,8 @@ namespace TestAPP
             var GitNamePicture = PinAddress;
 
             var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("MyApplication", "1"));
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", APIKeys.accessToken);
 
             LocationJSON = await httpClient.GetStringAsync("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Places.json");
 
@@ -335,11 +446,9 @@ namespace TestAPP
 
                     JObject json = JObject.Parse(contentsJson1);
 
-                    var sha = (string)json["sha"];
                     var tree = json["tree"];
 
-                    var TestList = new List<string>
-                    { };
+                    var TestList = new List<string>{ };
 
                     foreach (var Tree in tree)
                     {
@@ -347,6 +456,26 @@ namespace TestAPP
                         TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/" + result.GitName + "/" + Path);
                     }
                     CardImage.ItemsSource = TestList;
+
+                    (JObject, string, HttpClient) Response = await GetjsonContent();
+
+                    JObject jsonContent = Response.Item1;
+                    string sha = Response.Item2;
+                    HttpClient httpClient1 = Response.Item3;
+
+                    JArray connectionsArray = (JArray)jsonContent["connections"];
+
+                    foreach (JObject connection in connectionsArray)
+                    {
+                        string device = (string)connection["device"];
+                        if (device == DeviceInfo.Model)
+                        {
+                            int numberOfTripSelected = (int)connection["TripSelected"];
+                            connection["TripSelected"] = numberOfTripSelected + 1;
+                        }
+                    }
+
+                    SendjsonContent(jsonContent, sha, httpClient1);
                 }
             }
         }
@@ -376,9 +505,12 @@ namespace TestAPP
         // La méthode est appelée a chaque fois que les deux autres onglets sont sélectionnées
         private void ContentPage_Appearing_1(object sender, EventArgs e)
         {
+            HomeGrid.HeightRequest = DeviceDisplay.MainDisplayInfo.Height;
+
             //Je sais que si on ne met pas ça, ça ne marche pas (rien ne s'affiche dans le caroussel)
             //To Do: à re tester
             this.BindingContext = this;
+
         }
 
         //Quand l'utilisateur appui sur l'engrenage, cela ouvre un menu déroulant où la selection de differents message est possible
@@ -477,8 +609,7 @@ namespace TestAPP
 
         // La méthode est appelée apres que l'utilisateur ai choisi un nouveau voyage à afficher dans la PopUp (quand elle se ferme)
         private async void listView_SelectionChanged(object sender, ItemSelectionChangedEventArgs e)
-        {
-            //On recupere l'info sur la destination choisi
+        { //On recupere l'info sur la destination choisi
             var SelectedItem = e.AddedItems;
             var SelectedItem0 = SelectedItem[0];
 
@@ -526,17 +657,22 @@ namespace TestAPP
             }
         }
 
-        // La méthode est appelée lorsque l'app apparait à l'écran
-        private async void TabbedPage_Appearing(object sender, EventArgs e)
-        {
-            // genère un nombre aléatoire afin d'afficher une destination au hasard lors de la premiere ouverture de l'app (ou apres l'avoir fermé complétement)
+    // La méthode est appelée lorsque l'app apparait à l'écran
+    private async void TabbedPage_Appearing(object sender, EventArgs e)
+    {
+        // genère un nombre aléatoire afin d'afficher une destination au hasard lors de la premiere ouverture de l'app (ou apres l'avoir fermé complétement)
             Random rnd = new Random();
-                        
+
+
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.UserAgent.Add(
                 new ProductInfoHeaderValue("MyApplication", "1"));
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", APIKeys.accessToken);
+
             var repo = "Damien-OLLIER/AppPictures";
             var contentsUrl = $"https://api.github.com/repos/{repo}/contents";
+
 
             try 
             {
@@ -545,11 +681,86 @@ namespace TestAPP
 
                 // On creer une intsance de "MapsViewModel" afin d'avoir acces a la liste des pays possible
                 this.BindingContext = new MapsViewModel(contents);
+
+                var GitVideoFolder = await httpClient.GetStringAsync("https://api.github.com/repos/Damien-OLLIER/AppPictures/contents");
+
+                var Videocontents = (JArray)JsonConvert.DeserializeObject(GitVideoFolder);
+
+                var git_url = "";
+
+                foreach (var file in Videocontents)
+                {
+                    var filetype = (string)file["type"];
+
+                    if (filetype == "dir")
+                    {
+                        if ((string)file["name"] == "Video")
+                        {
+                            git_url = (string)file["git_url"];
+                        }
+                    }
+                }
+
+
+                VideoFolder = await httpClient.GetStringAsync(git_url);
             }
-            catch
+            catch (System.Net.Http.HttpRequestException ex)
             {
                 await DisplayAlert("Internet Error", "Please restart the App with Internet", "OK");
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
+            }
+
+            // pour compter le nombre d'ouverture d'application
+            try
+            {
+                (JObject, string, HttpClient) Response = await GetjsonContent();
+
+                JObject jsonContent = Response.Item1;
+                string sha = Response.Item2;
+                HttpClient httpClient1 = Response.Item3;
+
+                JArray connectionsArray = (JArray)jsonContent["connections"];
+
+                bool PhoneFound = false;
+
+                foreach (JObject connection in connectionsArray)
+                {
+                    string device = (string)connection["device"];
+                    if (device == DeviceInfo.Model)
+                    {
+                        int numberOfConnections = (int)connection["NumberOfConnection"];
+                        connection["NumberOfConnection"] = numberOfConnections + 1;
+                        PhoneFound = true;
+                    }
+                }
+
+                if (PhoneFound == false) 
+                {
+                    JObject newDevice = new JObject(
+                       new JProperty("device", DeviceInfo.Model),
+                       new JProperty("NumberOfConnection", 1),
+                       new JProperty("SMS_Send", 0),
+                       new JProperty("VideoViewed", 0),
+                       new JProperty("TripSelected", 0),
+                       new JProperty("RecipeSelected", 0),
+                       new JProperty("deviceType", DeviceInfo.DeviceType.ToString()),
+                       new JProperty("version", DeviceInfo.Version.ToString()),
+                       new JProperty("platform", DeviceInfo.Platform.ToString()),
+                       new JProperty("idiom", DeviceInfo.Idiom.ToString())
+                   );
+
+                    connectionsArray.Add(newDevice);
+
+                    SendjsonContent(jsonContent, sha, httpClient1);
+                }
+                else 
+                {
+                    SendjsonContent(jsonContent, sha, httpClient1);
+                }
+            }
+            catch (Exception ex)
+            {
+
             }
 
 
@@ -563,7 +774,7 @@ namespace TestAPP
 
                 Debug.WriteLine(fileName);
 
-                if(fileName.Contains(".vs") || fileName.Contains("Video") || fileName.Contains("Places.json")) 
+                if(fileName.Contains(".vs") || fileName.Contains("Video") || fileName.Contains("Places.json") || fileName.Contains("Menu")) 
                 { 
                 }
                 else
@@ -608,8 +819,115 @@ namespace TestAPP
                     LabelDescription.Text = "Description : " + result.vicinity;
                 }
             }
+            MyMap.ItemsSource = MapsViewModel.placesList;
 
-            //LabelDescription.Text = "Description : " + maps.description;
+
+            // Entrées 
+
+            using (WebClient wc = new WebClient())
+            {
+                Debug.WriteLine("");
+
+                wc.Headers.Add("User-Agent", "MyApplication/1");
+                wc.Headers.Add("Authorization", "Bearer " + APIKeys.accessToken);
+
+                var jsonFileUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Menu/Entrée.json";
+
+                try
+                {
+                    var jsonFile = wc.DownloadString(jsonFileUrl);
+
+                    EntréeListObjet = JsonConvert.DeserializeObject<Recettes>(jsonFile);
+
+                    var catégorieList = new List<string>();
+
+                    foreach (var item in EntréeListObjet.Recette)
+                    {
+                        catégorieList.Add(item.catégorie);
+                    }
+
+                    catégorieList.Sort();
+
+                    EntréeCatégorieDistincte = catégorieList.Distinct().ToList();
+                }
+                catch (WebException ex)
+                {
+                    await DisplayAlert("Internet Error", "Please restart the App with Internet", "OK");
+                    System.Diagnostics.Process.GetCurrentProcess().Kill();
+                }
+            }
+
+
+            // Plats
+
+            using (WebClient wc = new WebClient())
+            {
+                Debug.WriteLine("");
+
+                wc.Headers.Add("User-Agent", "MyApplication/1");
+                wc.Headers.Add("Authorization", "Bearer " + APIKeys.accessToken);
+
+                var jsonFileUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Menu/Plat.json";
+
+                try
+                {
+                    var jsonFile = wc.DownloadString(jsonFileUrl);
+
+                    PlatsListObjet = JsonConvert.DeserializeObject<Recettes>(jsonFile);
+
+                    var catégorieList = new List<string>();
+
+                    foreach (var item in PlatsListObjet.Recette)
+                    {
+                        catégorieList.Add(item.catégorie);
+                    }
+
+                    catégorieList.Sort();
+
+                    PlatsCatégorieDistincte = catégorieList.Distinct().ToList();
+                }
+                catch (WebException ex)
+                {
+                    await DisplayAlert("Internet Error", "Please restart the App with Internet", "OK");
+                    System.Diagnostics.Process.GetCurrentProcess().Kill();
+                }
+            }
+
+
+            // Desserts
+
+            using (WebClient wc = new WebClient())
+            {
+                Debug.WriteLine("");
+
+                wc.Headers.Add("User-Agent", "MyApplication/1");
+                wc.Headers.Add("Authorization", "Bearer " + APIKeys.accessToken);
+
+                var jsonFileUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Menu/Dessert.json";
+
+                try
+                {
+                    var jsonFile = wc.DownloadString(jsonFileUrl);
+
+                    DessertsListObjet = JsonConvert.DeserializeObject<Recettes>(jsonFile);
+
+                    var catégorieList = new List<string>();
+
+                    foreach (var item in DessertsListObjet.Recette)
+                    {
+                        catégorieList.Add(item.catégorie);
+                    }
+
+                    catégorieList.Sort();
+
+                    DessertsCatégorieDistincte = catégorieList.Distinct().ToList();
+                }
+                catch (WebException ex)
+                {
+                    await DisplayAlert("Internet Error", "Please restart the App with Internet", "OK");
+                    System.Diagnostics.Process.GetCurrentProcess().Kill();
+                }
+            }
         }
 
         // To do: a supprimer ? potentiellement pas utilisé
@@ -786,7 +1104,10 @@ namespace TestAPP
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.UserAgent.Add(
                 new ProductInfoHeaderValue("MyApplication", "1"));
-             var repo = "Damien-OLLIER/AppPictures";
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", APIKeys.accessToken);
+
+            var repo = "Damien-OLLIER/AppPictures";
             var contentsUrl = $"https://api.github.com/repos/{repo}/contents";
             var contentsJson = await httpClient.GetStringAsync(contentsUrl);
             var contents = (JArray)JsonConvert.DeserializeObject(contentsJson);
@@ -795,52 +1116,57 @@ namespace TestAPP
 
             List<string> JSONList = new List<string>();
 
-            foreach (var file in contents)
+            try
             {
-                var fileType = (string)file["type"];
-                if (fileType == "dir")
+
+                foreach (var file in contents)
                 {
-                    var directoryContentsUrl = (string)file["url"];
-                    // use this URL to list the contents of the folder
-                    Debug.WriteLine($"DIR: {directoryContentsUrl}");
-
-                
-                    if (directoryContentsUrl.Contains(".vs?ref=main"))
+                    var fileType = (string)file["type"];
+                    if (fileType == "dir")
                     {
-                        
-                    }
-                    else 
-                    {
-                        var contentsJson1 = await httpClient.GetStringAsync(directoryContentsUrl);
+                        var directoryContentsUrl = (string)file["url"];
+                        // use this URL to list the contents of the folder
+                        Debug.WriteLine($"DIR: {directoryContentsUrl}");
 
 
-                        JSONList.Add(contentsJson1);
-
-
-                        // var ob = JsonConvert.DeserializeObject<Root>(directoryContentsUrl);
-
-                    }
-                }
-                else if (fileType == "file")
-                {
-                    var downloadUrl = (string)file["download_url"];
-                    Debug.WriteLine($"DOWNLOAD: {downloadUrl}");
-
-                    using (WebClient wc = new WebClient())
-                    {
-                        var b = wc.Encoding;
-
-                        var json = wc.DownloadString(downloadUrl);
-
-                        var ob = JsonConvert.DeserializeObject<Root>(json);
-
-                        //Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(json);
-                        foreach (var result in ob.results) 
+                        if (directoryContentsUrl.Contains(".vs?ref=main"))
                         {
-                            Debug.WriteLine(result.name);                       
+
+                        }
+                        else
+                        {
+                            var contentsJson1 = await httpClient.GetStringAsync(directoryContentsUrl);
+
+                            JSONList.Add(contentsJson1);                            
+                        }
+                    }
+
+                    else if (fileType == "file")
+
+                    {
+                        var downloadUrl = (string)file["download_url"];
+                        Debug.WriteLine($"DOWNLOAD: {downloadUrl}");
+
+                        using (WebClient wc = new WebClient())
+                        {
+                            var b = wc.Encoding;
+
+                            var json = wc.DownloadString(downloadUrl);
+
+                            var ob = JsonConvert.DeserializeObject<Root>(json);
+
+                            //Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(json);
+                            foreach (var result in ob.results)
+                            {
+                                Debug.WriteLine(result.name);
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception)
+            {
+                
             }
 
             Debug.WriteLine("Done");
@@ -893,7 +1219,6 @@ namespace TestAPP
             public Links _links { get; set; }
         }
 
-
         private void Carousel_CurrentItemChanged_1(object sender, CurrentItemChangedEventArgs e)
         {
             var Items = sender as Xamarin.Forms.ItemsView;
@@ -910,7 +1235,538 @@ namespace TestAPP
 
             var CurrentPosition = (Current_Position?.Position + 1).ToString();
 
-            LabelIndicatorView.Text = CurrentPosition + "/" + (i).ToString();            
+            LabelIndicatorView.Text = CurrentPosition + "/" + i.ToString();            
+        }
+
+        private void ContentPage_Appearing_2(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void ContentPage_Appearing_3(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void TestButton_Clicked(object sender, EventArgs e)
+        {
+            var ob = JsonConvert.DeserializeObject<VideoFolderObject>(VideoFolder);
+
+            var TreeObject = ob.tree;
+
+            List<string> VideoNameList = new List<string>();
+
+            foreach (var VideoFile in ob.tree)
+            {
+                VideoNameList.Add(VideoFile.path);
+            }
+
+            Random rnd = new Random();
+
+            int RandNumber = rnd.Next(0, VideoNameList.Count);
+
+            //Videoview.PropertyChanging += Videoview_PropertyChanging;
+
+            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+            //Videoview.Source = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+            //EntryVideoName.Text = Videoview.Source.ToString();
+
+
+            await CrossMediaManager.Current.Play();
+
+            // Button_Clicked_4(null, EventArgs.Empty);
+
+            //var test = Videoview.Duration;
+        }
+
+        private void Videoview_PropertyChanging(object sender, Xamarin.Forms.PropertyChangingEventArgs e)
+        {
+            //var test = Videoview.Duration;
+                        
+            //if(test != TimeSpan.Zero)
+            //{
+            //    // variable global de la durée de la vidéo
+            //}
+        }
+
+        // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
+        public class VideoFolderObject
+        {
+            public string sha { get; set; }
+            public string url { get; set; }
+            public List<Tree> tree { get; set; }
+            public bool truncated { get; set; }
+        }
+
+        public class Tree
+        {
+            public string path { get; set; }
+            public string mode { get; set; }
+            public string type { get; set; }
+            public string sha { get; set; }
+            public int size { get; set; }
+            public string url { get; set; }
+        }
+
+
+        private void EntréeBtn_Clicked(object sender, EventArgs e)
+        {
+            CarouselViewRecettes.IsVisible = false;
+
+            CatégorieStackLayout.Children.Clear();
+
+            EntréeBtn.IsEnabled = false;
+            PlatBtn.IsEnabled = true;
+            DessertBtn.IsEnabled = true;
+
+            foreach(var TypeEntrée in EntréeCatégorieDistincte) 
+            {
+                Button button = new Button()
+                {
+                    Text = TypeEntrée
+                };
+
+                button.Clicked += OnButtonClicked;
+
+                CatégorieStackLayout.Children.Add(button);
+            }            
+        }
+
+        private void OnButtonClicked(object sender, EventArgs e)
+        {
+            CarouselViewRecettes.IsVisible = true;
+            Ingredients_Instruction_ScrollView.IsVisible = false;
+            Ingredients_Instruction_Image.IsVisible = false;
+
+            foreach (var child in CatégorieStackLayout.Children)
+            {
+                if (child is Button Bouton)
+                {
+                    Bouton.IsEnabled = true;
+                }
+            }
+
+            Button button = (Button)sender;
+            button.IsEnabled = false;
+
+
+            CatégorieSélectionnée = button.Text;
+
+            MyList = new List<string>();
+            MyList.Clear();
+
+            List<string> textList = new List<string>();
+            List<string> pictureList = new List<string>();
+
+            // Les entrées selectionnées
+            if (!EntréeBtn.IsEnabled) 
+            {
+                foreach (var Entree in EntréeListObjet.Recette)
+                {
+                    if (Entree.catégorie == button.Text)
+                    {
+                        pictureList.Add(Entree.AdressePhoto);
+                        textList.Add(Entree.Nom);
+                    }
+                }
+            }// Les Plats selectionnés
+            else if (!PlatBtn.IsEnabled)
+            {
+                foreach (var Plat in PlatsListObjet.Recette)
+                {
+                    if (Plat.catégorie == button.Text)
+                    {
+                        pictureList.Add(Plat.AdressePhoto);
+                        textList.Add(Plat.Nom);
+                    }
+                }
+            }
+            else
+            {// Les Desserts selectionnés       
+                foreach (var Dessert in DessertsListObjet.Recette) 
+                {
+                    if(Dessert.catégorie == button.Text) 
+                    {
+                        pictureList.Add(Dessert.AdressePhoto);
+                        textList.Add(Dessert.Nom);
+                    }
+                }
+            }
+
+            List<object> dataList = new List<object>();
+
+            for (int i = 0; i < textList.Count; i++)
+            {
+                string TextRecipe = textList[i];
+                string pictureName = pictureList[i];
+
+                dataList.Add(new { Text = TextRecipe, PictureUrl = pictureName });
+            }
+
+            CarouselViewRecettes.ItemsSource = dataList;            
+        }
+
+        private async void PlatBtn_Clicked(object sender, EventArgs e)
+        {
+            CarouselViewRecettes.IsVisible = false;
+
+            CatégorieStackLayout.Children.Clear();
+
+            EntréeBtn.IsEnabled = true;
+            PlatBtn.IsEnabled = false;
+            DessertBtn.IsEnabled = true;
+
+            foreach (var TypeEntrée in PlatsCatégorieDistincte)
+            {
+                Button button = new Button()
+                {
+                    Text = TypeEntrée,
+                    //HorizontalOptions = LayoutOptions.Center,
+                    //VerticalOptions = LayoutOptions.CenterAndExpand
+                };
+
+                button.Clicked += OnButtonClicked;
+
+                CatégorieStackLayout.Children.Add(button);
+            }
+        }
+
+        private async void DessertBtn_Clicked(object sender, EventArgs e)
+        {
+            CarouselViewRecettes.IsVisible = false;
+
+            CatégorieStackLayout.Children.Clear();
+
+            EntréeBtn.IsEnabled = true;
+            PlatBtn.IsEnabled = true;
+            DessertBtn.IsEnabled = false;
+
+            foreach (var TypeEntrée in DessertsCatégorieDistincte)
+            {
+                Button button = new Button()
+                {
+                    Text = TypeEntrée,
+                    //HorizontalOptions = LayoutOptions.Center,
+                    //VerticalOptions = LayoutOptions.CenterAndExpand
+                };
+
+                button.Clicked += OnButtonClicked;
+
+                CatégorieStackLayout.Children.Add(button);
+            }
+        }
+                
+        private void ContentPage_Appearing_4(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Button_OnClicked(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
+        public class Recette
+        {
+            public string catégorie { get; set; }
+            public string Nom { get; set; }
+            public string AdressePhoto { get; set; }
+            public string Ingredients_Instruction { get; set; }
+        }
+
+        public class Recettes
+        {
+            public Recette[] Recette { get; set; }
+        }
+
+        private void ContentPage_Appearing_5(object sender, EventArgs e)
+        {
+            List<string> buttonLabels = new List<string> { "Button 1", "Button 2", "Button 3", "Button 4", "Button 5" };
+            //TestButton.ItemsSource = buttonLabels;
+        }
+
+        private void Button_Clicked_3(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+
+            DisplayAlert("button cliked", "hey button" + button.Text, "cancel");
+        }
+
+        private async void TapGestureRecognizer_Tapped_1(object sender, EventArgs e)
+        {
+            var JSONText = CarouselViewRecettes.CurrentItem.ToString(); 
+
+            int Pos1 = JSONText.IndexOf("=") + 2;
+
+            int Pos2 = JSONText.IndexOf(",");
+
+            var SelectedRecipe = JSONText.Substring(Pos1, Pos2 - Pos1);
+
+            var Ingredients_Instruction = "";
+
+            // Les entrées selectionnées
+            if (!EntréeBtn.IsEnabled)
+            {
+                foreach (var Entree in EntréeListObjet.Recette)
+                {
+                    if (Entree.catégorie == CatégorieSélectionnée)
+                    {
+
+                    }
+                }
+            }// Les Plats selectionnés
+            else if (!PlatBtn.IsEnabled)
+            {
+                foreach (var Plat in PlatsListObjet.Recette)
+                {
+                    if (Plat.catégorie == CatégorieSélectionnée)
+                    {
+                        
+                    }
+                }
+            }
+            else
+            {// Les Desserts selectionnés       
+                foreach (var Dessert in DessertsListObjet.Recette)
+                {
+                    if (Dessert.catégorie == CatégorieSélectionnée)
+                    {
+                        if (SelectedRecipe == Dessert.Nom) 
+                        {
+                            Ingredients_Instruction = Dessert.Ingredients_Instruction;
+                        }
+                        
+                    }
+                }
+            }
+
+            CarouselViewRecettes.IsVisible = false;
+            Ingredients_Instruction_ScrollView.IsVisible = true;
+            Ingredients_Instruction_Image.IsVisible = true;
+
+            Ingredients_Instruction_Image.Source = Ingredients_Instruction;
+
+            (JObject, string, HttpClient) Response = await GetjsonContent();
+
+            JObject jsonContent = Response.Item1;
+            string sha = Response.Item2;
+            HttpClient httpClient1 = Response.Item3;
+
+            JArray connectionsArray = (JArray)jsonContent["connections"];
+
+            foreach (JObject connection in connectionsArray)
+            {
+                string device = (string)connection["device"];
+                if (device == DeviceInfo.Model)
+                {
+                    int numberOfRecipeSelected = (int)connection["RecipeSelected"];
+                    connection["RecipeSelected"] = numberOfRecipeSelected + 1;
+                }
+            }
+
+            SendjsonContent(jsonContent, sha, httpClient1);
+        }
+
+
+        
+
+        private void Button_Clicked_4(object sender, EventArgs e)
+        {
+            // var test = Videoview.Duration;
+        }
+
+        private async void PlayButton_Clicked(object sender, EventArgs e)
+        {
+            // MyMediaElement.Play();
+            await CrossMediaManager.Current.Play();
+        }
+
+
+
+        private async Task<(JObject, string, HttpClient)> GetjsonContent() 
+        {
+            string accessToken = APIKeys.accessToken;
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.UserAgent.Add(
+                new ProductInfoHeaderValue("MyApplication", "1"));
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", APIKeys.accessToken);
+            // GitHub repository API URL and file path
+            string apiUrl = "https://api.github.com/repos/Damien-OLLIER/AppPictures/contents/Test.JSON";
+
+
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // Retrieve the existing file content and metadata from GitHub
+            HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+            string responseJson = await response.Content.ReadAsStringAsync();
+            JObject responseObject = JObject.Parse(responseJson);
+            string fileContents = (string)responseObject["content"];
+            byte[] data = Convert.FromBase64String(fileContents);
+            string decodedContents = Encoding.UTF8.GetString(data);
+            string sha = (string)responseObject["sha"];
+
+            // Parse the JSON file into a JObject and update the connection count for the "Mi 9T Pro" device
+            JObject jsonContent = JObject.Parse(decodedContents);
+            
+            return (jsonContent,sha, httpClient);
+        }
+
+        private async void SendjsonContent(JObject jsonContent, string sha, HttpClient httpClient)
+        {
+            // Convert the updated JSON content back to a string and encode as Base64
+            string updatedContents = jsonContent.ToString();
+            byte[] updatedData = Encoding.UTF8.GetBytes(updatedContents);
+            string encodedContents = Convert.ToBase64String(updatedData);
+
+            // Build the update object and send the updated file to GitHub
+            string updateUrl = "https://api.github.com/repos/Damien-OLLIER/AppPictures/contents/Test.JSON";
+            JObject updateObject = new JObject
+            {
+                ["message"] = "Update file",
+                ["content"] = encodedContents,
+                ["sha"] = sha
+            };
+            StringContent content = new StringContent(updateObject.ToString(), Encoding.UTF8, "application/json");
+            HttpResponseMessage updateResponse = await httpClient.PutAsync(updateUrl, content);
+            string updateResponseJson = await updateResponse.Content.ReadAsStringAsync();
+            Debug.WriteLine(updateResponseJson);
+        }
+
+        private void DurationButton_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void WorkingVideoButton_Clicked(object sender, EventArgs e)
+        {
+            //string VideoURL = "http://vjs.zencdn.net/v/oceans.mp4";
+            VideoDuration.Text = "";
+
+            VideoIndicator.Text = "Video Started";
+
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.UserAgent.Add(
+                new ProductInfoHeaderValue("MyApplication", "1"));
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", APIKeys.accessToken);
+            var GitFolder = await httpClient.GetStringAsync("https://api.github.com/repos/Damien-OLLIER/AppPictures/contents");
+
+            var contents = (JArray)JsonConvert.DeserializeObject(GitFolder);
+
+            var git_url = "";
+
+            foreach (var file in contents)
+            {
+                var filetype = (string)file["type"];
+
+                if (filetype == "dir")
+                {
+                    if ((string)file["name"] == "Video")
+                    {
+                        git_url = (string)file["git_url"];
+                    }
+                }
+            }
+
+            var VideoFolder = "";
+
+            VideoFolder = await httpClient.GetStringAsync(git_url);
+
+            var ob = JsonConvert.DeserializeObject<VideoFolderObject>(VideoFolder);
+
+            var TreeObject = ob.tree;
+
+            List<string> VideoNameList = new List<string>();
+
+            foreach (var VideoFile in ob.tree)
+            {
+                VideoNameList.Add(VideoFile.path);
+            }
+
+            Random rnd = new Random();
+
+            int RandNumber = rnd.Next(0, VideoNameList.Count);
+
+            //Videoview.PropertyChanging += Videoview_PropertyChanging;
+
+            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+
+            WorkingVideo.Source = videoUrl;
+            WorkingVideo.Play();
+            VideoDuration.Text = WorkingVideo.Duration.ToString();
+        }
+
+        private void WorkingVideo_MediaEnded(object sender, EventArgs e)
+        {
+
+        }
+
+        private void VideoHomePage_MediaEnded(object sender, EventArgs e)
+        {
+            HomeVideoPlay(Video.Next);
+        }
+
+        private void PlayPausebtn_Clicked(object sender, EventArgs e)
+        {
+            string PlayPauseImgStr = PlayPauseImg.Source.ToString();
+
+            if (PlayPauseImgStr.Contains("Lecture.png"))
+            {
+                VideoHomePage.Play();
+                PlayPauseImg.Source = "Pause.png";
+            }
+            else
+            {
+                VideoHomePage.Pause();
+                PlayPauseImg.Source = "Lecture.png";
+            }
+        }
+
+        private void Previousbtn_Clicked(object sender, EventArgs e)
+        {
+            HomeVideoPlay(Video.Previous);
+        }
+
+        private void Nextbtn_Clicked(object sender, EventArgs e)
+        {
+            HomeVideoPlay(Video.Next);
+        }
+
+        private void QuitBtn_Clicked(object sender, EventArgs e)
+        {
+            Carousel.IsVisible = true;
+            LabelIndicatorView.IsVisible = true;
+            LabelDescription.IsVisible = true;
+            VideoHomePageBtn.IsVisible = true;
+            SfButton.IsVisible = true;
+            SfButton2.IsVisible = true;
+            SfButton3.IsVisible = true;
+
+            Previousbtn.IsVisible = false;
+            Nextbtn.IsVisible = false;
+            QuitBtn.IsVisible = false;
+            PlayPausebtn.IsVisible = false;
+            VideoHomePage.IsVisible = false;
+            Hello.IsVisible = false;
+            VideoHomePage.Pause();
+        }
+
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            CarouselViewRecettes.IsVisible = true;
+            Ingredients_Instruction_ScrollView.IsVisible = false;
+            Ingredients_Instruction_Image.IsVisible = false;
         }
     }
+
+    public enum Video
+    {
+        Random,
+        Previous,
+        Next
+    }
+
 }
