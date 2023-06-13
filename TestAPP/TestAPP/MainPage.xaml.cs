@@ -1532,7 +1532,10 @@ namespace TestAPP
                 {
                     if (Entree.catégorie == CatégorieSélectionnée)
                     {
-
+                        if (SelectedRecipe == Entree.Nom)
+                        {
+                            Ingredients_Instruction = Entree.Ingredients_Instruction;
+                        }
                     }
                 }
             }// Les Plats selectionnés
@@ -1542,12 +1545,17 @@ namespace TestAPP
                 {
                     if (Plat.catégorie == CatégorieSélectionnée)
                     {
-                        
+                        if (SelectedRecipe == Plat.Nom)
+                        {
+                            Ingredients_Instruction = Plat.Ingredients_Instruction;
+                        }
+
                     }
                 }
             }
             else
-            {// Les Desserts selectionnés       
+            {
+                // Les Desserts selectionnés       
                 foreach (var Dessert in DessertsListObjet.Recette)
                 {
                     if (Dessert.catégorie == CatégorieSélectionnée)

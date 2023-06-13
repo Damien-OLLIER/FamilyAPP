@@ -23,6 +23,7 @@ namespace TestAPP
 
         protected override void OnResume()
         {
+
         }
     }
 }

@@ -440,7 +440,7 @@
 
                 <Button Grid.Column="0" Text="Entrée"  x:Name="EntréeBtn" FontSize="Small" Padding="0,0,0,0"  Margin="5,5,0,0" Clicked="EntréeBtn_Clicked" IsEnabled="False"/>
                 <Button Grid.Column="1" Text="Plat" x:Name="PlatBtn" FontSize="Small" Margin="5,5,0,0" Padding="0,-1,0,0" IsEnabled="False" Clicked="PlatBtn_Clicked"/>
-                <Button Grid.Column="2" Text="Dessert" x:Name="DessertBtn" FontSize="Small" Margin="5,5,5,0" Padding="0,-1,0,0" Clicked="DessertBtn_Clicked" />
+                <Button Grid.Column="2" Text="Dessert" x:Name="DessertBtn" FontSize="Small" Margin="5,5,5,0" Padding="0,-1,0,0"  IsEnabled="False" Clicked="DessertBtn_Clicked" />
                 
             </Grid>
 
@@ -472,7 +472,7 @@
                 </CarouselView.ItemTemplate>
             </CarouselView>
 
-            <ScrollView x:Name="Ingredients_Instruction_ScrollView" Orientation="Vertical" IsVisible="false" BackgroundColor="Cyan">
+            <ScrollView x:Name="Ingredients_Instruction_ScrollView" Orientation="Vertical" IsVisible="false" >
                 <Image x:Name="Ingredients_Instruction_Image" IsVisible="false" HeightRequest="700">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer
