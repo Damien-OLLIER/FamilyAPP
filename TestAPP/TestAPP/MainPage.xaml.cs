@@ -1087,13 +1087,15 @@ namespace TestAPP
                 Colors.Add("Tu me manques");
                 Colors.Add("Roulades !");
                 Colors.Add("Tipi !");
+                Colors.Add("Beko");
+                Colors.Add("À 3, tous ceux que j'aime sont dans le lit !");
                 Colors.Add("Tu auras un boubou le jour de notre mariage !");
                 Colors.Add("Arrête de péter !");
                 Colors.Add("Tu me fais un dessert à base de chocolat ?");
-                Colors.Add("Ça va ta journée de boulot ? ");
                 Colors.Add("Va faire du sport !");
                 Colors.Add("T'es le meilleure je t'aime de tout mon coeur !");
                 Colors.Add("Joyeux anniversaire !");
+                Colors.Add("Beko");
             }
         }
 
