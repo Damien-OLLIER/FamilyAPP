@@ -63,8 +63,8 @@ namespace TestAPP
 
 
         //private string videoUrl = "https://sec.ch9.ms/ch9/e68c/690eebb1-797a-40ef-a841-c63dded4e68c/Cognitive-Services-Emotion_high.mp4";
-        private string videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/TestVideo1.mp4";
-        //https://api.github.com/repos/Damien-OLLIER/AppPictures/contents
+        private string videoUrl = "https://raw.githubusercontent.com/DamienImage/Image/main/Video/TestVideo1.mp4";
+        //https://api.github.com/repos/DamienImage/Image/contents
         //List contenant des objets de la classe Place afin de creer les Pin Maps
         List<Place> placesList = new List<Place>();
 
@@ -128,7 +128,7 @@ namespace TestAPP
             switch (Video)
             {
                 case Video.Random:
-                    videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+                    videoUrl = "https://raw.githubusercontent.com/DamienImage/Image/main/Video/" + VideoNameList[RandNumber];
                     break;
 
                 case Video.Previous:
@@ -141,19 +141,19 @@ namespace TestAPP
 
                         if (position == 0)
                         {
-                            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[VideoNameList.Count - 1];
+                            videoUrl = "https://raw.githubusercontent.com/DamienImage/Image/main/Video/" + VideoNameList[VideoNameList.Count - 1];
 
                         }
                         else
                         {
-                            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[position - 1];
+                            videoUrl = "https://raw.githubusercontent.com/DamienImage/Image/main/Video/" + VideoNameList[position - 1];
                         }
                     }
                     else
                     {
                         rnd = new Random();
                         RandNumber = rnd.Next(0, VideoNameList.Count);
-                        videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+                        videoUrl = "https://raw.githubusercontent.com/DamienImage/Image/main/Video/" + VideoNameList[RandNumber];
                     }
                     break;
 
@@ -167,19 +167,19 @@ namespace TestAPP
 
                         if (position == VideoNameList.Count - 1)
                         {
-                            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[0];
+                            videoUrl = "https://raw.githubusercontent.com/DamienImage/Image/main/Video/" + VideoNameList[0];
 
                         }
                         else
                         {
-                            videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[position + 1];
+                            videoUrl = "https://raw.githubusercontent.com/DamienImage/Image/main/Video/" + VideoNameList[position + 1];
                         }
                     }
                     else
                     {
                         rnd = new Random();
                         RandNumber = rnd.Next(0, VideoNameList.Count);
-                        videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+                        videoUrl = "https://raw.githubusercontent.com/DamienImage/Image/main/Video/" + VideoNameList[RandNumber];
                     }
 
                     break;
@@ -187,11 +187,11 @@ namespace TestAPP
                 default:
                     rnd = new Random();
                     RandNumber = rnd.Next(0, VideoNameList.Count);
-                    videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/" + VideoNameList[RandNumber];
+                    videoUrl = "https://raw.githubusercontent.com/DamienImage/Image/main/Video/" + VideoNameList[RandNumber];
                     break;
             }
 
-            //videoUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Video/TestVideo1.mp4";
+            //videoUrl = "https://raw.githubusercontent.com/DamienImage/Image/main/Video/TestVideo1.mp4";
 
             VideoHomePage.Source = videoUrl;
 
@@ -395,7 +395,7 @@ namespace TestAPP
                 new ProductInfoHeaderValue("MyApplication", "1"));
             httpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", APIKeys.accessToken);
-            var repo = "Damien-OLLIER/AppPictures";
+            var repo = "DamienImage/Image";
             var contentsUrl = $"https://api.github.com/repos/{repo}/contents";
             var contentsJson = await httpClient.GetStringAsync(contentsUrl);
             var contents = (JArray)JsonConvert.DeserializeObject(contentsJson);
@@ -437,7 +437,7 @@ namespace TestAPP
             httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("MyApplication", "1"));
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", APIKeys.accessToken);
 
-            LocationJSON = await httpClient.GetStringAsync("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Places.json");
+            LocationJSON = await httpClient.GetStringAsync("https://raw.githubusercontent.com/DamienImage/Image/main/Places.json");
 
             var ob = JsonConvert.DeserializeObject<Root>(LocationJSON);
 
@@ -469,7 +469,7 @@ namespace TestAPP
                     foreach (var Tree in tree)
                     {
                         var Path = (string)Tree["path"];
-                        TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/" + result.GitName + "/" + Path);
+                        TestList.Add("https://raw.githubusercontent.com/DamienImage/Image/main/" + result.GitName + "/" + Path);
                     }
                     CardImage.ItemsSource = TestList;
 
@@ -685,7 +685,7 @@ namespace TestAPP
                     foreach (var Tree in tree)
                     {
                         var Path = (string)Tree["path"];
-                        TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/" + fileName + "/" + Path);
+                        TestList.Add("https://raw.githubusercontent.com/DamienImage/Image/main/" + fileName + "/" + Path);
                     }
 
                     // LabelDescription.Text = "Description : " + Description;
@@ -714,7 +714,7 @@ namespace TestAPP
             httpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", APIKeys.accessToken);
 
-            var repo = "Damien-OLLIER/AppPictures";
+            var repo = "DamienImage/Image";
             var contentsUrl = $"https://api.github.com/repos/{repo}/contents";
 
 
@@ -726,7 +726,7 @@ namespace TestAPP
                 // On creer une intsance de "MapsViewModel" afin d'avoir acces a la liste des pays possible
                 this.BindingContext = new MapsViewModel(contents);
 
-                var GitVideoFolder = await httpClient.GetStringAsync("https://api.github.com/repos/Damien-OLLIER/AppPictures/contents");
+                var GitVideoFolder = await httpClient.GetStringAsync("https://api.github.com/repos/DamienImage/Image/contents");
 
                 var Videocontents = (JArray)JsonConvert.DeserializeObject(GitVideoFolder);
 
@@ -845,14 +845,14 @@ namespace TestAPP
             foreach (var Tree in tree)
             {
                 var Path = (string)Tree["path"];
-                TestList.Add("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/" + GitName + "/" + Path);
+                TestList.Add("https://raw.githubusercontent.com/DamienImage/Image/main/" + GitName + "/" + Path);
             }
 
             // LabelDescription.Text = "Description : " + Description;
             Carousel.ItemsSource = TestList;
             popupLayout.IsOpen = false;
 
-            LocationJSON = await httpClient.GetStringAsync("https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Places.json");
+            LocationJSON = await httpClient.GetStringAsync("https://raw.githubusercontent.com/DamienImage/Image/main/Places.json");
 
             var ob = JsonConvert.DeserializeObject<Root>(LocationJSON);
 
@@ -876,7 +876,7 @@ namespace TestAPP
                 wc.Headers.Add("User-Agent", "MyApplication/1");
                 wc.Headers.Add("Authorization", "Bearer " + APIKeys.accessToken);
 
-                var jsonFileUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Menu/Entrée.json";
+                var jsonFileUrl = "https://raw.githubusercontent.com/DamienImage/Image/main/Menu/Entrée.json";
 
                 try
                 {
@@ -913,7 +913,7 @@ namespace TestAPP
                 wc.Headers.Add("User-Agent", "MyApplication/1");
                 wc.Headers.Add("Authorization", "Bearer " + APIKeys.accessToken);
 
-                var jsonFileUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Menu/Plat.json";
+                var jsonFileUrl = "https://raw.githubusercontent.com/DamienImage/Image/main/Menu/Plat.json";
 
                 try
                 {
@@ -951,7 +951,7 @@ namespace TestAPP
                 wc.Headers.Add("User-Agent", "MyApplication/1");
                 wc.Headers.Add("Authorization", "Bearer " + APIKeys.accessToken);
 
-                var jsonFileUrl = "https://raw.githubusercontent.com/Damien-OLLIER/AppPictures/main/Menu/Dessert.json";
+                var jsonFileUrl = "https://raw.githubusercontent.com/DamienImage/Image/main/Menu/Dessert.json";
 
                 try
                 {
@@ -1159,7 +1159,8 @@ namespace TestAPP
             httpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", APIKeys.accessToken);
 
-            var repo = "Damien-OLLIER/AppPictures";
+            var repo = "DamienImage/Image"; 
+                //DamienImage/Image
             var contentsUrl = $"https://api.github.com/repos/{repo}/contents";
             var contentsJson = await httpClient.GetStringAsync(contentsUrl);
             var contents = (JArray)JsonConvert.DeserializeObject(contentsJson);
@@ -1610,7 +1611,7 @@ namespace TestAPP
             httpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", APIKeys.accessToken);
             // GitHub repository API URL and file path
-            string apiUrl = "https://api.github.com/repos/Damien-OLLIER/AppPictures/contents/Test.JSON";
+            string apiUrl = "https://api.github.com/repos/DamienImage/Image/contents/Test.JSON";
 
 
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -1638,7 +1639,7 @@ namespace TestAPP
             string encodedContents = Convert.ToBase64String(updatedData);
 
             // Build the update object and send the updated file to GitHub
-            string updateUrl = "https://api.github.com/repos/Damien-OLLIER/AppPictures/contents/Test.JSON";
+            string updateUrl = "https://api.github.com/repos/DamienImage/Image/contents/Test.JSON";
             JObject updateObject = new JObject
             {
                 ["message"] = "Update file",
