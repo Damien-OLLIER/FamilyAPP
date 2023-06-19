@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <!--Hyper important pour l'instalation de l'application sur un nouveau Telephone; Il se peut qu'il y une erreur lors du transfert de l'app entre l'ordi et le tel pour la premiere fois
-Pour remedier a cela, il faut changer la propriete |package="com.companyname.x.1testapp"| et tester differents nom: ex: com.companyname.x1testapp ou com.companyname.x.x1testapp ou encore com.companyname.1testapp etc...
+Pour remedier a cela, il faut changer la propriete |package="com.companyname.x.1
+
+
+
+"| et tester differents nom: ex: com.companyname.x1testapp ou com.companyname.x.x1testapp ou encore com.companyname.1testapp etc...
 il est tres facilement possible de perdre 20min a faire ça car chaque essai prend 2min-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.1testapp" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="30" />
