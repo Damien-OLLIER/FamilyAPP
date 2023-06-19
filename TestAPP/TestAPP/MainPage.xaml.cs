@@ -76,7 +76,8 @@ namespace TestAPP
             InitializeComponent();
 
             message = "je t'aime !"; // Message de base affiché et envoyé au Num
-            numero = "+33632183163"; // Numero selectionne de base            
+            numero = "+33632183163"; // Numero selectionne de base
+                                     // 
         }
 
 
