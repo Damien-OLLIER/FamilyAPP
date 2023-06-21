@@ -251,16 +251,16 @@
     <AndroidResource Include="Resources\drawable\Exit.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\1687294496134.jpg" />
+    <AndroidResource Include="Resources\drawable\a1687294496134.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\1687294496144.jpg" />
+    <AndroidResource Include="Resources\drawable\a1687294496144.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\1687294496154.jpg" />
+    <AndroidResource Include="Resources\drawable\a1687294496154.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\1687294496162.jpg" />
+    <AndroidResource Include="Resources\drawable\a1687294496162.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>
